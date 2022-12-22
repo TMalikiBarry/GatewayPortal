@@ -1,0 +1,61 @@
+<mat-toolbar class="toolbar-user">
+  <button mat-button color="primary" style="margin-right: 10px" (click)="start.toggle()">
+    <mat-icon *ngIf="!opened">menu</mat-icon>
+    <mat-icon *ngIf="opened">sort</mat-icon>
+  </button>
+  <span>Gateway Portal</span>
+  <span class="example-spacer"></span>
+  <div class="">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+  <div class="divInfo">
+    <span> {{ user!.username}}</span>
+    <button mat-button [matMenuTriggerFor]="menu">
+      {{ authService.getRole()}} <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item><mat-icon>perm_identity</mat-icon> Profil </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>subdirectory_arrow_right</mat-icon> Deconnexion
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav  #start [(opened)]="open" style="position: absolute;" [mode]="mode" fixedInViewport="true">
+
+    <mat-list dense>
+      <ng-container *ngFor="let nav of navList">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
+                <span class="sidenav-link-text" >{{nav.label}}</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list>
+              <ng-container *ngFor="let subMenu of nav.items">
+                <ng-container *ngIf="subMenu.visible"> <!--Sub category list-->
+                  <mat-list-item class="sidenav-nav-link" (click)="mode === 'over'? start.close() : null" routerLinkActive="mat-icon-active">
+                    <a  [routerLink]="subMenu.routerLink"  mat-line>
+                      <mat-icon class="material-icons">{{subMenu.icon}}</mat-icon>
+                      <span class="sidenav-link-text">{{subMenu.label}}</span>
+                    </a>
+                  </mat-list-item>
+                </ng-container>
+              </ng-container>
+            </mat-nav-list>
+          </mat-expansion-panel>
+
+      </ng-container>
+    </mat-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-card-content>
+    <div class="header">
+      <h1> Authentification </h1>
+    </div>
+    <div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <form name="loginForm" [formGroup]="loginForm">
+      <div class="username-input">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label> Identifiant </mat-label>
+          <input formControlName="username" matInput required />
+          <mat-error>
+            Champs Obligatoire
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label> Mot de passe</mat-label>
+          <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error>
+            Champs Obligatoire
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <span class="aLink"> Mot de passe oublie ?</span>
+      <button type="button" class="button-login" mat-flat-button color="primary" (click)="Login()"> S'authentifier </button>
+    </form>
+  </mat-card-content>
+</mat-card>
