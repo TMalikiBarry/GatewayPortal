@@ -57,6 +57,10 @@ export class AuthService {
     return this.isAuth;
   }
 
+  public getId() {
+    return this.currentUserValue.id;
+  }
+
   public logout() : Observable<boolean>{
     this.isAuth = false;
     this.roleAs = '';
@@ -92,8 +96,8 @@ export class AuthService {
   }
 
   public getTheRole(roles : [string]) : string{
-    if(roles.indexOf("GROSSISTE") !== -1){
-      return this.role = "GROSSISTE"
+    if(roles.indexOf("COMMERCANT") !== -1){
+      return this.role = "COMMERCANT"
     }else if(roles.indexOf("SUPERVISEUR") !== -1){
       return this.role = "SUPERVISEUR"
     }

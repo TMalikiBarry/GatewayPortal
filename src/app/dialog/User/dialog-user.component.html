@@ -1,0 +1,51 @@
+<h1  mat-dialog-title> Ajout Utilisateur </h1>
+<div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
+<div mat-dialog-content>
+  <form [formGroup]="UserForm">
+    <!-- <mat-form-field appearance="outline">
+        <mat-label>ID</mat-label>
+        <input formControlName="id" matInput placeholder="ID">
+      </mat-form-field> -->
+    <mat-form-field appearance="outline">
+      <mat-label> Nom </mat-label>
+      <input formControlName="name" matInput placeholder="Nom">
+      <mat-error *ngIf="UserForm.controls['name'].errors">
+        {{getErrorMessage(UserForm.controls['name'].errors)}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label> Username </mat-label>
+      <input formControlName="username" matInput placeholder="Username">
+      <mat-error *ngIf="UserForm.controls['username'].errors">
+        {{getErrorMessage(UserForm.controls['username'].errors)}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label> Email </mat-label>
+      <input formControlName="email" matInput placeholder="Email">
+      <mat-error *ngIf="UserForm.controls['email'].errors">
+        {{getErrorMessage(UserForm.controls['email'].errors)}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Profil</mat-label>
+      <input type="text"
+             placeholder="Profil"
+             matInput
+             formControlName="roles"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of options" [value]="option.name">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="UserForm.controls['roles'].errors">
+        {{getErrorMessage(UserForm.controls['roles'].errors)}}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat_dialog-action [align]="'end'">
+  <button style="margin-left:8px;" mat-raised-button color="primary" (click)="addUser()"> {{actionBtn}} </button>
+  <button mat-raised-button color="warn" mat-dialog-close> Fermer </button>
+</div>

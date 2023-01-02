@@ -23,11 +23,15 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {DashboardComponent} from "../dashboard/dashboard.component";
+import {AccesComponent} from "../securite/acces/acces.component";
+import {ReseauxComponent} from "../parametre/reseaux/reseaux.component";
 
 @NgModule({
   declarations: [
     AdminLayoutComponent,
-    DashboardComponent
+    DashboardComponent,
+    AccesComponent,
+    ReseauxComponent
   ],
     imports: [
         CommonModule,

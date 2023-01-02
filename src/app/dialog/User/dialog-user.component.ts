@@ -1,0 +1,167 @@
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {UserModel} from "../../model/user.model";
+import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
+import {RoleModel} from "../../model/role.model";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {UserService} from "../../service/UserService/user.service";
+import {ProfilService} from "../../service/profilService/profil.service";
+
+export const RoleModelCommercant : RoleModel[] = [
+  {
+    id : 1,
+    name : "Superviseur",
+    code : "SUPERVISEUR",
+  },
+  {
+    id : 2,
+    name : "Agent",
+    code : "AGENT",
+  },
+  {
+    id : 3,
+    name : "Comptable",
+    code : "COMPTABLE",
+  },
+]
+
+@Component({
+  selector: 'app-dialog',
+  templateUrl: './dialog-user.component.html',
+  styleUrls: ['./dialog-user.component.scss']
+})
+export class DialogUserComponent implements OnInit {
+
+  options : RoleModel[] = [];
+  optionsCommercant = RoleModelCommercant;
+  User !: UserModel;
+  UserForm !: FormGroup;
+  actionBtn : string = "Sauvegarder"
+  errorMessage: any;
+  roles : RoleModel[] = [];
+  rolesApi !: RoleModel[];
+  code : String | undefined;
+
+  constructor(private formBuilder : FormBuilder ,
+              private api : UserService ,
+              @Inject(MAT_DIALOG_DATA) public editData : any,
+              private dialogAlert : MatDialog,
+              private _snackBar : MatSnackBar,
+              private apiProfil : ProfilService,
+              private dialogRef : MatDialogRef<DialogUserComponent>) { }
+
+  ngOnInit(): void {
+    // TODO a revoir
+    this.apiProfil.getAllRole().subscribe({
+      next : (res) => {
+        this.rolesApi = res.data as RoleModel[];
+        this.rolesApi.forEach(roleCom => {
+          this.optionsCommercant.forEach(roleCom1 => {
+            if(roleCom.code.indexOf(roleCom1.code) !== -1){
+              this.options.push(roleCom)
+              console.log(this.options)
+            }
+          })
+        })
+      }
+    })
+    this.UserForm = this.formBuilder.group({
+      id : [''],
+      name : ['',[Validators.required, Validators.minLength(3)]],
+      email : ['',[Validators.required, Validators.minLength(8)]],
+      username : ['',[Validators.required, Validators.minLength(3)]],
+      password : [''],
+      roles : [[]],
+      idParent : ['']
+    })
+
+    if(this.editData){
+      this.actionBtn = "Mettre a jour"
+      this.UserForm.controls['id'].setValue(this.editData.id)
+      this.UserForm.controls['username'].setValue(this.editData.username)
+      this.UserForm.controls['roles'].setValue(this.editData.roles[0].name)
+      this.UserForm.controls['email'].setValue(this.editData.email)
+      this.UserForm.controls['name'].setValue(this.editData.name)
+      this.UserForm.controls['idParent'].setValue(this.editData.idParent)
+      this.UserForm.controls['password'].setValue(this.editData.password)
+      console.log(this.editData)
+    }
+  }
+  addUser(){
+    if(!this.editData){
+      if(this.UserForm.valid){
+        this.User = this.UserForm.value
+        this.roles.push(this.options?.find(x => x.name === this.UserForm.controls['roles'].value) as RoleModel)
+        this.User.roles = this.roles
+        console.log(this.User)
+        this.api.postUser(this.User)
+          .subscribe({
+            next:(res)=>{
+              this._snackBar.openFromComponent(DialogAlertComponent, {
+                data: "Utilisateur ajouter avec Success",
+                duration: 2000,
+                verticalPosition: "bottom",
+                horizontalPosition: "end",
+                panelClass: ["custom-style-add"]
+              })
+              this.UserForm.reset();
+              this.dialogRef.close('save');
+            },
+            error:(err)=>{
+              this._snackBar.openFromComponent(DialogAlertComponent, {
+                data: "Veillez verifier le formulaire",
+                duration: 2000,
+                verticalPosition: "top",
+                horizontalPosition: "end",
+                panelClass: ["custom-style-delete"]
+              })
+            }
+          })
+       }
+    }else{
+      this.updateUser()
+    }
+  }
+  updateUser(){
+    if(this.UserForm.valid){
+      this.User = this.UserForm.value
+      this.roles.push(this.options?.find(x => x.name === this.UserForm.controls['roles'].value) as RoleModel)
+      this.User.roles = this.roles
+      console.log(this.User)
+      this.api.putUser(this.User, this.editData.id)
+        .subscribe({
+          next : (res)=>{
+            this._snackBar.openFromComponent(DialogAlertComponent, {
+              data: "Utilisateur Mis a jour avec Success",
+              duration: 2000,
+              verticalPosition: "bottom",
+              horizontalPosition: "end",
+              panelClass: ["custom-style-update"]
+            })
+            this.UserForm.reset();
+            this.dialogRef.close('update')
+          },
+          error : (err)=>{
+            this._snackBar.openFromComponent(DialogAlertComponent, {
+              data: "Veillez verifier le formulaire",
+              duration: 2000,
+              verticalPosition: "top",
+              horizontalPosition: "end",
+              panelClass: ["custom-style-delete"]
+            })
+          }
+        })
+    }
+  }
+
+  getErrorMessage( errors : ValidationErrors){
+    if(errors['required']){
+      return 'Champs Obligatoire'
+    }else if(errors['minlength']){
+      return 'Champs doit contenir au minimum '+errors['minlength']['requiredLength']+' caracteres'
+    }else{
+      return ""
+    }
+  }
+}

@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
           })
         },
         error : (err) => {
-          console.log(err)
           this._snackBar.openFromComponent(DialogAlertComponent, {
             data: "Identifiant ou mot de passe incorrect",
             duration: 5000,

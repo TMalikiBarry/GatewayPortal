@@ -21,28 +21,34 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatMenuModule} from "@angular/material/menu";
+import {DialogUserComponent} from "./dialog/User/dialog-user.component";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { DialogReseauxComponent } from './dialog/Reseaux/dialog-reseaux.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DialogAlertComponent
+    DialogAlertComponent,
+    DialogUserComponent,
+    DialogReseauxComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatIconModule,
-    HttpClientModule,
-    MatSnackBarModule,
-    MatInputModule,
-    MatButtonModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatIconModule,
+        HttpClientModule,
+        MatSnackBarModule,
+        MatInputModule,
+        MatButtonModule,
+        MatAutocompleteModule,
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor,multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor,multi: true },

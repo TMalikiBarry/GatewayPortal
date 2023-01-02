@@ -1,0 +1,40 @@
+<h1  mat-dialog-title> Ajout Reseau </h1>
+<div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
+<div mat-dialog-content>
+  <form [formGroup]="ReseauForm">
+    <mat-form-field appearance="outline">
+      <mat-label> Code Reseau </mat-label>
+      <input formControlName="code" matInput placeholder="Code Reseau">
+      <mat-error *ngIf="ReseauForm.controls['code'].errors">
+        {{getErrorMessage(ReseauForm.controls['code'].errors)}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label> Libelle Reseau </mat-label>
+      <input formControlName="name" matInput placeholder="Libelle Reseau">
+      <mat-error *ngIf="ReseauForm.controls['name'].errors">
+        {{getErrorMessage(ReseauForm.controls['name'].errors)}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Categorie Reseau</mat-label>
+      <input type="text"
+             placeholder="Categorie"
+             matInput
+             formControlName="categorie"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of options" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="ReseauForm.controls['categorie'].errors">
+        {{getErrorMessage(ReseauForm.controls['categorie'].errors)}}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat_dialog-action [align]="'end'">
+  <button style="margin-left:8px;" mat-raised-button color="primary" (click)="addReseau()"> {{actionBtn}} </button>
+  <button mat-raised-button color="warn" mat-dialog-close> Fermer </button>
+</div>

@@ -23,8 +23,8 @@ export class UserService {
     return this.http.get<ApiResponse>(this.API_URL+"/user/"+id)
   }
 
-  getAllUser(){
-    return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_USER)
+  getAllUser(id : number){
+    return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_USER+id);
   }
 
   putUser(data : any, id : number){
