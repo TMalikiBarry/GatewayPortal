@@ -16,14 +16,9 @@ export const RoleModelCommercant : RoleModel[] = [
   },
   {
     id : 2,
-    name : "Agent",
-    code : "AGENT",
-  },
-  {
-    id : 3,
-    name : "Comptable",
-    code : "COMPTABLE",
-  },
+    name : "Operation",
+    code : "OPERATION",
+  }
 ]
 
 @Component({
@@ -42,6 +37,7 @@ export class DialogUserComponent implements OnInit {
   roles : RoleModel[] = [];
   rolesApi !: RoleModel[];
   code : String | undefined;
+  title : string = "Ajout Agent"
 
   constructor(private formBuilder : FormBuilder ,
               private api : UserService ,
@@ -77,6 +73,7 @@ export class DialogUserComponent implements OnInit {
     })
 
     if(this.editData){
+      this.title = "Modifier Agent"
       this.actionBtn = "Mettre a jour"
       this.UserForm.controls['id'].setValue(this.editData.id)
       this.UserForm.controls['username'].setValue(this.editData.username)

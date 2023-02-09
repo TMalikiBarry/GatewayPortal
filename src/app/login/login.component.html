@@ -1,31 +1,271 @@
-<mat-card>
-  <mat-card-content>
-    <div class="header">
-      <h1> Authentification </h1>
+<div class="container-login">
+  <div class="back-blue">
+    <div class="logo">
+      <span><h3> ESPACE COMMERCANT </h3></span>
     </div>
-    <div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
-    <form name="loginForm" [formGroup]="loginForm">
-      <div class="username-input">
-        <mat-form-field class="full-width" appearance="fill">
-          <mat-label> Identifiant </mat-label>
-          <input formControlName="username" matInput required />
-          <mat-error>
-            Champs Obligatoire
-          </mat-error>
-        </mat-form-field>
+  </div>
+  <mat-card>
+    <mat-card-content>
+      <div class="header">
+        <h4> Connexion </h4>
       </div>
-      <div class="">
-        <mat-form-field class="full-width" appearance="fill">
-          <mat-label> Mot de passe</mat-label>
-          <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
-          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          <mat-error>
-            Champs Obligatoire
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <span class="aLink"> Mot de passe oublie ?</span>
-      <button type="button" class="button-login" mat-flat-button color="primary" (click)="Login()"> S'authentifier </button>
-    </form>
-  </mat-card-content>
-</mat-card>
+      <div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <form name="loginForm" [formGroup]="loginForm">
+        <div class="username-input">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label> Identifiant </mat-label>
+            <input formControlName="username" matInput required />
+            <mat-error>
+              Champs Obligatoire
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label> Mot de passe</mat-label>
+            <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="loginForm.controls['password'].errors">
+              {{getErrorMessage(loginForm.controls['password'].errors)}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <span class="aLink"> Mot de passe oublie ?</span>
+        <button type="button" class="button-login" mat-flat-button color="primary" (click)="Login()"> S'authentifier </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--  <head>-->
+<!--    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" />-->
+<!--  </head>-->
+<!--  <body>-->
+<!--    <div class="v771_3573">-->
+<!--      <div class="v771_3574"></div>-->
+<!--        <span class="v771_3575">ESPACE COMMERCANT</span>-->
+<!--      <div class="name"></div>-->
+<!--      <div class="v771_3579">-->
+<!--        <div class="v771_3580"></div>-->
+<!--        <span class="v771_3581">Entrez votre identifiant</span>-->
+<!--        <span class="v771_3582">Mot de passe</span>-->
+<!--        <div class="v771_3583"></div>-->
+<!--        <div class="v771_3584"></div>-->
+<!--        <div class="v771_3585"></div>-->
+<!--        <div class="v771_3586">-->
+<!--          <div class="v771_3587">-->
+<!--            <div class="v771_3588"></div>-->
+<!--          </div><span class="v771_3589">Se connecter</span></div>-->
+<!--        <span class="v771_3590">Mot de passe oublié ?</span>-->
+<!--        <span class="v771_3591">CONNEXION</span>-->
+<!--        <div class="name"></div>-->
+<!--        <div class="name"></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </body>-->
+<!--</html> <br/><br/> <style>* {-->
+<!--  box-sizing: border-box;-->
+<!--}-->
+<!--body {-->
+<!--  font-size: 14px;-->
+<!--}-->
+<!--.v771_3573 {-->
+<!--  width: 100%;-->
+<!--  height: 1024px;-->
+<!--  background: rgba(255,255,255,1);-->
+<!--  opacity: 1;-->
+<!--  position: relative;-->
+<!--  top: 0px;-->
+<!--  left: 0px;-->
+<!--  overflow: hidden;-->
+<!--}-->
+<!--.v771_3574 {-->
+<!--  width: 100%;-->
+<!--  height: 313px;-->
+<!--  background: rgba(0,130,187,1);-->
+<!--  opacity: 1;-->
+<!--  position: relative;-->
+<!--  top: 0px;-->
+<!--  left: 0px;-->
+<!--  box-shadow: 0px 4px 28px rgba(0.3969022333621979, 0.35328125953674316, 0.5541666746139526, 0.05999999865889549);-->
+<!--  overflow: hidden;-->
+<!--}-->
+<!--.v771_3575 {-->
+<!--  width: 287px;-->
+<!--  color: rgba(255,255,255,1);-->
+<!--  position: absolute;-->
+<!--  top: 129px;-->
+<!--  left: 577px;-->
+<!--  font-family: Poppins;-->
+<!--  font-weight: Medium;-->
+<!--  font-size: 25px;-->
+<!--  opacity: 1;-->
+<!--  text-align: left;-->
+<!--}-->
+<!--.name {-->
+<!--  color: #fff;-->
+<!--}-->
+<!--.v771_3579 {-->
+<!--  width: 680px;-->
+<!--  height: 553px;-->
+<!--  background: url("../images/v771_3579.png");-->
+<!--  background-repeat: no-repeat;-->
+<!--  background-position: center center;-->
+<!--  background-size: cover;-->
+<!--  opacity: 1;-->
+<!--  position: absolute;-->
+<!--  top: 211px;-->
+<!--  left: 380px;-->
+<!--  overflow: hidden;-->
+<!--}-->
+<!--.v771_3580 {-->
+<!--  width: 680px;-->
+<!--  height: 553px;-->
+<!--  background: rgba(255,255,255,1);-->
+<!--  opacity: 1;-->
+<!--  position: relative;-->
+<!--  top: 0px;-->
+<!--  left: 0px;-->
+<!--  border-top-left-radius: 20px;-->
+<!--  border-top-right-radius: 20px;-->
+<!--  border-bottom-left-radius: 20px;-->
+<!--  border-bottom-right-radius: 20px;-->
+<!--  box-shadow: 0px 4px 28px rgba(0.3969022333621979, 0.35328125953674316, 0.5541666746139526, 0.20000000298023224);-->
+<!--  overflow: hidden;-->
+<!--}-->
+<!--.v771_3581 {-->
+<!--  width: 165px;-->
+<!--  color: rgba(154,149,149,1);-->
+<!--  position: absolute;-->
+<!--  top: 147px;-->
+<!--  left: 82px;-->
+<!--  font-family: Poppins;-->
+<!--  font-weight: Light;-->
+<!--  font-size: 15px;-->
+<!--  opacity: 1;-->
+<!--  text-align: left;-->
+<!--}-->
+<!--.v771_3582 {-->
+<!--  width: 101px;-->
+<!--  color: rgba(154,149,149,1);-->
+<!--  position: absolute;-->
+<!--  top: 217px;-->
+<!--  left: 82px;-->
+<!--  font-family: Poppins;-->
+<!--  font-weight: Light;-->
+<!--  font-size: 15px;-->
+<!--  opacity: 1;-->
+<!--  text-align: left;-->
+<!--}-->
+<!--.v771_3583 {-->
+<!--  width: 1px;-->
+<!--  height: 1px;-->
+<!--  background: url("../images/v771_3583.png");-->
+<!--  opacity: 1;-->
+<!--  position: absolute;-->
+<!--  top: 230px;-->
+<!--  left: 497px;-->
+<!--  border: 0.75px solid rgba(80,79,79,1);-->
+<!--}-->
+<!--.v771_3584 {-->
+<!--  width: 14px;-->
+<!--  height: 11px;-->
+<!--  background: url("../images/v771_3584.png");-->
+<!--  opacity: 1;-->
+<!--  position: absolute;-->
+<!--  top: 225px;-->
+<!--  left: 491px;-->
+<!--  border: 0.75px solid rgba(80,79,79,1);-->
+<!--}-->
+<!--.v771_3585 {-->
+<!--  width: 15px;-->
+<!--  height: 15px;-->
+<!--  background: url("../images/v771_3585.png");-->
+<!--  opacity: 1;-->
+<!--  position: absolute;-->
+<!--  top: 224px;-->
+<!--  left: 490px;-->
+<!--  border: 0.75px solid rgba(80,79,79,1);-->
+<!--}-->
+<!--.v771_3586 {-->
+<!--  width: 511px;-->
+<!--  height: 69px;-->
+<!--  background: rgba(255,255,255,1);-->
+<!--  opacity: 1;-->
+<!--  position: absolute;-->
+<!--  top: 354px;-->
+<!--  left: 84px;-->
+<!--  border-top-left-radius: 20px;-->
+<!--  border-top-right-radius: 20px;-->
+<!--  border-bottom-left-radius: 20px;-->
+<!--  border-bottom-right-radius: 20px;-->
+<!--  overflow: hidden;-->
+<!--}-->
+<!--.v771_3587 {-->
+<!--  width: 511px;-->
+<!--  height: 69px;-->
+<!--  background: url("../images/v771_3587.png");-->
+<!--  background-repeat: no-repeat;-->
+<!--  background-position: center center;-->
+<!--  background-size: cover;-->
+<!--  opacity: 1;-->
+<!--  position: absolute;-->
+<!--  top: 0px;-->
+<!--  left: 0px;-->
+<!--  overflow: hidden;-->
+<!--}-->
+<!--.v771_3588 {-->
+<!--  width: 511px;-->
+<!--  height: 69px;-->
+<!--  background: rgba(245,244,244,1);-->
+<!--  opacity: 1;-->
+<!--  position: absolute;-->
+<!--  top: 0px;-->
+<!--  left: 0px;-->
+<!--  overflow: hidden;-->
+<!--}-->
+<!--.v771_3589 {-->
+<!--  width: 119px;-->
+<!--  color: rgba(53,52,52,1);-->
+<!--  position: absolute;-->
+<!--  top: 19px;-->
+<!--  left: 196px;-->
+<!--  font-family: Poppins;-->
+<!--  font-weight: Regular;-->
+<!--  font-size: 18px;-->
+<!--  opacity: 1;-->
+<!--  text-align: left;-->
+<!--}-->
+<!--.v771_3590 {-->
+<!--  width: 174px;-->
+<!--  color: rgba(34,136,181,1);-->
+<!--  position: absolute;-->
+<!--  top: 278px;-->
+<!--  left: 358px;-->
+<!--  font-family: Poppins;-->
+<!--  font-weight: Regular;-->
+<!--  font-size: 16px;-->
+<!--  opacity: 1;-->
+<!--  text-align: left;-->
+<!--}-->
+<!--.v771_3591 {-->
+<!--  width: 149px;-->
+<!--  color: rgba(71,71,71,1);-->
+<!--  position: absolute;-->
+<!--  top: 74px;-->
+<!--  left: 80px;-->
+<!--  font-family: Poppins;-->
+<!--  font-weight: Medium;-->
+<!--  font-size: 25px;-->
+<!--  opacity: 1;-->
+<!--  text-align: left;-->
+<!--}-->
+<!--.name {-->
+<!--  color: #fff;-->
+<!--}-->
+<!--.name {-->
+<!--  color: #fff;-->
+<!--}-->
+<!--</style>-->

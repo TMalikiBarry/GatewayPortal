@@ -1,11 +1,7 @@
-<h1  mat-dialog-title> Ajout Utilisateur </h1>
+<h1  mat-dialog-title> {{ title }} </h1>
 <div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
 <div mat-dialog-content>
   <form [formGroup]="UserForm">
-    <!-- <mat-form-field appearance="outline">
-        <mat-label>ID</mat-label>
-        <input formControlName="id" matInput placeholder="ID">
-      </mat-form-field> -->
     <mat-form-field appearance="outline">
       <mat-label> Nom </mat-label>
       <input formControlName="name" matInput placeholder="Nom">

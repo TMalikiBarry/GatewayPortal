@@ -1,0 +1,42 @@
+.containerTable{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/* Structure */
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+//.btnSearchAdd{
+//  margin-top: 2rem;
+//  button{
+//    float: right;
+//    height: 50px;
+//  }
+//  mat-form-field{
+//    width: 40%;
+//  }
+//}
+.btnAdd{
+  float: right;
+  height: 50px;
+  margin-left: 20px;
+}

@@ -3,6 +3,7 @@ import {AuthentificationGuard} from "../../service/guards/authentification.guard
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {AccesComponent} from "../securite/acces/acces.component";
 import {ReseauxComponent} from "../parametre/reseaux/reseaux.component";
+import {TransactionComponent} from "../operation/transaction/transaction.component";
 
 enum ROLE {
   COMMERCANT = "COMMERCANT",
@@ -24,6 +25,12 @@ export const AdminLayoutRoutes: Routes = [
   {
     path : 'reseaux',
     component : ReseauxComponent,
+    canActivate: [AuthentificationGuard],
+    data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
+  },
+  {
+    path : 'transactions',
+    component : TransactionComponent,
     canActivate: [AuthentificationGuard],
     data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
   }

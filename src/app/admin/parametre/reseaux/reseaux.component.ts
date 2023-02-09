@@ -8,19 +8,35 @@ import {MatDialog} from "@angular/material/dialog";
 import {ApiResponse} from "../../../request/ApiResponse";
 import {ReseauModel} from "../../../model/reseau.model";
 import {DialogReseauxComponent} from "../../../dialog/Reseaux/dialog-reseaux.component";
+import {animate, state, style, transition, trigger} from "@angular/animations";
+import {UserModel} from "../../../model/user.model";
+import {DialogAccesReseauComponent} from "../../../dialog/ReseauAcces/dialog-acces-reseau.component";
 
 @Component({
   selector: 'app-reseaux',
   templateUrl: './reseaux.component.html',
-  styleUrls: ['./reseaux.component.scss']
+  styleUrls: ['./reseaux.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class ReseauxComponent implements OnInit {
 
-  displayedColumns : string[] = ['code','name','categorie','action'];
+  columnsToDisplay = ['code','name'];
+  columnsToDisplayWithExpand = [...this.columnsToDisplay,'action', 'expand'];
+  expandedElement ?: ReseauModel | null;
+
   dataSource !: MatTableDataSource<any>;
+  dataSource1 !: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
+  @ViewChild(MatPaginator) paginator1 !: MatPaginator;
+  @ViewChild(MatSort) sort1 !: MatSort;
 
   constructor(private apiReseau : ReseauxService, public authService : AuthService,public dialog : MatDialog) { }
 
@@ -29,7 +45,7 @@ export class ReseauxComponent implements OnInit {
   }
 
   getReseau(){
-    this.apiReseau.getAllReseau()
+    this.apiReseau.getAllReseau(this.authService.getId())
       .subscribe({
         next: (res : ApiResponse) => {
           console.log(res.data)
@@ -50,8 +66,20 @@ export class ReseauxComponent implements OnInit {
     })
   }
 
+  fetchTable(Users : UserModel[]){
+    this.dataSource1 = new MatTableDataSource(Users);
+    this.dataSource1.paginator = this.paginator1;
+    this.dataSource1.sort = this.sort1;
+  }
   add(){
     this.dialog.open(DialogReseauxComponent).afterClosed().subscribe(value => {
+      if(value==='save'){
+        this.getReseau();
+      }
+    })
+  }
+  addAccesToReseau(){
+    this.dialog.open(DialogAccesReseauComponent).afterClosed().subscribe(value => {
       if(value==='save'){
         this.getReseau();
       }

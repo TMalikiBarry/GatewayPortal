@@ -24,6 +24,9 @@ import {MatMenuModule} from "@angular/material/menu";
 import {DialogUserComponent} from "./dialog/User/dialog-user.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { DialogReseauxComponent } from './dialog/Reseaux/dialog-reseaux.component';
+import {MatSelectModule} from "@angular/material/select";
+import { DialogAccesReseauComponent } from './dialog/ReseauAcces/dialog-acces-reseau.component';
+import {MatTableExporterModule} from "mat-table-exporter";
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { DialogReseauxComponent } from './dialog/Reseaux/dialog-reseaux.componen
     LoginComponent,
     DialogAlertComponent,
     DialogUserComponent,
-    DialogReseauxComponent
+    DialogReseauxComponent,
+    DialogAccesReseauComponent,
   ],
     imports: [
         BrowserModule,
@@ -48,6 +52,8 @@ import { DialogReseauxComponent } from './dialog/Reseaux/dialog-reseaux.componen
         MatInputModule,
         MatButtonModule,
         MatAutocompleteModule,
+        MatSelectModule,
+        MatTableExporterModule
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor,multi: true },

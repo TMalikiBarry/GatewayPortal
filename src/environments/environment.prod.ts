@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  API_URL:  "https://dev-touch-ssii-api.gutouch.net/gateway/api/v1"
 };

@@ -19,12 +19,17 @@ export class ReseauxService {
     return this.http.post<ApiResponse>(this.API_URL+"/reseau/new/", data)
   }
 
+  postReseauToAcces(data :  any){
+    console.log(data)
+    return this.http.post<ApiResponse>(this.API_URL+"/reseau/addAccesToReseau", data)
+  }
+
   getReseau(id : number){
     return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_RESEAUX+id)
   }
 
-  getAllReseau(){
-    return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_RESEAUX)
+  getAllReseau(id : number){
+    return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_RESEAUX+"commercant/"+id)
   }
 
   putReseau(data : any, id : number){

@@ -1,8 +1,8 @@
-import {Categorie} from "../admin/parametre/reseaux/categorie-data";
+import {UserModel} from "./user.model";
 
 export interface ReseauModel {
   id : number
   code : string;
   name : string;
-  categorie : Categorie;
+  accesCollection : UserModel[]
 }

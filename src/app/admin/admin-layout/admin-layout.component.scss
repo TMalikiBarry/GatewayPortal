@@ -29,51 +29,51 @@ mat-sidenav, mat-sidenav-content {
   padding: 16px;
 }
 
-mat-sidenav{
-  //background-color: aquamarine;
-  //width: 200px;
-  background: #56335b;
-  //transition: all .5s ease;
-  //position: fixed;
-  z-index: 1;
-  top:0;
-  //width: 5rem;
-  //height: 100vh;
-  box-shadow: 0.062rem 0 1.25rem 0 #8690a3;
-}
-mat-list{
-  list-style: none;
-  padding: 0.938rem;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: calc(100% - 3.65rem);
-  cursor: pointer;
-
-  mat-list-item{
-    width: 100%;
-    margin-bottom: 0.625rem;
-    .sidenav-nav-link{
-      display: flex;
-      height: 3rem;
-      width: 100%;
-      align-items: center;
-      color: #f3f3f3;
-      margin: 5px;
-      text-decoration: none;
-      border-radius: 0.625rem;
-      transition: all .3s ease;
-    }
-    .material-icons{
-      font-size: 22px;
-      width: 2rem;
-      min-width: 2rem;
-      margin: 0 0.5rem;
-      text-align: center;
-    }
-  }
-}
+//mat-sidenav{
+//  //background-color: aquamarine;
+//  //width: 200px;
+//  background: #56335b;
+//  //transition: all .5s ease;
+//  //position: fixed;
+//  z-index: 1;
+//  top:0;
+//  //width: 5rem;
+//  //height: 100vh;
+//  box-shadow: 0.062rem 0 1.25rem 0 #8690a3;
+//}
+//mat-list{
+//  list-style: none;
+//  padding: 0.938rem;
+//  margin: 0;
+//  display: flex;
+//  flex-direction: column;
+//  align-items: center;
+//  height: calc(100% - 3.65rem);
+//  cursor: pointer;
+//
+//  mat-list-item{
+//    width: 100%;
+//    margin-bottom: 0.625rem;
+//    .sidenav-nav-link{
+//      display: flex;
+//      height: 3rem;
+//      width: 100%;
+//      align-items: center;
+//      color: #f3f3f3;
+//      margin: 5px;
+//      text-decoration: none;
+//      border-radius: 0.625rem;
+//      transition: all .3s ease;
+//    }
+//    .material-icons{
+//      font-size: 22px;
+//      width: 2rem;
+//      min-width: 2rem;
+//      margin: 0 0.5rem;
+//      text-align: center;
+//    }
+//  }
+//}
 //mat-expansion-panel:hover{
 //    background-color: #007dad;
 //    sidenav-link-text{
@@ -81,13 +81,13 @@ mat-list{
 //    }
 //}
 
-.active {
-  background-color: #007dad;
-  .material-icons,
-  .sidenav-link-text{
-    color: #e1e1e1;
-  }
-}
+//.active {
+//  background-color: #007dad;
+//  .material-icons,
+//  .sidenav-link-text{
+//    color: #e1e1e1;
+//  }
+//}
 ul{
   display: flex;
   -webkit-box-align: center;
@@ -112,13 +112,13 @@ li{
 }
 
 
-.sidenav-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
+//.sidenav-container {
+//  position: absolute;
+//  top: 0;
+//  bottom: 0;
+//  left: 0;
+//  right: 0;
+//}
 
 
 //
@@ -248,27 +248,28 @@ li{
 //  transition: 0.3s ease;
 //  background: #8921F8;
 //}
-mat-expansion-panel{
-  width: 280px;
-  border-right: none;
-  text-align: center;
-}
 
-mat-sidenav-container {
-  height: calc(100vh - 65px);
-}
-
-mat-list-item{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: 1rem;
-  margin: 10px 0;
-  mat-icon {
-    margin-right: 8px;
-  }
-}
+//mat-expansion-panel{
+//  width: 280px;
+//  border-right: none;
+//  text-align: center;
+//}
+//
+//mat-sidenav-container {
+//  height: calc(100vh - 65px);
+//}
+//
+//mat-list-item{
+//  width: 100%;
+//  display: flex;
+//  align-items: center;
+//  justify-content: flex-start;
+//  font-size: 1rem;
+//  margin: 10px 0;
+//  mat-icon {
+//    margin-right: 8px;
+//  }
+//}
 
 ::ng-deep .custom-style-add{
   background-color:green;
@@ -282,3 +283,54 @@ mat-list-item{
   background-color:brown;
   color:white;
 }
+
+.toolbar-item-spacer {
+  flex: 1 1 auto;
+}
+
+.app-container {
+  height: 90%;
+  margin: 0;
+
+}
+.app-sidenav {
+
+  width: 280px;
+  span{
+    margin: 10px;
+  }
+}
+.app-sidenav-content {
+  align-items: center;
+  justify-content: center;
+}
+mat-nav-list a {
+  font-size: 14px;
+}
+mat-icon{
+  margin: auto;
+  border: none;
+}
+.nav-link{
+  width: max-content;
+  border-radius: 5px;
+  padding: 10px;
+}
+.nav-link:hover{
+  color: #673AB7
+}
+li > a.active {
+  color: #673AB7
+}
+
+.container px-4{
+  padding: 0 15px;
+  button{
+    margin: 0 15px;
+    font-family: Poppins, sans-serif;
+  }
+  span{
+    font-size: 16px;
+  }
+}
+

@@ -1,6 +1,6 @@
 {
   "name": "gateway-portal",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "bootstrap": "^5.2.3",
+    "mat-table-exporter": "^10.2.4",
     "material-design-icons-iconfont": "^6.7.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

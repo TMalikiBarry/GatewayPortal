@@ -18,41 +18,6 @@ export const navbarData = [
         visible : true,
         roles : ["COMMERCANT","SUPERVISEUR"]
       }
-      // {
-      //   routerLink : 'services',
-      //   icon: 'polymer',
-      //   label : 'Services',
-      //   visible : true,
-      //   roles : ["ADMIN","USER"]
-      // },
-      // {
-      //   routerLink : 'compte',
-      //   icon: 'credit_card',
-      //   label : 'Compte',
-      //   visible : true,
-      //   roles : ["ADMIN","USER"]
-      // },
-      // {
-      //   routerLink : 'sous_compte',
-      //   icon: 'payment',
-      //   label : 'Sous-Compte',
-      //   visible : true,
-      //   roles : ["ADMIN","USER"]
-      // },
-      // {
-      //   routerLink : 'transactions',
-      //   icon: 'trending_up',
-      //   label : 'Transactions',
-      //   visible : true,
-      //   roles :["ADMIN","USER"]
-      // },
-      // {
-      //   routerLink : 'agrement',
-      //   icon: 'markunread_mailbox',
-      //   label : 'Agrement',
-      //   visible : true,
-      //   roles : ["ADMIN","USER"]
-      // }
     ]
   },
   {
@@ -61,34 +26,6 @@ export const navbarData = [
     dropDown : false,
     roles : ["COMMERCANT"],
     items : [
-      // {
-      //   routerLink : 'module',
-      //   icon: 'person',
-      //   label : 'Module',
-      //   visible : true,
-      //   roles : ["ADMIN"]
-      // },
-      // {
-      //   routerLink : 'fonctionnality',
-      //   icon: 'person',
-      //   label : 'Fonctionnalite',
-      //   visible : true,
-      //   roles : ["ADMIN"]
-      // },
-      // {
-      //   routerLink : 'action',
-      //   icon: 'pan_tool_alt',
-      //   label : 'Action',
-      //   visible : true,
-      //   roles : ["ADMIN"]
-      // },
-      // {
-      //   routerLink : 'profil',
-      //   icon: 'person',
-      //   label : 'Profil',
-      //   visible : true,
-      //   roles : ["ADMIN"]
-      // },
       {
         routerLink : 'acces',
         icon: 'person',

@@ -25,36 +25,40 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {AccesComponent} from "../securite/acces/acces.component";
 import {ReseauxComponent} from "../parametre/reseaux/reseaux.component";
+import {TransactionComponent} from "../operation/transaction/transaction.component";
+import {MatTableExporterModule} from "mat-table-exporter";
 
 @NgModule({
   declarations: [
     AdminLayoutComponent,
     DashboardComponent,
     AccesComponent,
-    ReseauxComponent
+    ReseauxComponent,
+    TransactionComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(AdminLayoutRoutes),
-        MatListModule,
-        MatIconModule,
-        MatSidenavModule,
-        MatExpansionModule,
-        MatToolbarModule,
-        MatMenuModule,
-        MatPaginatorModule,
-        MatFormFieldModule,
-        MatTableModule,
-        MatButtonModule,
-        MatSortModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatSnackBarModule,
-        MatTooltipModule,
-        MatCardModule,
-        MatDatepickerModule,
-        MatGridListModule,
-        MatProgressBarModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(AdminLayoutRoutes),
+    MatListModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatExpansionModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatButtonModule,
+    MatSortModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatGridListModule,
+    MatProgressBarModule,
+    MatTableExporterModule
+  ]
 })
 export class AdminLayoutModule { }

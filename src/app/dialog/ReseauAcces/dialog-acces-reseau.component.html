@@ -1,0 +1,28 @@
+<h1  mat-dialog-title> {{ title }} </h1>
+<div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
+<div mat-dialog-content>
+  <form [formGroup]="ReseauAccessForm">
+    <mat-form-field appearance="outline">
+      <mat-label> Agent </mat-label>
+      <mat-select formControlName="username" placeholder="Choisir l'acces">
+        <mat-option *ngFor="let acces of Acces" [value]="acces.username">{{acces.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="ReseauAccessForm.controls['username'].errors">
+        {{getErrorMessage(ReseauAccessForm.controls['username'].errors)}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label> Reseau </mat-label>
+      <mat-select formControlName="reseau" placeholder="Choisir le reseau">
+        <mat-option *ngFor="let reseau of Reseau" [value]="reseau.code">{{reseau.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="ReseauAccessForm.controls['reseau'].errors">
+        {{getErrorMessage(ReseauAccessForm.controls['reseau'].errors)}}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat_dialog-action [align]="'end'">
+  <button style="margin-left:8px;" mat-raised-button color="primary" (click)="addAccesToReseau()"> {{actionBtn}} </button>
+  <button mat-raised-button color="warn" mat-dialog-close> Fermer </button>
+</div>

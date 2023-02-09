@@ -1,4 +1,4 @@
-<h1  mat-dialog-title> Ajout Reseau </h1>
+<h1  mat-dialog-title> {{ title }} </h1>
 <div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
 <div mat-dialog-content>
   <form [formGroup]="ReseauForm">
@@ -17,20 +17,16 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>Categorie Reseau</mat-label>
-      <input type="text"
-             placeholder="Categorie"
-             matInput
-             formControlName="categorie"
-             [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of options" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-      <mat-error *ngIf="ReseauForm.controls['categorie'].errors">
-        {{getErrorMessage(ReseauForm.controls['categorie'].errors)}}
-      </mat-error>
+      <mat-label>Liste Agent</mat-label>
+      <mat-select (selectionChange)="filter($event)" formControlName="accesCollection" multiple>
+        <mat-select-trigger *ngIf="valueUser[0]">
+          {{valueUser[0].name || ''}}
+          <span  *ngIf="valueUser && (valueUser.length || 0) > 1" class="example-additional-selection">
+        (+{{(valueUser.length || 0) - 1}} {{valueUser.length === 2 ? 'autre' : 'autres'}})
+      </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let acces of accesList" [value]="acces">{{acces?.name}}</mat-option>
+      </mat-select>
     </mat-form-field>
   </form>
 </div>
