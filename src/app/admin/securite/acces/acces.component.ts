@@ -6,7 +6,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogUserComponent} from "../../../dialog/User/dialog-user.component";
 import {UserModel} from "../../../model/user.model";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {RoleModel} from "../../../model/role.model";
 import {UserService} from "../../../service/UserService/user.service";
 import {AuthService} from "../../../service/authService/auth.service";
 
@@ -25,10 +24,8 @@ import {AuthService} from "../../../service/authService/auth.service";
 })
 export class AccesComponent implements OnInit {
   dataSource !: MatTableDataSource<any>;
-  columnsToDisplay = ['username','name','email','roles','action'];
-  role !: RoleModel;
-  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedElement ?: UserModel | null;
+  columnsToDisplay = ['username','name', 'number','email','roles','action'];
+
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -76,7 +73,7 @@ export class AccesComponent implements OnInit {
       return;
     }
     this.api.deleteLogin(id).subscribe({
-      next:(res)=>{
+      next:()=>{
         this.getUser();
         alert("Utilisateur Supprimer avec Success")
       }

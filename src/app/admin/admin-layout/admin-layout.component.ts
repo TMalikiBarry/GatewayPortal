@@ -3,6 +3,8 @@ import {LoginModel} from "../../model/login.model";
 import {AuthService} from "../../service/authService/auth.service";
 import {Router} from "@angular/router";
 import {navbarData} from "./nav-data";
+import {MonProfilComponent} from "../../dialog/mon-profil/mon-profil.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-admin-layout',
@@ -22,7 +24,10 @@ export class AdminLayoutComponent implements OnInit {
   user !: LoginModel;
   roles !: string[];
 
-  constructor(public authService : AuthService, private router : Router, public ngZone: NgZone) {
+  constructor(public authService : AuthService,
+              private router : Router,
+              public ngZone: NgZone,
+              private dialog : MatDialog) {
     navbarData.forEach(menubar => {
       menubar.roles.forEach(role => {
         if(authService.getRole() === role){
@@ -31,7 +36,7 @@ export class AdminLayoutComponent implements OnInit {
       });
     })
     this.changeMode();
-    window.onresize = (e) => {
+    window.onresize = () => {
       ngZone.run(() => {
         this.changeMode();
       });
@@ -58,11 +63,17 @@ export class AdminLayoutComponent implements OnInit {
     }
   }
 
+  onUpdateProfil() {
+    this.dialog.open(MonProfilComponent, {
+      width:'30rem',
+      maxHeight: '40rem',
+    })
+  }
 
   logout() {
     this.authService.logout()
       .subscribe({
-        next : (data)=>{
+        next : ()=>{
           this.router.navigateByUrl("/login")
         }
       })

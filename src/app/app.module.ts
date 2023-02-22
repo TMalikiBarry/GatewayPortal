@@ -27,6 +27,9 @@ import { DialogReseauxComponent } from './dialog/Reseaux/dialog-reseaux.componen
 import {MatSelectModule} from "@angular/material/select";
 import { DialogAccesReseauComponent } from './dialog/ReseauAcces/dialog-acces-reseau.component';
 import {MatTableExporterModule} from "mat-table-exporter";
+import { MonProfilComponent } from './dialog/mon-profil/mon-profil.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -36,6 +39,7 @@ import {MatTableExporterModule} from "mat-table-exporter";
     DialogUserComponent,
     DialogReseauxComponent,
     DialogAccesReseauComponent,
+    MonProfilComponent,
   ],
     imports: [
         BrowserModule,
@@ -53,6 +57,8 @@ import {MatTableExporterModule} from "mat-table-exporter";
         MatButtonModule,
         MatAutocompleteModule,
         MatSelectModule,
+        MatTooltipModule,
+        MatCheckboxModule,
         MatTableExporterModule
     ],
   providers: [

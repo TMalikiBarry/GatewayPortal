@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
                 console.log("login.ts "+this.api.currentUserValue.roles)
                 this.router.navigate(['admin/dashboard']);
                 this._snackBar.openFromComponent(DialogAlertComponent, {
-                  data: "Bienvenue",
+                  data: `Bienvenue dans votre espace, ${user.username}` ,
                   duration: 2000,
                   verticalPosition: "top",
                   horizontalPosition: "end",
@@ -60,7 +60,8 @@ export class LoginComponent implements OnInit {
             verticalPosition: "top",
             horizontalPosition: "end",
             panelClass: ["custom-style-delete"]
-          })
+          });
+          console.error(err);
         }
       })
   }

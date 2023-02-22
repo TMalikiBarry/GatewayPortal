@@ -35,6 +35,7 @@ export class DialogUserComponent implements OnInit {
   actionBtn : string = "Sauvegarder"
   errorMessage: any;
   roles : RoleModel[] = [];
+  phonePattern = /^(7[0-9])\s(\d{3})\s(\d{2})\s(\d{2})$/;
   rolesApi !: RoleModel[];
   code : String | undefined;
   title : string = "Ajout Agent"
@@ -65,6 +66,7 @@ export class DialogUserComponent implements OnInit {
     this.UserForm = this.formBuilder.group({
       id : [''],
       name : ['',[Validators.required, Validators.minLength(3)]],
+      number : ['',[Validators.required, Validators.minLength(9), Validators.pattern(this.phonePattern)]],
       email : ['',[Validators.required, Validators.minLength(8)]],
       username : ['',[Validators.required, Validators.minLength(3)]],
       password : [''],
@@ -79,6 +81,7 @@ export class DialogUserComponent implements OnInit {
       this.UserForm.controls['username'].setValue(this.editData.username)
       this.UserForm.controls['roles'].setValue(this.editData.roles[0].name)
       this.UserForm.controls['email'].setValue(this.editData.email)
+      this.UserForm.controls['number'].setValue(this.editData.number)
       this.UserForm.controls['name'].setValue(this.editData.name)
       this.UserForm.controls['idParent'].setValue(this.editData.idParent)
       this.UserForm.controls['password'].setValue(this.editData.password)
@@ -90,11 +93,21 @@ export class DialogUserComponent implements OnInit {
       if(this.UserForm.valid){
         this.User = this.UserForm.value
         this.roles.push(this.options?.find(x => x.name === this.UserForm.controls['roles'].value) as RoleModel)
+        if (!this.roles) {
+          this._snackBar.openFromComponent(DialogAlertComponent, {
+            data: "Lrole spécifié n'est pas autorisé ici",
+            duration: 2500,
+            verticalPosition: "top",
+            horizontalPosition: "center",
+            panelClass: ["custom-style-delete"]
+          });
+          return;
+        }
         this.User.roles = this.roles
         console.log(this.User)
         this.api.postUser(this.User)
           .subscribe({
-            next:(res)=>{
+            next:()=>{
               this._snackBar.openFromComponent(DialogAlertComponent, {
                 data: "Utilisateur ajouter avec Success",
                 duration: 2000,
@@ -105,7 +118,7 @@ export class DialogUserComponent implements OnInit {
               this.UserForm.reset();
               this.dialogRef.close('save');
             },
-            error:(err)=>{
+            error:()=>{
               this._snackBar.openFromComponent(DialogAlertComponent, {
                 data: "Veillez verifier le formulaire",
                 duration: 2000,
@@ -123,12 +136,22 @@ export class DialogUserComponent implements OnInit {
   updateUser(){
     if(this.UserForm.valid){
       this.User = this.UserForm.value
-      this.roles.push(this.options?.find(x => x.name === this.UserForm.controls['roles'].value) as RoleModel)
+      this.roles.push(this.options?.find(x => x.name === this.UserForm.controls['roles'].value) as RoleModel);
+      if (!this.roles) {
+        this._snackBar.openFromComponent(DialogAlertComponent, {
+          data: "Lrole spécifié n'est pas autorisé ici",
+          duration: 2500,
+          verticalPosition: "top",
+          horizontalPosition: "center",
+          panelClass: ["custom-style-delete"]
+        });
+        return;
+      }
       this.User.roles = this.roles
       console.log(this.User)
       this.api.putUser(this.User, this.editData.id)
         .subscribe({
-          next : (res)=>{
+          next : ()=>{
             this._snackBar.openFromComponent(DialogAlertComponent, {
               data: "Utilisateur Mis a jour avec Success",
               duration: 2000,
@@ -139,7 +162,7 @@ export class DialogUserComponent implements OnInit {
             this.UserForm.reset();
             this.dialogRef.close('update')
           },
-          error : (err)=>{
+          error : ()=>{
             this._snackBar.openFromComponent(DialogAlertComponent, {
               data: "Veillez verifier le formulaire",
               duration: 2000,
@@ -157,6 +180,8 @@ export class DialogUserComponent implements OnInit {
       return 'Champs Obligatoire'
     }else if(errors['minlength']){
       return 'Champs doit contenir au minimum '+errors['minlength']['requiredLength']+' caracteres'
+    }else if (errors['pattern']) {
+      return 'Renseignez en respectant le bon format #76 654 54 54';
     }else{
       return ""
     }

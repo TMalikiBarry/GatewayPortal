@@ -17,6 +17,13 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
+      <mat-label> Telephone </mat-label>
+      <input type="tel" formControlName="number" matInput placeholder="Example: 70 765 65 65">
+      <mat-error *ngIf="UserForm.controls['number'].errors">
+        {{getErrorMessage(UserForm.controls['number'].errors)}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label> Email </mat-label>
       <input formControlName="email" matInput placeholder="Email">
       <mat-error *ngIf="UserForm.controls['email'].errors">
@@ -41,7 +48,7 @@
     </mat-form-field>
   </form>
 </div>
-<div mat_dialog-action [align]="'end'">
+<div mat-dialog-actions [align]="'end'">
   <button style="margin-left:8px;" mat-raised-button color="primary" (click)="addUser()"> {{actionBtn}} </button>
-  <button mat-raised-button color="warn" mat-dialog-close> Fermer </button>
+  <button mat-raised-button color="warn" mat-dialog-close="false"> Fermer </button>
 </div>

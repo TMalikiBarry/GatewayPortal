@@ -1,0 +1,41 @@
+<div [formGroup]="monProfilForm" mat-dialog-content>
+  <h2>Mon profil</h2>
+  <p>Ci-dessous vos informations personnelles, toutes les modifications seront appliquées dans votre espace profil.</p>
+  <mat-checkbox [formControl]="checkControl" (click)="needUpdate()" color="primary">Je veux modifier mon profil</mat-checkbox>
+  <p>Nom complet</p>
+  <mat-form-field appearance="outline">
+    <input formControlName="name" matInput placeholder="Nom Complet">
+    <mat-error *ngIf="monProfilForm.controls['name'].errors">
+      {{getErrorMessage(monProfilForm.controls['name'].errors)}}
+    </mat-error>
+  </mat-form-field>
+  <p>Identifiant</p>
+  <mat-form-field appearance="outline" matTooltip="Si vous modifiez votre identifiant, vous connexion actuelle
+  va expirer puis vous serez redirigé à la page d'authentification via laquelle vous vous reconnecterez avec
+  le nouvel identifiant" matTooltipClass="tool-tip-class">
+    <input formControlName="username" matInput placeholder="Identifiant">
+    <mat-error *ngIf="monProfilForm.controls['username'].errors">
+      {{getErrorMessage(monProfilForm.controls['username'].errors)}}
+    </mat-error>
+  </mat-form-field>
+  <p>Email</p>
+  <mat-form-field appearance="outline">
+    <input type="email" formControlName="email" matInput placeholder="Email">
+    <mat-error *ngIf="monProfilForm.controls['email'].errors">
+      {{getErrorMessage(monProfilForm.controls['email'].errors)}}
+    </mat-error>
+  </mat-form-field>
+  <p>Numéro de téléphone</p>
+  <mat-form-field appearance="outline">
+    <input formControlName="number" matInput placeholder="Numéro de téléphone">
+    <mat-error *ngIf="monProfilForm.controls['number'].errors">
+      {{getErrorMessage(monProfilForm.controls['number'].errors)}}
+    </mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions [align]="'center'">
+  <button mat-stroked-button color="warn" [mat-dialog-close]="false"> Fermer </button>
+  <button mat-raised-button color="primary" *ngIf="checkControl.value"
+          [disabled]="monProfilForm.invalid"
+          (click)="updateUser()"> Mettre à jour </button>
+</div>

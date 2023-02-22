@@ -1,0 +1,40 @@
+:host{
+
+  padding-inline: 5rem;
+  mat-form-field {
+    margin-inline: auto;
+    width: 95%;
+  }
+
+  .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.5em 0 1em 0;
+  }
+
+  .mat-input-element:disabled {
+    color: rgba(0,0,0,.7);
+  }
+
+  .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+    color: rgba(0,0,0,.3);
+  }
+
+  h2, p:first-of-type {
+    text-align: center;
+  }
+
+  p:first-of-type {
+    opacity: .7;
+    font-style: italic;
+  }
+
+  p:not(:first-of-type) {
+    margin-left: 2px;
+    font-weight: bold;
+    margin-bottom: -2px;
+  }
+
+
+  mat-checkbox{
+    margin: 1.5rem 0;
+  }
+}

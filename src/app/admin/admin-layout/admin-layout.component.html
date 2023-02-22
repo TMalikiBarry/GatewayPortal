@@ -25,7 +25,7 @@
 <!--</mat-toolbar>-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light " id="mainNav">
   <div class="container px-4">
-    <a class="navbar-brand" href="#page-top">Espace Commerçant</a>
+    <a class="navbar-brand">Espace Commerçant</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
@@ -37,7 +37,7 @@
           {{ authService.getRole()}} <mat-icon>expand_more</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item><mat-icon>perm_identity</mat-icon> Profil </button>
+          <button mat-menu-item (click)="onUpdateProfil()"><mat-icon>perm_identity</mat-icon> Profil </button>
           <button mat-menu-item (click)="logout()">
             <mat-icon>subdirectory_arrow_right</mat-icon> Deconnexion
           </button>
