@@ -1,5 +1,5 @@
-<div [formGroup]="monProfilForm" mat-dialog-content>
-  <h2>Mon profil</h2>
+<h2 matDialogTitle>Mon profil</h2>
+<div [formGroup]="monProfilForm" mat-dialog-content class="body-profil">
   <p>Ci-dessous vos informations personnelles, toutes les modifications seront appliquées dans votre espace profil.</p>
   <mat-checkbox [formControl]="checkControl" (click)="needUpdate()" color="primary">Je veux modifier mon profil</mat-checkbox>
   <p>Nom complet</p>
@@ -37,5 +37,5 @@
   <button mat-stroked-button color="warn" [mat-dialog-close]="false"> Fermer </button>
   <button mat-raised-button color="primary" *ngIf="checkControl.value"
           [disabled]="monProfilForm.invalid"
-          (click)="updateUser()"> Mettre à jour </button>
+          (click)="updateUser()" style="margin-left: 2rem;"> Mettre à jour </button>
 </div>
