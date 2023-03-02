@@ -91,7 +91,7 @@
       </div>
     </div>
     <div class="btn-actions">
-      <button mat-stroked-button matStepperPrevious color="primary">Précédent</button>
+      <button mat-stroked-button style="border: 1px solid #673AB7;" matStepperPrevious color="primary">Précédent</button>
       <button mat-raised-button (click)="toRecapStep()" color="primary">Suivant</button>
     </div>
   </mat-step>
@@ -155,7 +155,7 @@
       </mat-card>
     </div>
     <div class="btn-actions">
-      <button mat-stroked-button matStepperPrevious color="primary">Précédent</button>
+      <button mat-stroked-button style="border: 1px solid #673AB7;" matStepperPrevious color="primary">Précédent</button>
       <button (click)="executeTransaction()" mat-raised-button color="primary">Valider</button>
     </div>
   </mat-step>
@@ -167,7 +167,7 @@
         <h3>Transaction réussie</h3>
         <p>Votre opération a été effectuée avec succès</p>
       <div class="btn-actions">
-        <button mat-stroked-button routerLink="admin/transactions" color="primary">Historique des transactions</button>
+        <button mat-stroked-button style="border: 1px solid #673AB7;" [matDialogClose]="false" color="primary">Historique des transactions</button>
         <button mat-raised-button color="primary">
           <img src="assets/fromFigma/receipt1.svg" alt="reçu">
           Reçu
