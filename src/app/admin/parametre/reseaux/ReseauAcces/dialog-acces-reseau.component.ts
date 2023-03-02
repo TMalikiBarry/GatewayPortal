@@ -2,13 +2,13 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ReseauxService} from "../../service/reseauService/reseaux.service";
-import {UserService} from "../../service/UserService/user.service";
-import {UserModel} from "../../model/user.model";
-import {ReseauModel} from "../../model/reseau.model";
-import {AuthService} from "../../service/authService/auth.service";
-import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
-import {ReseauAccesModel} from "../../model/reseau.acces.model";
+import {ReseauxService} from "../../../../service/reseauService/reseaux.service";
+import {UserService} from "../../../../service/UserService/user.service";
+import {UserModel} from "../../../../model/user.model";
+import {ReseauModel} from "../../../../model/reseau.model";
+import {AuthService} from "../../../../service/authService/auth.service";
+import {DialogAlertComponent} from "../../../../dialog/SnackBar/dialog-alert.component";
+import {ReseauAccesModel} from "../../../../model/reseau.acces.model";
 
 @Component({
   selector: 'app-dialog-acces-reseau',
@@ -41,7 +41,7 @@ export class DialogAccesReseauComponent implements OnInit {
         next: (res) => {
           this.Acces = res.data as UserModel[]
         },
-        error:(err)=>{
+        error:()=>{
           alert("Erreur sur la recuperation des Agents")
         }
       })
@@ -50,7 +50,7 @@ export class DialogAccesReseauComponent implements OnInit {
         next: (res) => {
           this.Reseau = res.data as ReseauModel[]
         },
-        error:(err)=>{
+        error:()=>{
           alert("Erreur sur la recuperation des Reseaux")
         }
       })
@@ -66,7 +66,7 @@ export class DialogAccesReseauComponent implements OnInit {
         console.log(this.ReseauAcces)
         this.apiReseau.postReseauToAcces(this.ReseauAcces)
           .subscribe({
-            next:(res)=>{
+            next:()=>{
               this._snackBar.openFromComponent(DialogAlertComponent, {
                 data: "Agent ajouter au reseau avec success",
                 duration: 2000,
@@ -77,7 +77,7 @@ export class DialogAccesReseauComponent implements OnInit {
               this.ReseauAccessForm.reset();
               this.dialogRef.close('save');
             },
-            error:(err)=>{
+            error:()=>{
               this._snackBar.openFromComponent(DialogAlertComponent, {
                 data: "Veillez verifier le formulaire",
                 duration: 2000,

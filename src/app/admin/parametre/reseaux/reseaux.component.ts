@@ -7,10 +7,10 @@ import {AuthService} from "../../../service/authService/auth.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ApiResponse} from "../../../request/ApiResponse";
 import {ReseauModel} from "../../../model/reseau.model";
-import {DialogReseauxComponent} from "../../../dialog/Reseaux/dialog-reseaux.component";
+import {DialogReseauxComponent} from "./Reseaux/dialog-reseaux.component";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserModel} from "../../../model/user.model";
-import {DialogAccesReseauComponent} from "../../../dialog/ReseauAcces/dialog-acces-reseau.component";
+import {DialogAccesReseauComponent} from "./ReseauAcces/dialog-acces-reseau.component";
 
 @Component({
   selector: 'app-reseaux',
@@ -92,7 +92,7 @@ export class ReseauxComponent implements OnInit {
       return;
     }
     this.apiReseau.deleteReseau(id).subscribe({
-      next:(res)=>{
+      next:()=>{
         this.getReseau();
         alert("Reseau Supprimer avec Success")
       }

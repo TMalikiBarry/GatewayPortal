@@ -2,10 +2,10 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, ValidationErrors, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatStepper} from "@angular/material/stepper";
-import {ServiceTransService} from "../../service/ServicesTrans/service-trans.service";
-import {ParamListInterface} from "../../model/param-list.interface";
-import {AVAILABLE_SERVICES} from "../../../assets/List-Service-Dispo/Available_Services";
-import {ResponsePaymentInterface} from "../../model/response-payment.interface";
+import {ServiceTransService} from "../../../../service/ServicesTrans/service-trans.service";
+import {ParamListInterface} from "../../../../model/param-list.interface";
+import {AVAILABLE_SERVICES} from "../../../../../assets/List-Service-Dispo/Available_Services";
+import {ResponsePaymentInterface} from "../../../../model/response-payment.interface";
 
 @Component({
   selector: 'app-dialog-transaction',

@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminLayoutComponent } from './admin-layout.component';
-import {RouterModule} from "@angular/router";
-import {AdminLayoutRoutes} from "./admin-layout.routing";
 import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -15,28 +12,25 @@ import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSortModule} from "@angular/material/sort";
 import {MatInputModule} from "@angular/material/input";
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatCardModule} from "@angular/material/card";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {DashboardComponent} from "../dashboard/dashboard.component";
 import {MatTableExporterModule} from "mat-table-exporter";
-import {MonProfilComponent} from "../../dialog/mon-profil/mon-profil.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatSelectModule} from "@angular/material/select";
 import {MatDialogModule} from "@angular/material/dialog";
-import {ReactiveFormsModule} from "@angular/forms";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+
+
 
 @NgModule({
-  declarations: [
-    AdminLayoutComponent,
-    DashboardComponent,
-    MonProfilComponent,
-  ],
-  imports: [
+  declarations: [],
+  exports: [
     CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
     MatListModule,
     MatIconModule,
     MatSidenavModule,
@@ -47,18 +41,21 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatFormFieldModule,
     MatTableModule,
     MatButtonModule,
-    MatDialogModule,
     MatSortModule,
     MatInputModule,
     MatAutocompleteModule,
     MatSnackBarModule,
     MatTooltipModule,
-    ReactiveFormsModule,
     MatCardModule,
     MatDatepickerModule,
+    MatSelectModule,
+    MatDialogModule,
     MatGridListModule,
+    MatCheckboxModule,
     MatProgressBarModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
-export class AdminLayoutModule { }
+export class SharedModule { }

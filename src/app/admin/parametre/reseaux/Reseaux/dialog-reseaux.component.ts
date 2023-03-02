@@ -1,15 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {UserModel} from "../../model/user.model";
-import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {UserModel} from "../../../../model/user.model";
+import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
-import {ReseauxService} from "../../service/reseauService/reseaux.service";
-import {ReseauModel} from "../../model/reseau.model";
-import {AuthService} from "../../service/authService/auth.service";
-import {UserService} from "../../service/UserService/user.service";
-import {ReseauAccesModel} from "../../model/reseau.acces.model";
-import {RoleModel} from "../../model/role.model";
+import {DialogAlertComponent} from "../../../../dialog/SnackBar/dialog-alert.component";
+import {ReseauxService} from "../../../../service/reseauService/reseaux.service";
+import {ReseauModel} from "../../../../model/reseau.model";
+import {AuthService} from "../../../../service/authService/auth.service";
+import {UserService} from "../../../../service/UserService/user.service";
 
 export const  Categorie = [
   "B2B",
@@ -98,7 +96,7 @@ export class DialogReseauxComponent implements OnInit {
         console.log(this.Reseau)
         this.api.postReseau(this.Reseau)
           .subscribe({
-            next:(res)=>{
+            next:()=>{
               this._snackBar.openFromComponent(DialogAlertComponent, {
                 data: "Reseau ajouter avec Success",
                 duration: 2000,
@@ -109,7 +107,7 @@ export class DialogReseauxComponent implements OnInit {
               this.ReseauForm.reset();
               this.dialogRef.close('save')
             },
-            error:(err)=>{
+            error:()=>{
               this._snackBar.openFromComponent(DialogAlertComponent, {
                 data: "Veillez verifier le formulaire",
                 duration: 2000,
@@ -130,7 +128,7 @@ export class DialogReseauxComponent implements OnInit {
       this.Reseau.accesCollection.push(this.User as unknown as UserModel);
       this.api.putReseau(this.Reseau, this.editData.id)
         .subscribe({
-          next : (res)=>{
+          next : ()=>{
             this._snackBar.openFromComponent(DialogAlertComponent, {
               data: "Reseau Mis a jour avec Success",
               duration: 2000,
@@ -141,7 +139,7 @@ export class DialogReseauxComponent implements OnInit {
             this.ReseauForm.reset();
             this.dialogRef.close('update')
           },
-          error : (err)=>{
+          error : ()=>{
             this._snackBar.openFromComponent(DialogAlertComponent, {
               data: "Veillez verifier le formulaire",
               duration: 2000,

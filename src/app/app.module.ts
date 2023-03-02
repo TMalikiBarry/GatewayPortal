@@ -21,16 +21,11 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatMenuModule} from "@angular/material/menu";
-import {DialogUserComponent} from "./dialog/User/dialog-user.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import { DialogReseauxComponent } from './dialog/Reseaux/dialog-reseaux.component';
 import {MatSelectModule} from "@angular/material/select";
-import { DialogAccesReseauComponent } from './dialog/ReseauAcces/dialog-acces-reseau.component';
 import {MatTableExporterModule} from "mat-table-exporter";
-import { MonProfilComponent } from './dialog/mon-profil/mon-profil.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import { DialogTransactionComponent } from './dialog/dialog-transaction/dialog-transaction.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 
@@ -39,11 +34,6 @@ import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
     AppComponent,
     LoginComponent,
     DialogAlertComponent,
-    DialogUserComponent,
-    DialogReseauxComponent,
-    DialogAccesReseauComponent,
-    MonProfilComponent,
-    DialogTransactionComponent,
   ],
     imports: [
         BrowserModule,

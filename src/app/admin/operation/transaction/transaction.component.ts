@@ -7,7 +7,7 @@ import {ExportType, MatTableExporterDirective} from "mat-table-exporter";
 import {ApiResponse} from "../../../request/ApiResponse";
 import {TransactionService} from "../../../service/TransactionService/transaction.service";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogTransactionComponent} from "../../../dialog/dialog-transaction/dialog-transaction.component";
+import {DialogTransactionComponent} from "./dialog-transaction/dialog-transaction.component";
 
 @Component({
   selector: 'app-transaction',
