@@ -17,7 +17,7 @@
         </svg>
         <p>Money Transfer</p>
       </mat-card>
-      <mat-card [ngClass]="[!serviceMap.get('Card Payment') ? 'mat-elevation-z2' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Card Payment')">
+      <mat-card [ngClass]="[myService !== 'Card Payment' ? 'mat-elevation-z2' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Card Payment')">
         <img alt="default Logo" src="assets/fromFigma/LogoService.svg">
         <p>Card Payment</p>
       </mat-card>
@@ -123,11 +123,11 @@
           <table style="width:100%">
             <tr>
               <td>Nom Complet</td>
-              <td>{{infoForm.controls['senderName'].value | titlecase}}</td>
+              <td>{{infoForm.controls['beneficiaryName'].value | titlecase}}</td>
             </tr>
             <tr>
               <td>Téléphone</td>
-              <td>{{infoForm.controls['senderMobileNo'].value | titlecase}}</td>
+              <td>{{infoForm.controls['beneficiaryMobileNo'].value | titlecase}}</td>
             </tr>
           </table>
         </mat-card-content>
@@ -181,9 +181,11 @@
 <ng-template #failedTransaction>
   <img src="assets/fromFigma/transaction_failed.svg" width="70" alt="transaction échouée">
   <h3>Transaction échouée</h3>
-  <p>Votre opération n’a pas pu être effectué veuillez réessayer</p>
+  <p>Votre opération n’a pas pu être effectuée veuillez réessayer</p>
+<!--  <p *ngIf="resPayment">Raison de l'échec: {{resPayment.response_message}} <span *ngIf="resPayment.response_content">-&#45;&#45; {{resPayment.response_content}}</span></p>-->
+  <p *ngIf="resMessage">Raison de l'échec: {{resMessage}}</p>
   <button mat-stroked-button (click)="stepper.reset()" color="primary" class="blue-border">Faire une autre transaction</button>
-  <button mat-stroked-button [matDialogClose]="false" color="primary">
+  <button mat-stroked-button [matDialogClose]="false" color="primary" style="border: 1px solid #673AB7;">
     Terminer
   </button>
 </ng-template>

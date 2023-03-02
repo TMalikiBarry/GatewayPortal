@@ -11,13 +11,18 @@
     margin-bottom: 2rem;
     background-color: rgba(239, 239, 239, 0.7);
     cursor: pointer;
-    p{
+
+    p {
       margin-top: 1rem;
     }
   }
 }
 
-.montant{
+.mat-card-header {
+  justify-content: center;
+}
+
+.montant {
   margin-inline: auto;
   width: 60%;
   padding-inline: 3rem;
@@ -45,8 +50,9 @@
 }
 
 .card-clicked_OldWay {
-  background-color: #0082BB!important;
+  background-color: #0082BB !important;
   color: white;
+
   svg circle {
     fill: white;
     stroke: #0082BB;
@@ -54,17 +60,17 @@
 }
 
 .card-clicked {
-  background-color: white!important;
+  background-color: white !important;
   transform: scale(1.2);
 }
 
-.infoForm{
+.infoForm {
   display: flex;
   justify-content: space-around;
   margin-top: 2rem;
   margin-bottom: 2rem;
 
-  mat-form-field{
+  mat-form-field {
     width: 20rem;
   }
 }
@@ -106,7 +112,8 @@
 .blue-border {
   margin: 2rem 0;
   border: 1px solid #673AB7;
-  &~ button {
+
+  & ~ button {
     margin-bottom: 2rem;
   }
 }

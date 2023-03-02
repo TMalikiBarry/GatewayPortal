@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, ValidationErrors, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Observable, of} from "rxjs";
 import {MatStepper} from "@angular/material/stepper";
 import {ServiceTransService} from "../../service/ServicesTrans/service-trans.service";
 import {ParamListInterface} from "../../model/param-list.interface";
 import {AVAILABLE_SERVICES} from "../../../assets/List-Service-Dispo/Available_Services";
+import {ResponsePaymentInterface} from "../../model/response-payment.interface";
 
 @Component({
   selector: 'app-dialog-transaction',
@@ -14,18 +14,12 @@ import {AVAILABLE_SERVICES} from "../../../assets/List-Service-Dispo/Available_S
 })
 export class DialogTransactionComponent implements OnInit {
 
+  resPayment!: ResponsePaymentInterface;
+  resMessage!: string;
   succesTransaction = false;
-  serviceMap = new Map<string, string>();
   amount: number = 10;
-  chosenService$!: Observable<string>;
   myService!: string;
 
-  firstFormGroup = this.fb.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this.fb.group({
-    secondCtrl: ['', Validators.required],
-  });
   infoForm = this.fb.group({
     senderName: ['Freeman Kay', Validators.required],
     senderMobileNo: ['0202205113', Validators.required],
@@ -65,15 +59,12 @@ export class DialogTransactionComponent implements OnInit {
   }
 
   onChooseService(service: string) {
-    this.serviceMap.clear();
     if (!AVAILABLE_SERVICES.includes(service)) {
       this.myService = '';
       this.snackMessage(`Le service ${service} n'est pas encore disponible`, 3000, 'delete');
       return;
     }
-    this.serviceMap.set(service, service);
     this.myService = service;
-    this.chosenService$ = of(service);
   }
 
   /*getChosenService(): string {
@@ -125,7 +116,9 @@ export class DialogTransactionComponent implements OnInit {
     }
     this.tService.xPressCashTransaction(paramList).subscribe(
       res => {
-        console.log(res);
+        // this.resPayment= res;
+        this.resMessage = res.response_message;
+        console.table(res);
         this.snackMessage(`La transaction été réalisée, le code: ${res.response_code}, le message: ${res.response_message}, le contenu: ${res.response_content}`,
           4000, 'add');
         this.succesTransaction = res.response_code === 0;
