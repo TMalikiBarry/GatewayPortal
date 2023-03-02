@@ -1,0 +1,189 @@
+<mat-stepper #stepper>
+  <mat-step>
+    <ng-template matStepLabel>Envoi/Montant</ng-template>
+    <div class="list-card">
+      <mat-card [ngClass]="[myService !=='XPress Cash' ? 'mat-elevation-z2' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService('XPress Cash')">
+        <img src="assets/fromFigma/LogoService.svg" alt="Logo service">
+        <p>XPress Cash</p>
+      </mat-card>
+      <mat-card [ngClass]="[myService !== 'Agency Banking' ? 'mat-elevation-z2' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService('Agency Banking')">
+        <img src="assets/fromFigma/LogoService.svg" alt="Logo service">
+        <p>Agency Banking</p>
+      </mat-card>
+      <mat-card [ngClass]="[myService !== 'Money Transfer' ? 'mat-elevation-z2' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Money Transfer')">
+        <svg width="48" height="52" viewBox="0 0 48 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="15.7895" cy="36" r="15.7895" fill="#0082BB"/>
+          <circle cx="32.2113" cy="15.7895" r="14.7895" fill="#0082BB" stroke="white" stroke-width="2"/>
+        </svg>
+        <p>Money Transfer</p>
+      </mat-card>
+      <mat-card [ngClass]="[!serviceMap.get('Card Payment') ? 'mat-elevation-z2' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Card Payment')">
+        <img alt="default Logo" src="assets/fromFigma/LogoService.svg">
+        <p>Card Payment</p>
+      </mat-card>
+    </div>
+    <div class="montant">
+      <p>Veuillez sélectionner un <span style="color: #0082BB">service</span> parmi ceux qui sont au dessus</p>
+      <mat-form-field appearance="outline">
+        <!--
+                       pattern="^(0|[1-9]\d{0,8})00$"
+        -->
+        <input #name=ngModel [(ngModel)]="amount" matInput minlength="4"
+        placeholder="Entrer le montant: 10000" required type="number">
+        <span matSuffix>&nbsp; FCFA</span>
+        <mat-error>
+          <div *ngIf="name.invalid && (name.dirty || name.touched)">
+            <div *ngIf="name.errors?.['required']">
+              Le montant est obligatoire
+            </div>
+            <!--<div *ngIf="name.errors?.['pattern']">
+              Veuillez respecter le format du montant
+            </div>-->
+            <div *ngIf="name.errors?.['minlength']">
+              Le montant doit dépasser 3 caractères
+            </div>
+          </div>
+        </mat-error>
+      </mat-form-field>
+      <p>Montant</p>
+      <mat-checkbox (click)="gestionFrais()" [(ngModel)]="expediteurGereFrais" color="primary">L'expéditeur prend en
+        charge les frais.
+      </mat-checkbox>
+      <button color="primary" mat-raised-button (click)="infoStep()" [disabled]="name.invalid">Suivant</button>
+    </div>
+
+  </mat-step>
+  <mat-step [stepControl]="infoForm">
+    <ng-template matStepLabel>Expéditeur/Bénéficiaire</ng-template>
+    <div [formGroup]="infoForm" class="infoForm">
+      <div class="expediteurInfos">
+        <p>Nom de l'expéditeur</p>
+        <mat-form-field appearance="outline">
+          <input formControlName="senderName" matInput placeholder="Nom de l'expéditeur">
+          <mat-error *ngIf="infoForm.controls['senderName'].errors">
+            {{getErrorMessage(infoForm.controls['senderName'].errors)}}
+          </mat-error>
+        </mat-form-field>
+        <p>Numéro de téléphone de l'expéditeur</p>
+        <mat-form-field appearance="outline">
+          <input formControlName="senderMobileNo" matInput placeholder="Exemple: 77 455 55 55">
+          <mat-error *ngIf="infoForm.controls['senderMobileNo'].errors">
+            {{getErrorMessage(infoForm.controls['senderMobileNo'].errors)}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="verticale"></div>
+      <div class="beneficiaireInfos">
+        <p>Nom du bénéficiaire</p>
+        <mat-form-field appearance="outline">
+          <input formControlName="beneficiaryName" matInput placeholder="Nom du bénéficiaire">
+          <mat-error *ngIf="infoForm.controls['beneficiaryName'].errors">
+            {{getErrorMessage(infoForm.controls['beneficiaryName'].errors)}}
+          </mat-error>
+        </mat-form-field>
+        <p>Numéro de téléphone du bénéficiaire</p>
+        <mat-form-field appearance="outline">
+          <input formControlName="beneficiaryMobileNo" matInput placeholder="Exemple: 75 432 32 32">
+          <mat-error *ngIf="infoForm.controls['beneficiaryMobileNo'].errors">
+            {{getErrorMessage(infoForm.controls['beneficiaryMobileNo'].errors)}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="btn-actions">
+      <button mat-stroked-button matStepperPrevious color="primary">Précédent</button>
+      <button mat-raised-button (click)="toRecapStep()" color="primary">Suivant</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Récapitulatif</ng-template>
+    <div class="list-card-recap">
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+          <mat-card-title>Expéditeur</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table style="width:100%">
+            <tr>
+              <td>Nom Complet</td>
+              <td>{{infoForm.controls['senderName'].value | titlecase}}</td>
+            </tr>
+            <tr>
+              <td>Téléphone</td>
+              <td>{{infoForm.controls['senderMobileNo'].value | titlecase}}</td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+          <mat-card-title>Bénéficiaire</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table style="width:100%">
+            <tr>
+              <td>Nom Complet</td>
+              <td>{{infoForm.controls['senderName'].value | titlecase}}</td>
+            </tr>
+            <tr>
+              <td>Téléphone</td>
+              <td>{{infoForm.controls['senderMobileNo'].value | titlecase}}</td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+          <mat-card-title>Transactions</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table style="width:100%">
+            <tr>
+              <td>Montant</td>
+              <td>{{amount }}</td>
+            </tr>
+            <tr>
+              <td>Frais</td>
+              <td>{{expediteurGereFrais ? frais : 0}}</td>
+            </tr>
+            <tr>
+              <td>Type de service</td>
+              <td>{{myService}}</td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="btn-actions">
+      <button mat-stroked-button matStepperPrevious color="primary">Précédent</button>
+      <button (click)="executeTransaction()" mat-raised-button color="primary">Valider</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Confirmation</ng-template>
+    <div class="transaction-ok mat-elevation-z3">
+      <ng-container *ngIf="succesTransaction else failedTransaction">
+        <img src="assets/fromFigma/transaction_reussie.svg" width="70" alt="transaction réussie">
+        <h3>Transaction réussie</h3>
+        <p>Votre opération a été effectuée avec succès</p>
+      <div class="btn-actions">
+        <button mat-stroked-button routerLink="admin/transactions" color="primary">Historique des transactions</button>
+        <button mat-raised-button color="primary">
+          <img src="assets/fromFigma/receipt1.svg" alt="reçu">
+          Reçu
+        </button>
+      </div>
+      </ng-container>
+    </div>
+  </mat-step>
+</mat-stepper>
+
+<ng-template #failedTransaction>
+  <img src="assets/fromFigma/transaction_failed.svg" width="70" alt="transaction échouée">
+  <h3>Transaction échouée</h3>
+  <p>Votre opération n’a pas pu être effectué veuillez réessayer</p>
+  <button mat-stroked-button (click)="stepper.reset()" color="primary" class="blue-border">Faire une autre transaction</button>
+  <button mat-stroked-button [matDialogClose]="false" color="primary">
+    Terminer
+  </button>
+</ng-template>

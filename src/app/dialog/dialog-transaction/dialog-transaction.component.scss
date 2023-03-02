@@ -1,0 +1,112 @@
+.list-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 2rem 0;
+
+  mat-card {
+    width: 8rem;
+    text-align: center;
+    margin-inline: 2rem;
+    margin-bottom: 2rem;
+    background-color: rgba(239, 239, 239, 0.7);
+    cursor: pointer;
+    p{
+      margin-top: 1rem;
+    }
+  }
+}
+
+.montant{
+  margin-inline: auto;
+  width: 60%;
+  padding-inline: 3rem;
+
+  p:first-of-type {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  mat-checkbox {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  button {
+    display: block;
+    margin-inline: auto;
+  }
+}
+
+.card-clicked_OldWay {
+  background-color: #0082BB!important;
+  color: white;
+  svg circle {
+    fill: white;
+    stroke: #0082BB;
+  }
+}
+
+.card-clicked {
+  background-color: white!important;
+  transform: scale(1.2);
+}
+
+.infoForm{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  mat-form-field{
+    width: 20rem;
+  }
+}
+
+.btn-actions {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 2rem 0;
+}
+
+.verticale {
+  align-self: center;
+  border-left: 1.5px solid black;
+  height: 15rem; /* La hauteur de la ligne */
+}
+
+.list-card-recap {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0;
+
+  mat-card {
+    width: 15rem;
+
+    td:nth-of-type(2) {
+      font-weight: 600;
+    }
+  }
+}
+
+.transaction-ok {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+
+.blue-border {
+  margin: 2rem 0;
+  border: 1px solid #673AB7;
+  &~ button {
+    margin-bottom: 2rem;
+  }
+}

@@ -7,6 +7,7 @@ import {ExportType, MatTableExporterDirective} from "mat-table-exporter";
 import {ApiResponse} from "../../../request/ApiResponse";
 import {TransactionService} from "../../../service/TransactionService/transaction.service";
 import {MatDialog} from "@angular/material/dialog";
+import {DialogTransactionComponent} from "../../../dialog/dialog-transaction/dialog-transaction.component";
 
 @Component({
   selector: 'app-transaction',
@@ -48,6 +49,27 @@ export class TransactionComponent implements OnInit {
       })
   }
 
+  addTransaction() {
+    this.dialog.open(DialogTransactionComponent, {
+      minWidth: '60rem',
+      minHeight: '30rem',
+    }).afterClosed().subscribe(
+      res => {
+        if (res)
+          this.getTransaction();
+      }
+    )
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   // update(row : TransactionModel){
   //   this.dialog.open(DialogTransactionComponent,{
   //     data : row
@@ -78,13 +100,4 @@ export class TransactionComponent implements OnInit {
   //     }
   //   })
   // }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
 }

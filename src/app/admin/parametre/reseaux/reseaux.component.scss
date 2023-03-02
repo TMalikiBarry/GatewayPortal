@@ -9,7 +9,8 @@ table {
 
 .mat-form-field {
   font-size: 14px;
-  width: 100%;
+  width: 40%;
+  margin-bottom: 2rem;
 }
 
 .example-spacer {
@@ -22,7 +23,8 @@ table {
 
 .mat-form-field {
   font-size: 14px;
-  width: 100%;
+  width: 40%;
+  margin-bottom: 2rem;
 }
 
 .example-spacer {
@@ -84,4 +86,8 @@ tr.example-element-row:not(.example-expanded-row):active {
   float: right;
   height: 50px;
   margin-left: 20px;
+}
+
+.blue-border {
+  border: 1px solid #673AB7;
 }

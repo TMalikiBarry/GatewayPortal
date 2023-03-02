@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { DialogAlertComponent } from "./dialog/SnackBar/dialog-alert.component";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
@@ -30,6 +30,9 @@ import {MatTableExporterModule} from "mat-table-exporter";
 import { MonProfilComponent } from './dialog/mon-profil/mon-profil.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { DialogTransactionComponent } from './dialog/dialog-transaction/dialog-transaction.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 
 @NgModule({
   declarations: [
@@ -40,16 +43,19 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     DialogReseauxComponent,
     DialogAccesReseauComponent,
     MonProfilComponent,
+    DialogTransactionComponent,
   ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
+        FormsModule,
         MatFormFieldModule,
         MatCardModule,
         MatDialogModule,
         MatMenuModule,
+        MatStepperModule,
         MatIconModule,
         HttpClientModule,
         MatSnackBarModule,
@@ -67,6 +73,10 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     { provide: MAT_SNACK_BAR_DATA, useValue: {} },
     { provide: MatSnackBarRef, useValue: {} },
     { provide: LOCALE_ID, useValue: 'fr-FR'},
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false }
+    },
   ],
   bootstrap: [AppComponent]
 })
