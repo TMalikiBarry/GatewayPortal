@@ -54,6 +54,16 @@ export class LoginComponent implements OnInit {
           })
         },
         error : (err) => {
+          if (err.status === 0) {
+            this._snackBar.openFromComponent(DialogAlertComponent, {
+              data: "Problème de connextion au serveur",
+              duration: 5000,
+              verticalPosition: "top",
+              horizontalPosition: "end",
+              panelClass: ["custom-style-delete"]
+            });
+            return;
+          }
           this._snackBar.openFromComponent(DialogAlertComponent, {
             data: "Identifiant ou mot de passe incorrect",
             duration: 5000,
