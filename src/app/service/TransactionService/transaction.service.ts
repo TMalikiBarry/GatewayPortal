@@ -5,6 +5,7 @@ import {ApiResponse} from "../../request/ApiResponse";
 import {ParamListInterface} from "../../model/param-list.interface";
 import {ResponsePaymentInterface} from "../../model/response-payment.interface";
 import {TransactionModel} from "../../model/transaction.model";
+import {map, tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,10 @@ export class TransactionService {
   }
 
   xPressCashTransaction(paramList: ParamListInterface){
-    return this.http.post<ResponsePaymentInterface>(environment.API_URL_ECOBANK+'/cash', paramList);
+    return this.http.post<ApiResponse>(environment.API_URL_ECOBANK+'/cash', paramList).pipe(
+      tap(console.dir),
+      map(res => res.data as ResponsePaymentInterface),
+    );
   }
 
   getMySousComptes(myId?: number) {

@@ -39,7 +39,7 @@ export class DialogTransactionComponent implements OnInit {
   chosenSousCompte!:SousCompteModel;
   chosenService!: ServiceModel | undefined;
   myServiceLabel!: string;
-  typeTrasaction!: TypeTransactionEnum;
+  typeTrasaction!: TransactionKey;
   listServices$!: Observable<ServiceModel[]>;
   typeTransactionList = Object.keys(TypeTransactionEnum).map((key) => {
     return <TransactionType>{
@@ -157,12 +157,12 @@ export class DialogTransactionComponent implements OnInit {
       senderId: 'QWE345Y4',
     }
     this.tService.xPressCashTransaction(paramList).subscribe(
-      res => {
+      resPayment => {
         // this.resPayment= res;
-        this.resMessage = res.response_message;
-        console.table(res);
+        this.resMessage = resPayment.response_message;
+        console.table(resPayment);
         this.tService.postTransaction(this.getTransaction()).subscribe();
-        this.snackMessage(`La transaction été réalisée, le code: ${res.response_code}, le message: ${res.response_message}, le contenu: ${res.response_content}`,
+        this.snackMessage(`La transaction été réalisée, le code: ${resPayment.response_code}, le message: ${resPayment.response_message}, le contenu: ${resPayment.response_content}`,
           4000, 'add');
         this.succesTransaction = this.getTransaction().statut !== StatutTransactionEnum.SUSPICIOUS;
         this.stepper.next();
@@ -184,7 +184,7 @@ export class DialogTransactionComponent implements OnInit {
   getTransaction(): TransactionModel {
     return {
       destinataire: this.infoForm.controls['beneficiaryName'].value!,
-      typeTransaction: this.typeTrasaction,
+      typeTransaction: TypeTransactionEnum[this.typeTrasaction],
       scompte: this.chosenSousCompte,
       service: this.chosenService!,
       montant: this.amount,

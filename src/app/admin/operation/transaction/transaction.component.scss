@@ -52,20 +52,20 @@ table {
 .success-trans {
   border-radius: 50px;
   text-align: center;
-  margin: 1rem!important;
+  margin: 1rem 1rem 1rem 0;
   background-color: rgba(48, 189, 88, 0.25);
 }
 
 .initiated-trans {
   border-radius: 50px;
   text-align: center;
-  margin: 1rem!important;
+  margin: 1rem 1rem 1rem 0;
   background-color: rgba(252, 238, 167, 0.37);
 }
 
 .failed-trans {
   border-radius: 50px;
   text-align: center;
-  margin: 1rem!important;
+  margin: 1rem 1rem 1rem 0;
   background-color: rgba(252, 2, 2, 0.2);
 }
