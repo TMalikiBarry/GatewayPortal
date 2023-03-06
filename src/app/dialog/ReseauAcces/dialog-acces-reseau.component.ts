@@ -2,13 +2,13 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ReseauxService} from "../../../../service/reseauService/reseaux.service";
-import {UserService} from "../../../../service/UserService/user.service";
-import {UserModel} from "../../../../model/user.model";
-import {ReseauModel} from "../../../../model/reseau.model";
-import {AuthService} from "../../../../service/authService/auth.service";
-import {DialogAlertComponent} from "../../../../dialog/SnackBar/dialog-alert.component";
-import {ReseauAccesModel} from "../../../../model/reseau.acces.model";
+import {ReseauxService} from "../../service/reseauService/reseaux.service";
+import {UserService} from "../../service/UserService/user.service";
+import {UserModel} from "../../model/user.model";
+import {ReseauModel} from "../../model/reseau.model";
+import {AuthService} from "../../service/authService/auth.service";
+import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
+import {ReseauAccesModel} from "../../model/reseau.acces.model";
 
 @Component({
   selector: 'app-dialog-acces-reseau',

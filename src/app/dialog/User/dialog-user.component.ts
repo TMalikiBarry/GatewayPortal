@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {UserModel} from "../../../../model/user.model";
-import {DialogAlertComponent} from "../../../../dialog/SnackBar/dialog-alert.component";
-import {RoleModel} from "../../../../model/role.model";
+import {UserModel} from "../../model/user.model";
+import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
+import {RoleModel} from "../../model/role.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {UserService} from "../../../../service/UserService/user.service";
-import {ProfilService} from "../../../../service/profilService/profil.service";
+import {UserService} from "../../service/UserService/user.service";
+import {ProfilService} from "../../service/profilService/profil.service";
 
 export const RoleModelCommercant : RoleModel[] = [
   {

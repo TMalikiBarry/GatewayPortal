@@ -5,7 +5,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {AccesComponent} from "./acces/acces.component";
 import {AuthentificationGuard} from "../../service/guards/authentification.guard";
 import {ROLE} from "../admin-layout/admin-layout.routing";
-import {DialogUserComponent} from "./acces/User/dialog-user.component";
+import {DialogUserComponent} from "../../dialog/User/dialog-user.component";
 
 
 const SecuriteRouting: Routes = [

@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment.prod";
 import {HttpClient} from "@angular/common/http";
 import {ApiResponse} from "../../request/ApiResponse";
+import {ParamListInterface} from "../../model/param-list.interface";
+import {ResponsePaymentInterface} from "../../model/response-payment.interface";
+import {TransactionModel} from "../../model/transaction.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +17,20 @@ export class TransactionService {
 
   constructor(private http : HttpClient) { }
 
-  postTransaction(data :  any){
+  postTransaction(data :  TransactionModel){
     return this.http.post<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"new/", data)
   }
 
+  xPressCashTransaction(paramList: ParamListInterface){
+    return this.http.post<ResponsePaymentInterface>(environment.API_URL_ECOBANK+'/cash', paramList);
+  }
+
+  getMySousComptes(myId?: number) {
+    return this.http.get<ApiResponse>(this.API_URL+"/scompte/all");
+  }
+  getAllService(){
+    return this.http.get<ApiResponse>(this.API_URL+"/services/all")
+  }
   getTransaction(id : number){
     return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+id)
   }
@@ -26,7 +39,7 @@ export class TransactionService {
     return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"all")
   }
 
-  putTransaction(data : any, id : number){
+  putTransaction(data : TransactionModel, id : number){
     return this.http.put<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"edit/"+id, data)
   }
 

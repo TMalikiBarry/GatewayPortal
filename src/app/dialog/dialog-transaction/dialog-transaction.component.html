@@ -1,35 +1,58 @@
-<mat-stepper #stepper>
+<mat-stepper #stepper matDialogContent>
   <mat-step>
     <ng-template matStepLabel>Envoi/Montant</ng-template>
     <div class="list-card">
-      <mat-card [ngClass]="[myService !=='XPress Cash' ? 'mat-elevation-z2' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService('XPress Cash')">
-        <img src="../../../../../assets/fromFigma/LogoService.svg" alt="Logo service">
+      <mat-card *ngFor="let service of listServices$| async" [ngClass]="[myServiceLabel !== service.serviceName ? 'mat-elevation-z1' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService(service)">
+        <img src="assets/fromFigma/LogoService.svg" alt="Logo service">
+        <p>{{service.serviceName}}</p>
+      </mat-card>
+
+<!--      <mat-card [ngClass]="[myServiceLabel !=='XPress Cash' ? 'mat-elevation-z1' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService('XPress Cash')">
+        <img src="assets/fromFigma/LogoService.svg" alt="Logo service">
         <p>XPress Cash</p>
       </mat-card>
-      <mat-card [ngClass]="[myService !== 'Agency Banking' ? 'mat-elevation-z2' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService('Agency Banking')">
-        <img src="../../../../../assets/fromFigma/LogoService.svg" alt="Logo service">
+      <mat-card [ngClass]="[myServiceLabel !== 'Agency Banking' ? 'mat-elevation-z1' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService('Agency Banking')">
+        <img src="assets/fromFigma/LogoService.svg" alt="Logo service">
         <p>Agency Banking</p>
       </mat-card>
-      <mat-card [ngClass]="[myService !== 'Money Transfer' ? 'mat-elevation-z2' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Money Transfer')">
+      <mat-card [ngClass]="[myServiceLabel !== 'Money Transfer' ? 'mat-elevation-z1' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Money Transfer')">
         <svg width="48" height="52" viewBox="0 0 48 52" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="15.7895" cy="36" r="15.7895" fill="#0082BB"/>
           <circle cx="32.2113" cy="15.7895" r="14.7895" fill="#0082BB" stroke="white" stroke-width="2"/>
         </svg>
         <p>Money Transfer</p>
       </mat-card>
-      <mat-card [ngClass]="[myService !== 'Card Payment' ? 'mat-elevation-z2' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Card Payment')">
-        <img alt="default Logo" src="../../../../../assets/fromFigma/LogoService.svg">
+      <mat-card [ngClass]="[myServiceLabel !== 'Card Payment' ? 'mat-elevation-z1' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Card Payment')">
+        <img alt="default Logo" src="assets/fromFigma/LogoService.svg">
         <p>Card Payment</p>
-      </mat-card>
+      </mat-card>-->
     </div>
     <div class="montant">
       <p>Veuillez sélectionner un <span style="color: #0082BB">service</span> parmi ceux qui sont au dessus</p>
+      <div class="inline-form-fields">
+        <mat-form-field appearance="outline">
+          <mat-label>Choisissez le type de transaction</mat-label>
+          <mat-select [(value)]="typeTrasaction" required (selectionChange)="afficheSousCompte($event)">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let item of typeTransactionList" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Choisissez le réseau</mat-label>
+          <mat-select [(value)]="chosenSousCompte" required>
+            <mat-option *ngFor="let item of listSousComptes$ | async" [value]="item">{{item.sousCompteName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <p>Montant</p>
       <mat-form-field appearance="outline">
         <!--
                        pattern="^(0|[1-9]\d{0,8})00$"
+                       pattern="^[1-9]\d*[05]$"
         -->
-        <input #name=ngModel [(ngModel)]="amount" matInput minlength="4"
-        placeholder="Entrer le montant: 10000" required type="number">
+        <input #name=ngModel [(ngModel)]="amount" matInput minlength="4" pattern="^[1-9]\d*[05]$"
+        placeholder="Veuillez renseigner le montant: 10000" required type="number">
         <span matSuffix>&nbsp; FCFA</span>
         <mat-error>
           <div *ngIf="name.invalid && (name.dirty || name.touched)">
@@ -45,11 +68,10 @@
           </div>
         </mat-error>
       </mat-form-field>
-      <p>Montant</p>
       <mat-checkbox (click)="gestionFrais()" [(ngModel)]="expediteurGereFrais" color="primary">L'expéditeur prend en
         charge les frais.
       </mat-checkbox>
-      <button color="primary" mat-raised-button (click)="infoStep()" [disabled]="name.invalid">Suivant</button>
+      <button color="primary" mat-raised-button (click)="infoStep()" [disabled]="name.invalid || !typeTrasaction">Suivant</button>
     </div>
 
   </mat-step>
@@ -148,7 +170,7 @@
             </tr>
             <tr>
               <td>Type de service</td>
-              <td>{{myService}}</td>
+              <td>{{myServiceLabel}}</td>
             </tr>
           </table>
         </mat-card-content>
@@ -163,13 +185,13 @@
     <ng-template matStepLabel>Confirmation</ng-template>
     <div class="transaction-ok mat-elevation-z3">
       <ng-container *ngIf="succesTransaction else failedTransaction">
-        <img src="../../../../../assets/fromFigma/transaction_reussie.svg" width="70" alt="transaction réussie">
+        <img src="assets/fromFigma/transaction_reussie.svg" width="70" alt="transaction réussie">
         <h3>Transaction réussie</h3>
         <p>Votre opération a été effectuée avec succès</p>
       <div class="btn-actions">
-        <button mat-stroked-button style="border: 1px solid #673AB7;" [matDialogClose]="false" color="primary">Historique des transactions</button>
+        <button mat-stroked-button style="border: 1px solid #673AB7;" [matDialogClose]="true" color="primary">Historique des transactions</button>
         <button mat-raised-button color="primary">
-          <img src="../../../../../assets/fromFigma/receipt1.svg" alt="reçu">
+          <img src="assets/fromFigma/receipt1.svg" alt="reçu">
           Reçu
         </button>
       </div>
@@ -179,13 +201,13 @@
 </mat-stepper>
 
 <ng-template #failedTransaction>
-  <img src="../../../../../assets/fromFigma/transaction_failed.svg" width="70" alt="transaction échouée">
+  <img src="assets/fromFigma/transaction_failed.svg" width="70" alt="transaction échouée">
   <h3>Transaction échouée</h3>
   <p>Votre opération n’a pas pu être effectuée veuillez réessayer</p>
 <!--  <p *ngIf="resPayment">Raison de l'échec: {{resPayment.response_message}} <span *ngIf="resPayment.response_content">-&#45;&#45; {{resPayment.response_content}}</span></p>-->
   <p *ngIf="resMessage">Raison de l'échec: {{resMessage}}</p>
   <button mat-stroked-button (click)="stepper.reset()" color="primary" class="blue-border">Faire une autre transaction</button>
-  <button mat-stroked-button [matDialogClose]="false" color="primary" style="border: 1px solid #673AB7;">
+  <button mat-stroked-button [matDialogClose]="true" color="primary" style="border: 1px solid #673AB7;">
     Terminer
   </button>
 </ng-template>

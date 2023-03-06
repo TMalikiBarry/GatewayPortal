@@ -1,13 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {UserModel} from "../../../../model/user.model";
+import {UserModel} from "../../model/user.model";
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {DialogAlertComponent} from "../../../../dialog/SnackBar/dialog-alert.component";
-import {ReseauxService} from "../../../../service/reseauService/reseaux.service";
-import {ReseauModel} from "../../../../model/reseau.model";
-import {AuthService} from "../../../../service/authService/auth.service";
-import {UserService} from "../../../../service/UserService/user.service";
+import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
+import {ReseauxService} from "../../service/reseauService/reseaux.service";
+import {ReseauModel} from "../../model/reseau.model";
+import {AuthService} from "../../service/authService/auth.service";
+import {UserService} from "../../service/UserService/user.service";
 
 export const  Categorie = [
   "B2B",

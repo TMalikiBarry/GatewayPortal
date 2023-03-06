@@ -7,7 +7,8 @@ import {ExportType, MatTableExporterDirective} from "mat-table-exporter";
 import {ApiResponse} from "../../../request/ApiResponse";
 import {TransactionService} from "../../../service/TransactionService/transaction.service";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogTransactionComponent} from "./dialog-transaction/dialog-transaction.component";
+import {DialogTransactionComponent} from "../../../dialog/dialog-transaction/dialog-transaction.component";
+import {TransactionModel} from "../../../model/transaction.model";
 
 @Component({
   selector: 'app-transaction',
@@ -17,7 +18,7 @@ import {DialogTransactionComponent} from "./dialog-transaction/dialog-transactio
 export class TransactionComponent implements OnInit {
 
   displayedColumns : string[] = ['dateTransaction','scompte','service','montant','statut','commission','typeTransaction','destinataire'];
-  dataSource !: MatTableDataSource<any>;
+  dataSource !: MatTableDataSource<TransactionModel>;
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -42,7 +43,7 @@ export class TransactionComponent implements OnInit {
       .subscribe({
         next: (res : ApiResponse) => {
           console.log(res.data)
-          this.dataSource = new MatTableDataSource(res.data);
+          this.dataSource = new MatTableDataSource(res.data as TransactionModel[]);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
@@ -51,7 +52,7 @@ export class TransactionComponent implements OnInit {
 
   addTransaction() {
     this.dialog.open(DialogTransactionComponent, {
-      minWidth: '60rem',
+      width: '80rem',
       minHeight: '30rem',
     }).afterClosed().subscribe(
       res => {

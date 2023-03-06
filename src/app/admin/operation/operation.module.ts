@@ -6,7 +6,7 @@ import {TransactionComponent} from "./transaction/transaction.component";
 import {AuthentificationGuard} from "../../service/guards/authentification.guard";
 import {SharedModule} from "../shared/shared.module";
 import {MatStepperModule} from "@angular/material/stepper";
-import {DialogTransactionComponent} from "./transaction/dialog-transaction/dialog-transaction.component";
+import {DialogTransactionComponent} from "../../dialog/dialog-transaction/dialog-transaction.component";
 
 const TransactionRouting: Routes = [
   {
@@ -28,6 +28,7 @@ const TransactionRouting: Routes = [
     SharedModule,
     MatStepperModule,
     RouterModule.forChild(TransactionRouting),
-  ]
+  ],
+  providers: []
 })
 export class OperationModule { }

@@ -45,7 +45,11 @@
         <!-- Identifiant Column -->
         <ng-container matColumnDef="statut">
           <th *matHeaderCellDef mat-header-cell mat-sort-header> Statut</th>
-          <td *matCellDef="let row" mat-cell> {{row.statut }} </td>
+          <td *matCellDef="let row" mat-cell
+              [ngClass]="{'success-trans': ['FINISHED', 'SENT'].includes(row.statut),
+              'initiated-trans': row.statut === 'INITIATED', 'failed-trans': row.statut === 'SUSPICIOUS'}">
+            {{row.statut }}
+          </td>
         </ng-container>
 
         <!-- Identifiant Column -->

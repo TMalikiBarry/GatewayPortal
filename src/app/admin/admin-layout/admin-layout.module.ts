@@ -27,6 +27,7 @@ import {MatTableExporterModule} from "mat-table-exporter";
 import {MonProfilComponent} from "../../dialog/mon-profil/mon-profil.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     RouterModule.forChild(AdminLayoutRoutes),
     MatListModule,
     MatIconModule,
+    MatCheckboxModule,
     MatSidenavModule,
     MatExpansionModule,
     MatToolbarModule,
