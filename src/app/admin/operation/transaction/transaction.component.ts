@@ -17,12 +17,16 @@ import {TransactionModel} from "../../../model/transaction.model";
 })
 export class TransactionComponent implements OnInit {
 
-  displayedColumns : string[] = ['dateTransaction','scompte','service','montant','statut','commission','typeTransaction','destinataire'];
+  displayedColumns: string[] = ['dateTransaction', 'scompte', 'service', 'montant', 'statut', 'commission', 'typeTransaction', 'destinataire'];
   dataSource !: MatTableDataSource<TransactionModel>;
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
-  @ViewChild(MatTableExporterDirective, { static: true }) exporter ?: MatTableExporterDirective;
+  @ViewChild(MatTableExporterDirective, {static: true}) exporter ?: MatTableExporterDirective;
+
+  constructor(private apiTransaction: TransactionService, public authService: AuthService, public dialog: MatDialog) {
+  }
+
   exportIt() {
     this.exporter?.exportTable(ExportType.XLS, {
       fileName: "transactions",
@@ -32,16 +36,14 @@ export class TransactionComponent implements OnInit {
     });
   }
 
-  constructor(private apiTransaction : TransactionService, public authService : AuthService,public dialog : MatDialog) { }
-
   ngOnInit(): void {
     this.getTransaction()
   }
 
-  getTransaction(){
+  getTransaction() {
     this.apiTransaction.getAllTransaction()
       .subscribe({
-        next: (res : ApiResponse) => {
+        next: (res: ApiResponse) => {
           console.log(res.data)
           this.dataSource = new MatTableDataSource(res.data as TransactionModel[]);
           this.dataSource.paginator = this.paginator;
@@ -55,9 +57,8 @@ export class TransactionComponent implements OnInit {
       width: '80rem',
       minHeight: '30rem',
     }).afterClosed().subscribe(
-      res => {
-        if (res)
-          this.getTransaction();
+      () => {
+        this.getTransaction();
       }
     )
   }
@@ -70,35 +71,4 @@ export class TransactionComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  // update(row : TransactionModel){
-  //   this.dialog.open(DialogTransactionComponent,{
-  //     data : row
-  //   }).afterClosed().subscribe(value => {
-  //     if(value==='update'){
-  //       this.getTransaction();
-  //     }
-  //   })
-  // }
-  //
-  // add(){
-  //   this.dialog.open(DialogTransactionComponent).afterClosed().subscribe(value => {
-  //     if(value==='save'){
-  //       this.getTransaction();
-  //     }
-  //   })
-  // }
-  //
-  // delete(id : number){
-  //   let conf = confirm("Voulez Vous supprimer la transaction")
-  //   if(!conf){
-  //     return;
-  //   }
-  //   this.apiTransaction.deleteTransaction(id).subscribe({
-  //     next:(res)=>{
-  //       this.getTransaction();
-  //       alert("Transaction Supprimer avec Success")
-  //     }
-  //   })
-  // }
 }
