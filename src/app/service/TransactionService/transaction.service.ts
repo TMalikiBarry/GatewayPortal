@@ -30,7 +30,7 @@ export class TransactionService {
   }
 
   getMySousComptes(myId: number) {
-    return this.http.get<ApiResponse>(this.API_URL+"/scompte//commercant/" + myId);
+    return this.http.get<ApiResponse>(this.API_URL+"/scompte/commercant/" + myId);
   }
   getAllService(){
     return this.http.get<ApiResponse>(this.API_URL+"/services/all")
