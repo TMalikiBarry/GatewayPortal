@@ -2,30 +2,13 @@
   <mat-step>
     <ng-template matStepLabel>Envoi/Montant</ng-template>
     <div class="list-card">
-      <mat-card *ngFor="let service of listServices$| async" [ngClass]="[myServiceLabel !== service.serviceName ? 'mat-elevation-z1' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService(service)">
-        <img src="assets/fromFigma/LogoService.svg" alt="Logo service">
+      <mat-card *ngFor="let service of listServices$| async; let i = index"
+                [ngClass]="[myServiceLabel !== service.serviceName ? 'mat-elevation-z1' : 'card-clicked', 'mat-elevation-z7']"
+                (click)="onChooseService(service)">
+        <img [src]="'assets/fromFigma/' + (i === 0 ? listLogos[i]: listLogos[1])" alt="Logo service">
         <p>{{service.serviceName}}</p>
       </mat-card>
 
-<!--      <mat-card [ngClass]="[myServiceLabel !=='XPress Cash' ? 'mat-elevation-z1' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService('XPress Cash')">
-        <img src="assets/fromFigma/LogoService.svg" alt="Logo service">
-        <p>XPress Cash</p>
-      </mat-card>
-      <mat-card [ngClass]="[myServiceLabel !== 'Agency Banking' ? 'mat-elevation-z1' : 'card-clicked', 'mat-elevation-z7']" (click)="onChooseService('Agency Banking')">
-        <img src="assets/fromFigma/LogoService.svg" alt="Logo service">
-        <p>Agency Banking</p>
-      </mat-card>
-      <mat-card [ngClass]="[myServiceLabel !== 'Money Transfer' ? 'mat-elevation-z1' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Money Transfer')">
-        <svg width="48" height="52" viewBox="0 0 48 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="15.7895" cy="36" r="15.7895" fill="#0082BB"/>
-          <circle cx="32.2113" cy="15.7895" r="14.7895" fill="#0082BB" stroke="white" stroke-width="2"/>
-        </svg>
-        <p>Money Transfer</p>
-      </mat-card>
-      <mat-card [ngClass]="[myServiceLabel !== 'Card Payment' ? 'mat-elevation-z1' : 'card-clicked_OldWay', 'mat-elevation-z7']" (click)="onChooseService('Card Payment')">
-        <img alt="default Logo" src="assets/fromFigma/LogoService.svg">
-        <p>Card Payment</p>
-      </mat-card>-->
     </div>
     <div class="montant">
       <p>Veuillez sélectionner un <span style="color: #0082BB">service</span> parmi ceux qui sont au dessus</p>
@@ -38,7 +21,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>Choisissez le réseau</mat-label>
+          <mat-label>Choisissez le sous réseau</mat-label>
           <mat-select [(value)]="chosenSousCompte" required>
             <mat-option *ngFor="let item of listSousComptes$ | async" [value]="item">{{item.sousCompteName}}</mat-option>
           </mat-select>
@@ -71,7 +54,10 @@
       <mat-checkbox (click)="gestionFrais()" [(ngModel)]="expediteurGereFrais" color="primary">L'expéditeur prend en
         charge les frais.
       </mat-checkbox>
-      <button color="primary" mat-raised-button (click)="infoStep()" [disabled]="name.invalid || !typeTrasaction">Suivant</button>
+      <button color="primary" mat-raised-button (click)="infoStep()"
+              [disabled]="name.invalid || !typeTrasaction || !amount || !chosenService || !chosenSousCompte">
+        Suivant
+      </button>
     </div>
 
   </mat-step>

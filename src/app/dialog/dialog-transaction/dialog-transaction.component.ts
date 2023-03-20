@@ -40,6 +40,7 @@ export class DialogTransactionComponent implements OnInit {
   chosenService!: ServiceModel | undefined;
   myServiceLabel!: string;
   typeTrasaction!: TransactionKey;
+  listLogos: string [] = ["XPress Cash.webp", "LogoService.svg"];
   listServices$!: Observable<ServiceModel[]>;
   typeTransactionList = Object.keys(TypeTransactionEnum).map((key) => {
     return <TransactionType>{
