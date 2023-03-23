@@ -62,7 +62,7 @@
         <!-- Statut Column -->
         <ng-container matColumnDef="typeTransaction">
           <th *matHeaderCellDef mat-header-cell mat-sort-header> Type de Transaction</th>
-          <td *matCellDef="let row" mat-cell> {{row.typeTransaction}} </td>
+          <td *matCellDef="let row" mat-cell> {{removeUnderscore(row.typeTransaction) | titlecase}} </td>
         </ng-container>
 
         <!-- Statut Column -->

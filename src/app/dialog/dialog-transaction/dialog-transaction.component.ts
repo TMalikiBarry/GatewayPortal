@@ -53,9 +53,9 @@ export class DialogTransactionComponent implements OnInit {
 
   infoForm = this.fb.group({
     senderName: ['Freeman Kay', Validators.required],
-    senderMobileNo: ['0202205113', Validators.required],
+    senderMobileNo: ['0202205113', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
     beneficiaryName: ['Stephen Kojo', Validators.required],
-    beneficiaryMobileNo: ['0233445566', Validators.required],
+    beneficiaryMobileNo: ['0233445566', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
     senderId: [''],
     secretCode: [''],
   });

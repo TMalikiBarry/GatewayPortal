@@ -1,37 +1,37 @@
 <div class="container-login">
   <div class="back-blue">
-    <div class="logo">
-      <span><h3> ESPACE COMMERCANT </h3></span>
-    </div>
+    <img src="assets/fromFigma/Login_Logo.svg" alt="login logo">
+    <h3> ESPACE COMMERCANT </h3>
   </div>
   <mat-card>
     <mat-card-content>
       <div class="header">
         <h4> Connexion </h4>
       </div>
-      <div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
-      <form name="loginForm" [formGroup]="loginForm">
+      <div *ngIf="errorMessage" class="">{{ errorMessage }}</div>
+      <form [formGroup]="loginForm" name="loginForm">
         <div class="username-input">
-          <mat-form-field class="full-width" appearance="fill">
-            <mat-label> Identifiant </mat-label>
-            <input formControlName="username" matInput required />
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label> Identifiant</mat-label>
+            <input formControlName="username" matInput required/>
             <mat-error>
               Champs Obligatoire
             </mat-error>
           </mat-form-field>
         </div>
         <div class="">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field appearance="fill" class="full-width">
             <mat-label> Mot de passe</mat-label>
-            <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <input [type]="hide ? 'password' : 'text'" formControlName="password" matInput required>
+            <mat-icon (click)="hide = !hide" matSuffix>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error *ngIf="loginForm.controls['password'].errors">
               {{getErrorMessage(loginForm.controls['password'].errors)}}
             </mat-error>
           </mat-form-field>
         </div>
         <span class="aLink"> Mot de passe oublie ?</span>
-        <button type="button" class="button-login" mat-flat-button color="primary" (click)="Login()"> S'authentifier </button>
+        <button (click)="Login()" class="button-login" color="primary" mat-flat-button type="button"> S'authentifier
+        </button>
       </form>
     </mat-card-content>
   </mat-card>

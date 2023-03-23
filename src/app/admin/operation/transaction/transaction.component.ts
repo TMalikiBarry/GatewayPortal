@@ -40,6 +40,9 @@ export class TransactionComponent implements OnInit {
     this.getTransaction()
   }
 
+  removeUnderscore(input: string) {
+    return input.replace(/_/g, ' ');
+  }
   getTransaction() {
     this.apiTransaction.getAllTransaction()
       .subscribe({

@@ -35,7 +35,7 @@
                        pattern="^[1-9]\d*[05]$"
         -->
         <input #name=ngModel [(ngModel)]="amount" matInput minlength="4" pattern="^[1-9]\d*[05]$"
-        placeholder="Veuillez renseigner le montant: 10000" required type="number">
+        placeholder="Veuillez renseigner le montant: 1000" required type="number">
         <span matSuffix>&nbsp; FCFA</span>
         <mat-error>
           <div *ngIf="name.invalid && (name.dirty || name.touched)">
@@ -55,7 +55,7 @@
         charge les frais.
       </mat-checkbox>
       <button color="primary" mat-raised-button (click)="infoStep()"
-              [disabled]="name.invalid || !typeTrasaction || !amount || !chosenService || !chosenSousCompte">
+              [disabled]="name.invalid">
         Suivant
       </button>
     </div>
