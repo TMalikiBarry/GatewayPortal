@@ -33,7 +33,6 @@ export class DialogUserComponent implements OnInit {
   User !: UserModel;
   UserForm !: FormGroup;
   actionBtn : string = "Sauvegarder"
-  errorMessage: any;
   roles : RoleModel[] = [];
   phonePattern = /^(7[0-9])\s(\d{3})\s(\d{2})\s(\d{2})$/;
   rolesApi !: RoleModel[];

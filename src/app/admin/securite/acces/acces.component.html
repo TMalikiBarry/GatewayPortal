@@ -6,7 +6,7 @@
           Ajouter Un Agent
         </button>
 
-        <mat-form-field appearance="standard">
+        <mat-form-field appearance="fill">
           <mat-label>Recherche</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Filtrer l'Utilisateur" #input>
         </mat-form-field>
@@ -59,7 +59,7 @@
                   color="warn"
                   matTooltip="Supprimer"
                   matTooltipPosition="after"
-                  *ngIf="authService.hasRole('COMMERCANT')" (click)="delete(row.id)">
+                  *ngIf="authService.hasRole('COMMERCANT')" (click)="delete(row)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </td>

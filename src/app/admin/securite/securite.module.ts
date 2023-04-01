@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {SharedModule} from "../shared/shared.module";
 import {RouterModule, Routes} from "@angular/router";
 import {AccesComponent} from "./acces/acces.component";
@@ -24,7 +23,6 @@ const SecuriteRouting: Routes = [
     AccesComponent
   ],
   imports: [
-    CommonModule,
     SharedModule,
     RouterModule.forChild(SecuriteRouting),
   ]

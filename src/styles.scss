@@ -9,6 +9,26 @@ body { margin: 0; font-family: Poppin, sans-serif; }
   font-size: .9rem;
   text-align: justify;
 }
+
+.snack-warn {
+  background-color: orange;
+  color: white;
+}
+
+.custom-style-add{
+  background-color:green;
+  color:white;
+}
+
+.custom-style-update{
+  background-color:yellowgreen;
+  color:white;
+}
+
+.custom-style-delete{
+  background-color:brown;
+  color:white;
+}
 // charteGraphique
   // #56335b
   // #5B3F61

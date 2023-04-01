@@ -15,11 +15,13 @@ export class ErrorInterceptor implements HttpInterceptor {
 
       if (err.error instanceof ErrorEvent) {
         // Get client-side error
-        console.log(err.error.message);
+        console.error('client-side error: ',err.error);
       } else {
         // Get server-side error
-        console.log(`Error Code: ${err.status}\nMessage: ${err.message}`)
+        console.error(`Error Code: ${err.status}\nMessage: ${err.message}`)
       }
+
+      console.dir(err)
 
       if (err.status === 0) {
         this._snackBar.openFromComponent(DialogAlertComponent, {

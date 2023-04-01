@@ -9,6 +9,7 @@ import {TransactionService} from "../../../service/TransactionService/transactio
 import {MatDialog} from "@angular/material/dialog";
 import {DialogTransactionComponent} from "../../../dialog/dialog-transaction/dialog-transaction.component";
 import {TransactionModel} from "../../../model/transaction.model";
+import {UserModel} from "../../../model/user.model";
 
 @Component({
   selector: 'app-transaction',
@@ -44,7 +45,8 @@ export class TransactionComponent implements OnInit {
     return input.replace(/_/g, ' ');
   }
   getTransaction() {
-    this.apiTransaction.getAllTransaction()
+    let myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
+    this.apiTransaction.getMyTransactions(myId)
       .subscribe({
         next: (res: ApiResponse) => {
           console.log(res.data)

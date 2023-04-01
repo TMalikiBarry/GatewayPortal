@@ -17,26 +17,6 @@ table {
   flex: 1 1 auto;
 }
 
-table {
-  width: 100%;
-}
-
-.mat-form-field {
-  font-size: 14px;
-  width: 40%;
-  margin-bottom: 2rem;
-}
-
-//.btnSearchAdd{
-//  margin-top: 2rem;
-//  button{
-//    float: right;
-//    height: 50px;
-//  }
-//  mat-form-field{
-//    width: 40%;
-//  }
-//}
 .btnAdd{
   float: right;
   height: 50px;
@@ -54,6 +34,13 @@ table {
   text-align: center;
   margin: 1rem 1rem 1rem 0;
   background-color: rgba(48, 189, 88, 0.25);
+}
+
+.sent-trans {
+  border-radius: 50px;
+  text-align: center;
+  margin: 1rem 1rem 1rem 0;
+  background-color: rgba(5, 238, 218, 0.25);
 }
 
 .initiated-trans {

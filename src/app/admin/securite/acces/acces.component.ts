@@ -67,15 +67,15 @@ export class AccesComponent implements OnInit {
     })
   }
 
-  delete(id : number){
-    let conf = confirm("Voulez vous supprimer l'utilisateur")
+  delete(row : UserModel){
+    let conf = confirm("Etes vous sûr de vouloir supprimer l'utilisateur", )
     if(!conf){
       return;
     }
-    this.api.deleteLogin(id).subscribe({
+    this.api.deleteLogin(row.id).subscribe({
       next:()=>{
         this.getUser();
-        alert("Utilisateur Supprimer avec Success")
+        alert("Utilisateur supprimé avec Success")
       }
     })
   }

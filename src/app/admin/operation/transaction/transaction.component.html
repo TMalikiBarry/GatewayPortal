@@ -11,7 +11,7 @@
       Exporter
     </button>
 
-    <mat-form-field appearance="standard">
+    <mat-form-field appearance="fill">
       <mat-label>Recherche</mat-label>
       <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer la transaction">
     </mat-form-field>
@@ -46,7 +46,7 @@
         <ng-container matColumnDef="statut">
           <th *matHeaderCellDef mat-header-cell mat-sort-header> Statut</th>
           <td *matCellDef="let row" mat-cell>
-            <div [ngClass]="{'success-trans': ['FINISHED', 'SENT'].includes(row.statut),
+            <div [ngClass]="{'success-trans': ['FINISHED'].includes(row.statut), 'sent-trans': row.statut === 'SENT',
               'initiated-trans': row.statut === 'INITIATED', 'failed-trans': row.statut === 'SUSPICIOUS'}">
               {{row.statut }}
             </div>

@@ -27,5 +27,9 @@ export const AdminLayoutRoutes: Routes = [
   {
     path : 'transactions',
     loadChildren: () => import('../operation/operation.module').then(m => m.OperationModule)
+  },
+  {
+    path : 'control',
+    loadChildren: () => import('../control-transaction/control-transaction.module').then(m => m.ControlTransactionModule)
   }
 ];

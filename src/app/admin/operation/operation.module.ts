@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {ROLE} from "../admin-layout/admin-layout.routing";
 import {TransactionComponent} from "./transaction/transaction.component";
@@ -24,7 +23,6 @@ const TransactionRouting: Routes = [
     DialogTransactionComponent
   ],
   imports: [
-    CommonModule,
     SharedModule,
     MatStepperModule,
     RouterModule.forChild(TransactionRouting),

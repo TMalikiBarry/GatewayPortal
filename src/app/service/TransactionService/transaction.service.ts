@@ -39,8 +39,8 @@ export class TransactionService {
     return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+id)
   }
 
-  getAllTransaction(){
-    return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"all")
+  getMyTransactions(idCommercant: number){
+    return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"commercant/" + idCommercant);
   }
 
   putTransaction(data : TransactionModel, id : number){

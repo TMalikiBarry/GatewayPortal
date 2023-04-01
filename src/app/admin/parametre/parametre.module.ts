@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {ReseauxComponent} from "./reseaux/reseaux.component";
 import {AuthentificationGuard} from "../../service/guards/authentification.guard";
@@ -25,7 +24,6 @@ const ParametreRouting: Routes = [
     DialogAccesReseauComponent
   ],
   imports: [
-    CommonModule,
     SharedModule,
     RouterModule.forChild(ParametreRouting),
   ]
