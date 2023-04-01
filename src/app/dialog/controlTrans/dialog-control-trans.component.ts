@@ -63,10 +63,7 @@ export class DialogControlTransComponent implements OnInit {
     if (this.editData){
       this.title = "Modifier";
       this.actionBtn = "Mettre à jour"
-      const {montantSeuil, montantHebdomadaire, montantJournalier,
-        heureDebut, heureFin} = this.editData;
-      let service = this.editData.service.serviceName;
-      let sCompte = this.editData.sCompte.sousCompteName;
+
       this.cTransacForm.controls['service'].setValue(this.editData.service.serviceName);
       this.cTransacForm.controls['sCompte'].setValue(this.editData.sCompte.sousCompteName);
       this.cTransacForm.controls['montantSeuil'].setValue(this.editData.montantSeuil);
