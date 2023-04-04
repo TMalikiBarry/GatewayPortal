@@ -1,1 +1,87 @@
-<p>control-transaction works!</p>
+<button (click)="addAControl()" color="primary" id="btnAdd" mat-raised-button>
+  <mat-icon>add_circle_outline</mat-icon>
+  Soumettre un Contrôle
+</button>
+
+<mat-form-field appearance="fill">
+  <mat-label>Recherche</mat-label>
+  <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer l'Utilisateur">
+</mat-form-field>
+
+<table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+  <!-- sous-compte Column -->
+  <ng-container matColumnDef="sous-compte">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Sous Compte </th>
+    <td *matCellDef="let row" mat-cell> {{row.scompte.sousCompteName}} </td>
+  </ng-container>
+
+  <!-- service Column -->
+  <ng-container matColumnDef="service">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Service </th>
+    <td *matCellDef="let row" mat-cell> {{row.service.serviceName}} </td>
+  </ng-container>
+
+  <!-- montant-seuil Column -->
+  <ng-container matColumnDef="montant-seuil">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Montant seuil</th>
+    <td *matCellDef="let row" mat-cell> {{row.montantSeuil}} </td>
+  </ng-container>
+
+  <!-- montant-journalier Column -->
+  <ng-container matColumnDef="montant-journalier">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Seuil Journalier </th>
+    <td *matCellDef="let row" mat-cell> {{row.montantJournalier}} </td>
+  </ng-container>
+
+  <!-- montant-hebdomadaire Column -->
+  <ng-container matColumnDef="montant-hebdomadaire">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Seuil Hebdomadaire </th>
+    <td *matCellDef="let row" mat-cell> {{ row.montantHebdomadaire }} </td>
+  </ng-container>
+
+  <!-- heure-debut Column -->
+  <ng-container matColumnDef="heure-debut">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Heure Début </th>
+    <td *matCellDef="let row" mat-cell> {{row.heureDebut}} </td>
+  </ng-container>
+
+  <!-- heure-fin Column -->
+  <ng-container matColumnDef="heure-fin">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Heure Fin </th>
+    <td *matCellDef="let row" mat-cell> {{ row.heureFin }} </td>
+  </ng-container>
+
+  <!-- Action Column -->
+  <ng-container matColumnDef="action">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Actions</th>
+    <td *matCellDef="let row" mat-cell>
+      <button #tooltip="matTooltip" (click)="updateControl(row)"
+              *ngIf="isCommercant()"
+              color="primary"
+              mat-icon-button
+              matTooltip="Modifier" matTooltipPosition="left">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        #tooltip="matTooltip" (click)="deleteControl(row)"
+        *ngIf="isCommercant()"
+        color="warn"
+        mat-icon-button
+        matTooltip="Supprimer" matTooltipPosition="after">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="columnsToDisplay" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: columnsToDisplay;" mat-row></tr>
+
+  <!-- Row shown when there is no matching data. -->
+  <tr *matNoDataRow class="mat-row">
+    <td class="mat-cell" colspan="5" *ngIf="!input.value" style="color: #757575"><b><em>Vous n'avez encore aucun contrôle enregistré !</em></b></td>
+    <td class="mat-cell" colspan="5" *ngIf="input.value">Aucun contrôle correspondant à la recherche "{{input.value}}"</td>
+  </tr>
+</table>
+
+<mat-paginator class="mat-elevation-z8" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"
+               showFirstLastButtons></mat-paginator>

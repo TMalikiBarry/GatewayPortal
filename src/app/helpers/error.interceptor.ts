@@ -18,7 +18,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         console.error('client-side error: ',err.error);
       } else {
         // Get server-side error
-        console.error(`Error Code: ${err.status}\nMessage: ${err.message}`)
+        console.error(`server-side Error Code: ${err.status}\nMessage: ${err.message}`)
       }
 
       console.dir(err)

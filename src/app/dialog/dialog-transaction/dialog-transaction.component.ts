@@ -162,10 +162,11 @@ export class DialogTransactionComponent implements OnInit {
         // this.resPayment= res;
         this.resMessage = resPayment.response_message;
         console.table(resPayment);
-        this.tService.postTransaction(this.getTransaction()).subscribe();
+        this.tService.postTransaction(this.getTransaction(resPayment.response_code)).subscribe();
         this.snackMessage(`La transaction été réalisée, le code: ${resPayment.response_code}, le message: ${resPayment.response_message}, le contenu: ${resPayment.response_content}`,
           4000, 'add');
-        this.succesTransaction = this.getTransaction().statut !== StatutTransactionEnum.SUSPICIOUS;
+        // this.succesTransaction = this.getTransaction().statut !== StatutTransactionEnum.SUSPICIOUS;
+        this.succesTransaction = this.resPayment.response_code !== 200;
         this.stepper.next();
       }
     );
@@ -182,28 +183,29 @@ export class DialogTransactionComponent implements OnInit {
       });
   }
 
-  getTransaction(): TransactionModel {
+  getTransaction(resCode?:number): TransactionModel {
     return {
       destinataire: this.infoForm.controls['beneficiaryName'].value!,
       typeTransaction: TypeTransactionEnum[this.typeTrasaction],
-      scompte: this.chosenSousCompte,
+      sCompte: this.chosenSousCompte,
       service: this.chosenService!,
       montant: this.amount,
       dateTransaction: new Date(),
       commission: 0.1,
-      statut: this.getTransactionStatus()
+      statut: this.getTransactionStatus(resCode)
     }
   }
 
   getTransactionStatus(resCode?: number): StatutTransactionEnum{
-    if (this.infoForm.controls['senderMobileNo'].value?.startsWith('22177')){
+    /*if (this.infoForm.controls['senderMobileNo'].value?.startsWith('22177')){
       return StatutTransactionEnum.SENT;
     } else if (this.infoForm.controls['senderMobileNo'].value?.startsWith('0202')){
       return StatutTransactionEnum.INITIATED
     } else if (this.infoForm.controls['senderMobileNo'].value?.startsWith('22170')) {
       return StatutTransactionEnum.FINISHED;
     }
-    return StatutTransactionEnum.SUSPICIOUS;
+    return StatutTransactionEnum.SUSPICIOUS;*/
+    return resCode === 200 ? StatutTransactionEnum.SUCCESS: StatutTransactionEnum['FAILED'];
   }
 
   afficheSousCompte($event: MatSelectChange) {

@@ -18,7 +18,7 @@ export class ControlTransactionComponent implements OnInit {
 
   dataSource!: MatTableDataSource<ControlTransactionInterface>;
   columnsToDisplay = ['sous-compte', 'service', 'montant-seuil',
-    'montant-journalier', 'montant-hebdomadaire', 'heure-debut', 'heure-fin']
+    'montant-journalier', 'montant-hebdomadaire', 'heure-debut', 'heure-fin', 'action'];
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
   constructor(private api: ControlTransactionService,
@@ -43,6 +43,7 @@ export class ControlTransactionComponent implements OnInit {
     this.api.getMyControlTransactions(myId).subscribe(
       res => {
         this.dataSource = new MatTableDataSource<ControlTransactionInterface>(res.data as ControlTransactionInterface[]);
+        console.log(this.dataSource)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }
@@ -51,7 +52,7 @@ export class ControlTransactionComponent implements OnInit {
 
   addAControl() {
     this.dialog.open(DialogControlTransComponent, {
-      width: '50rem',
+      width: '35rem',
     }).afterClosed().subscribe(
       (res) => {
         if (res === 'OK')
@@ -62,7 +63,7 @@ export class ControlTransactionComponent implements OnInit {
 
   updateControl(row: ControlTransactionInterface) {
     this.dialog.open(DialogControlTransComponent, {
-      width: '50rem',
+      width: '35rem',
       data: row
     }).afterClosed().subscribe(
       (res) => {
@@ -70,6 +71,11 @@ export class ControlTransactionComponent implements OnInit {
           this.getMyControlTransactions();
       }
     )
+  }
+
+  isCommercant (): boolean {
+     return !!(<UserModel>JSON.parse(localStorage.getItem('currentUser')!))
+       .roles!.find( role=> role.code === 'COMMERCANT');
   }
 
   deleteControl(row: ControlTransactionInterface) {

@@ -2,3 +2,25 @@
   display: flex;
   justify-content: space-between;
 }
+p:first-child {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: -1rem;
+}
+div:nth-of-type(2) {
+  padding: 0 2rem;
+
+  >mat-form-field {
+    margin-bottom: .5rem;
+    width: 90%;
+    display: block;
+    margin-inline: auto;
+  }
+
+  >div{
+    mat-form-field {
+      margin-left: 1rem;
+      width: 45%;
+    }
+  }
+}

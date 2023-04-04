@@ -1,5 +1,5 @@
 <div class="alignMyItems" mat-dialog-title>
-  <h1>{{title }} un contrôle pour un type de transaction</h1>
+  <p>{{title }} contrôle </p>
   <img src="assets/fromFigma/closecircle.svg" alt="Fermer">
 </div>
 
@@ -7,7 +7,7 @@
   <mat-form-field appearance="outline">
     <mat-label> Service à contrôler</mat-label>
     <mat-select formControlName="service" placeholder="Choisir le service à contrôler" (selectionChange)="onChooseService()">
-      <mat-option *ngFor="let service of listServices$ | async" [value]="service">{{service.serviceName}}</mat-option>
+      <mat-option *ngFor="let service of listServices$ | async" [value]="service.id">{{service.serviceName}}</mat-option>
     </mat-select>
     <mat-error *ngIf="cTransacForm.controls['service'].errors">
       {{getErrorMessage(cTransacForm.controls['service'].errors)}}
@@ -16,7 +16,7 @@
   <mat-form-field appearance="outline">
     <mat-label> Sous-compte à contrôler</mat-label>
     <mat-select formControlName="sCompte" placeholder="Choisir le Sous-compte à contrôler" (selectionChange)="onChooseSousCompte()">
-      <mat-option *ngFor="let sCompte of listSousComptes" [value]="sCompte">{{sCompte.sousCompteName}}</mat-option>
+      <mat-option *ngFor="let sCompte of listSousComptes" [value]="sCompte.id">{{sCompte.sousCompteName}}</mat-option>
     </mat-select>
     <mat-error *ngIf="cTransacForm.controls['sCompte'].errors">
       {{getErrorMessage(cTransacForm.controls['sCompte'].errors)}}
@@ -43,7 +43,7 @@
       {{getErrorMessage(cTransacForm.controls['montantHebdomadaire'].errors)}}
     </mat-error>
   </mat-form-field>
-  <div class="alignMyItems">
+  <div>
     <mat-form-field appearance="outline">
       <mat-label> Heure de Début </mat-label>
       <input type="time" formControlName="heureDebut" matInput placeholder="Heure à partir de laquelle est autorisé d'effectuer la transaction">

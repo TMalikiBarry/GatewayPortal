@@ -74,73 +74,7 @@
             </tr>
           </table>
 
-<!--          <table mat-table-->
-<!--                 [dataSource]="dataSource" multiTemplateDataRows-->
-<!--                 class="mat-elevation-z8">-->
-<!--            <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">-->
-<!--              <th mat-header-cell *matHeaderCellDef> {{column}} </th>-->
-<!--              <td mat-cell *matCellDef="let element"> {{element[column]}} </td>-->
-<!--            </ng-container>-->
-<!--            <ng-container matColumnDef="expand">-->
-<!--              <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>-->
-<!--              <td mat-cell *matCellDef="let element">-->
-<!--                <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">-->
-<!--                  <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>-->
-<!--                  <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>-->
-<!--                </button>-->
-<!--              </td>-->
-<!--            </ng-container>-->
-
-<!--            &lt;!&ndash; Expanded Content Column - The detail row is made up of this one column that spans across all columns &ndash;&gt;-->
-<!--            <ng-container matColumnDef="expandedDetail">-->
-<!--              <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">-->
-<!--                <div class="example-element-detail"-->
-<!--                     [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">-->
-<!--                  <div class="">Liste Roles</div>-->
-<!--                  <div class="example-element-description" *ngFor="let role of element.role">-->
-<!--                    {{role.code}}-->
-<!--                  </div>-->
-<!--                  <button  *ngIf="authService.hasRole('ADMIN')" (click)="update(element)" mat-icon-button color="primary">-->
-<!--                    <mat-icon>edit</mat-icon>-->
-<!--                  </button>-->
-<!--                  <button  *ngIf="authService.hasRole('ADMIN')" (click)="delete(element.id)" mat-icon-button  color="warn">-->
-<!--                    <mat-icon>delete</mat-icon>-->
-<!--                  </button>-->
-<!--                </div>-->
-<!--&lt;!&ndash;                <section class="example-container mat-elevation-z8" tabindex="0">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <table mat-table>&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; Item Column &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <ng-container matColumnDef="item">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <th mat-header-cell *matHeaderCellDef> Item </th>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <td mat-cell *matCellDef="let transaction"> {{transaction.item}} </td>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <td mat-footer-cell *matFooterCellDef> Total </td>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </ng-container>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                    &lt;!&ndash; Cost Column &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <ng-container matColumnDef="cost">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <th mat-header-cell *matHeaderCellDef> Cost </th>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <td mat-cell *matCellDef="let transaction"> {{transaction.cost | currency}} </td>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <td mat-footer-cell *matFooterCellDef>  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </ng-container>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                    <tr mat-header-row ></tr>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <tr mat-row ></tr>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <tr mat-footer-row ></tr>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </table>&ndash;&gt;-->
-<!--&lt;!&ndash;                </section>&ndash;&gt;-->
-<!--              </td>-->
-<!--            </ng-container>-->
-
-<!--            <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>-->
-<!--            <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"-->
-<!--                class="example-element-row"-->
-<!--                [class.example-expanded-row]="expandedElement === element"-->
-<!--                (click)="expandedElement = expandedElement === element ? null : element">-->
-<!--            </tr>-->
-<!--            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>-->
-<!--          </table>-->
-
-          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+          <mat-paginator showFirstLastButtons [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
         </div>
       </div>
  </div>
