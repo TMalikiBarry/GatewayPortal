@@ -4,7 +4,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatStepper} from "@angular/material/stepper";
 import {ParamListInterface} from "../../model/param-list.interface";
 import {AVAILABLE_SERVICES} from "../../../assets/List-Service-Dispo/Available_Services";
-import {ResponsePaymentInterface} from "../../model/response-payment.interface";
 import {TransactionService} from "../../service/TransactionService/transaction.service";
 import {
   StatutTransactionEnum,
@@ -12,12 +11,13 @@ import {
   TransactionModel,
   TypeTransactionEnum
 } from "../../model/transaction.model";
-import {Observable} from "rxjs";
+import {Observable, tap} from "rxjs";
 import {ServiceModel} from "../../model/service.model";
 import {map} from "rxjs/operators";
 import {SousCompteModel} from "../../model/sousCompte.model";
 import {UserModel} from "../../model/user.model";
 import {MatSelectChange} from "@angular/material/select";
+import {ControlTransactionInterface} from "../../model/control-transaction.interface";
 
 export interface TransactionType {
   value: TransactionKey;
@@ -31,16 +31,18 @@ export interface TransactionType {
 })
 export class DialogTransactionComponent implements OnInit {
 
-  resPayment!: ResponsePaymentInterface;
   resMessage!: string;
   succesTransaction = false;
-  amount: number = 10;
+  amount: number = 100;
+  currentControlTransaction?: ControlTransactionInterface
+  listTransactionsByServiceAndScompte$!: Observable<TransactionModel[]>;
   listSousComptes$!: Observable<SousCompteModel[]>;
   chosenSousCompte!:SousCompteModel;
   chosenService!: ServiceModel | undefined;
   myServiceLabel!: string;
   typeTrasaction!: TransactionKey;
-  listLogos: string [] = ["XPress Cash.webp", "LogoService.svg"];
+  listLogos: string [] = ["XPress Cash.webp", "LogoService.svg", "Money Transfer.png",
+    "Card Payment.png", "LogoService.svg", "Ecobank Pay.png"];
   listServices$!: Observable<ServiceModel[]>;
   typeTransactionList = Object.keys(TypeTransactionEnum).map((key) => {
     return <TransactionType>{
@@ -98,15 +100,25 @@ export class DialogTransactionComponent implements OnInit {
 
   }
 
+  initialiseControl(service: ServiceModel, scompte: SousCompteModel){
+    this.tService.getCurrentControlTransaction(service.id, scompte.id).pipe(
+      tap(console.dir),
+      map(res => res.data as ControlTransactionInterface)
+    ).subscribe({
+      next: control => this.currentControlTransaction = control,
+    })
+  }
+
   onChooseService(service: ServiceModel) {
     if (!AVAILABLE_SERVICES.includes(service.serviceName)) {
-      this.snackMessage(`Le service ${this.myServiceLabel} n'est pas encore disponible`, 3000, 'delete');
+      this.snackMessage(`Le service ${service.serviceName} n'est pas encore disponible`, 3000, 'delete');
       this.myServiceLabel = '';
       this.chosenService = undefined;
       return;
     }
     this.chosenService = service;
     this.myServiceLabel = service.serviceName;
+
   }
 
   /*getChosenService(): string {
@@ -130,6 +142,13 @@ export class DialogTransactionComponent implements OnInit {
       this.snackMessage(`Veuillez renseigner un montant, ex: 15000`, 3000, 'delete');
       return;
     }
+    this.listTransactionsByServiceAndScompte$ = this.tService.getMyTransactions(3).pipe(
+      map(res => <TransactionModel[]>res.data),
+      map(transactions => transactions
+        .filter(transaction=> (transaction.service.id === this.chosenService?.id
+          && transaction.scompte.id === this.chosenSousCompte.id) ))
+    )
+    this.initialiseControl(this.chosenService!, this.chosenSousCompte);
     this.stepper.next();
   }
 
@@ -137,6 +156,9 @@ export class DialogTransactionComponent implements OnInit {
     if (this.infoForm.invalid) {
       this.snackMessage(`Il y a des champs invalides`, 3000, 'delete');
       return;
+    }
+    if (this.currentControlTransaction?.montantSeuil) {
+
     }
     this.stepper.next();
   }
@@ -166,7 +188,7 @@ export class DialogTransactionComponent implements OnInit {
         this.snackMessage(`La transaction été réalisée, le code: ${resPayment.response_code}, le message: ${resPayment.response_message}, le contenu: ${resPayment.response_content}`,
           4000, 'add');
         // this.succesTransaction = this.getTransaction().statut !== StatutTransactionEnum.SUSPICIOUS;
-        this.succesTransaction = this.resPayment.response_code !== 200;
+        this.succesTransaction = resPayment.response_code === 200;
         this.stepper.next();
       }
     );
@@ -187,7 +209,7 @@ export class DialogTransactionComponent implements OnInit {
     return {
       destinataire: this.infoForm.controls['beneficiaryName'].value!,
       typeTransaction: TypeTransactionEnum[this.typeTrasaction],
-      sCompte: this.chosenSousCompte,
+      scompte: this.chosenSousCompte,
       service: this.chosenService!,
       montant: this.amount,
       dateTransaction: new Date(),

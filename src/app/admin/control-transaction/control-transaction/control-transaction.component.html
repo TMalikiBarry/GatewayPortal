@@ -24,31 +24,31 @@
   <!-- montant-seuil Column -->
   <ng-container matColumnDef="montant-seuil">
     <th *matHeaderCellDef mat-header-cell mat-sort-header>Montant seuil</th>
-    <td *matCellDef="let row" mat-cell> {{row.montantSeuil}} </td>
-  </ng-container>
-
-  <!-- montant-journalier Column -->
-  <ng-container matColumnDef="montant-journalier">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header> Seuil Journalier </th>
-    <td *matCellDef="let row" mat-cell> {{row.montantJournalier}} </td>
+    <td *matCellDef="let row" mat-cell> {{row.montantSeuil | currency:'XOF':'symbol':'2.0-3': 'fr'}} </td>
   </ng-container>
 
   <!-- montant-hebdomadaire Column -->
   <ng-container matColumnDef="montant-hebdomadaire">
     <th *matHeaderCellDef mat-header-cell mat-sort-header> Seuil Hebdomadaire </th>
-    <td *matCellDef="let row" mat-cell> {{ row.montantHebdomadaire }} </td>
+    <td *matCellDef="let row" mat-cell> {{ row.montantHebdomadaire | currency:'XOF':'symbol':'2.0-3': 'fr'}} </td>
+  </ng-container>
+
+  <!-- montant-journalier Column -->
+  <ng-container matColumnDef="montant-journalier">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Seuil Journalier </th>
+    <td *matCellDef="let row" mat-cell> {{row.montantJournalier | currency:'XOF':'symbol':'2.0-3': 'fr'}} </td>
   </ng-container>
 
   <!-- heure-debut Column -->
   <ng-container matColumnDef="heure-debut">
     <th *matHeaderCellDef mat-header-cell mat-sort-header> Heure Début </th>
-    <td *matCellDef="let row" mat-cell> {{row.heureDebut}} </td>
+    <td *matCellDef="let row" mat-cell> {{formatTime(row.heureDebut)}} </td>
   </ng-container>
 
   <!-- heure-fin Column -->
   <ng-container matColumnDef="heure-fin">
     <th *matHeaderCellDef mat-header-cell mat-sort-header> Heure Fin </th>
-    <td *matCellDef="let row" mat-cell> {{ row.heureFin }} </td>
+    <td *matCellDef="let row" mat-cell> {{ formatTime(row.heureFin) }} </td>
   </ng-container>
 
   <!-- Action Column -->
@@ -56,7 +56,7 @@
     <th *matHeaderCellDef mat-header-cell mat-sort-header> Actions</th>
     <td *matCellDef="let row" mat-cell>
       <button #tooltip="matTooltip" (click)="updateControl(row)"
-              *ngIf="isCommercant()"
+              *ngIf="isCommercant"
               color="primary"
               mat-icon-button
               matTooltip="Modifier" matTooltipPosition="left">
@@ -64,7 +64,7 @@
       </button>
       <button
         #tooltip="matTooltip" (click)="deleteControl(row)"
-        *ngIf="isCommercant()"
+        *ngIf="isCommercant"
         color="warn"
         mat-icon-button
         matTooltip="Supprimer" matTooltipPosition="after">

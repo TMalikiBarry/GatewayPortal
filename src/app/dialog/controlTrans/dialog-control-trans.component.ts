@@ -36,7 +36,7 @@ export class DialogControlTransComponent implements OnInit {
   // heureFin?: string;
   cTransacForm = this.fb.group({
     service : ['', Validators.required],
-    sCompte : ['', Validators.required],
+    scompte : ['', Validators.required],
     montantSeuil : [ '' , [Validators.required, Validators.pattern("^[1-9]*[05]+$")]],
     montantHebdomadaire : [ '', [Validators.pattern("^[1-9]*[05]+$")]],
     montantJournalier : ['', Validators.pattern("^[1-9]*[05]+$")],
@@ -66,8 +66,10 @@ export class DialogControlTransComponent implements OnInit {
       this.title = "Modifier le";
       this.actionBtn = "Mettre à jour"
 
-      this.cTransacForm.controls['service'].setValue(this.editData.service.serviceName);
-      this.cTransacForm.controls['sCompte'].setValue(this.editData.sCompte.sousCompteName);
+      this.chosenSousCompte = this.editData.scompte;
+      this.chosenService = this.editData.service;
+      this.cTransacForm.controls['service'].setValue(this.editData.service.id.toString());
+      this.cTransacForm.controls['scompte'].setValue(this.editData.scompte.id.toString());
       this.cTransacForm.controls['montantSeuil'].setValue(this.editData.montantSeuil.toString());
       this.cTransacForm.controls['montantJournalier'].setValue(this.editData.montantJournalier!.toString());
       this.cTransacForm.controls['montantHebdomadaire'].setValue(this.editData.montantHebdomadaire!.toString());
@@ -89,7 +91,8 @@ export class DialogControlTransComponent implements OnInit {
           this.dialogRef.close('OK');
         },
         error => {
-          if (error.statut === 400)
+          console.error(error)
+          if (error.statusCode === 400)
             this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenSousCompte.sousCompteName} a déjà été soumis`,
               3000, "danger");
         }
@@ -105,7 +108,7 @@ export class DialogControlTransComponent implements OnInit {
         this.dialogRef.close('OK');
       },
       error => {
-        if (error.statut === 400)
+        if (error.statusCode === 400)
           this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenSousCompte.sousCompteName} a déjà été soumis`,
             3000, "danger");
       }
@@ -122,7 +125,7 @@ export class DialogControlTransComponent implements OnInit {
     )
   }
   onChooseSousCompte() {
-    this.api.getSousCompteById(Number(this.cTransacForm.controls['sCompte'].value)).pipe(
+    this.api.getSousCompteById(Number(this.cTransacForm.controls['scompte'].value)).pipe(
       tap(console.dir)
     )
       .subscribe(
@@ -137,7 +140,7 @@ export class DialogControlTransComponent implements OnInit {
       heureFin} = this.cTransacForm.value
     return <ControlTransactionInterface> {
       service: this.chosenService,
-      sCompte: this.chosenSousCompte,
+      scompte: this.chosenSousCompte,
       montantSeuil: Number(montantSeuil),
       montantJournalier: Number(montantJournalier),
       montantHebdomadaire: Number(montantHebdomadaire),

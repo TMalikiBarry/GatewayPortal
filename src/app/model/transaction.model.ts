@@ -10,7 +10,7 @@ export interface TransactionModel{
   dateTransaction : Date,
   typeTransaction : TypeTransactionEnum;
   service : ServiceModel;
-  sCompte : SousCompteModel
+  scompte : SousCompteModel
 }
 export enum TypeTransactionEnum {
   C_BANCAIRE= 'CARTE_BANCAIRE',

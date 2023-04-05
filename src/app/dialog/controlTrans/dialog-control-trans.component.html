@@ -1,6 +1,6 @@
 <div class="alignMyItems" mat-dialog-title>
   <p>{{title }} contrôle </p>
-  <img src="assets/fromFigma/closecircle.svg" alt="Fermer">
+  <img matDialogClose="r1" src="assets/fromFigma/closecircle.svg" alt="Fermer">
 </div>
 
 <div matDialogContent [formGroup]="cTransacForm">
@@ -15,11 +15,11 @@
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label> Sous-compte à contrôler</mat-label>
-    <mat-select formControlName="sCompte" placeholder="Choisir le Sous-compte à contrôler" (selectionChange)="onChooseSousCompte()">
+    <mat-select formControlName="scompte" placeholder="Choisir le Sous-compte à contrôler" (selectionChange)="onChooseSousCompte()">
       <mat-option *ngFor="let sCompte of listSousComptes" [value]="sCompte.id">{{sCompte.sousCompteName}}</mat-option>
     </mat-select>
-    <mat-error *ngIf="cTransacForm.controls['sCompte'].errors">
-      {{getErrorMessage(cTransacForm.controls['sCompte'].errors)}}
+    <mat-error *ngIf="cTransacForm.controls['scompte'].errors">
+      {{getErrorMessage(cTransacForm.controls['scompte'].errors)}}
     </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
@@ -30,17 +30,17 @@
     </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
-    <mat-label> Montant Seuil Journalier </mat-label>
-    <input formControlName="montantJournalier" matInput placeholder="Montant autorisé par jour">
-    <mat-error *ngIf="cTransacForm.controls['montantJournalier'].errors">
-      {{getErrorMessage(cTransacForm.controls['montantJournalier'].errors)}}
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field appearance="outline">
     <mat-label> Montant Seuil Hebdomadaire </mat-label>
     <input formControlName="montantHebdomadaire" matInput placeholder="Montant autorisé dans la semaine">
     <mat-error *ngIf="cTransacForm.controls['montantHebdomadaire'].errors">
       {{getErrorMessage(cTransacForm.controls['montantHebdomadaire'].errors)}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label> Montant Seuil Journalier </mat-label>
+    <input formControlName="montantJournalier" matInput placeholder="Montant autorisé par jour">
+    <mat-error *ngIf="cTransacForm.controls['montantJournalier'].errors">
+      {{getErrorMessage(cTransacForm.controls['montantJournalier'].errors)}}
     </mat-error>
   </mat-form-field>
   <div>

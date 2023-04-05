@@ -16,9 +16,10 @@ import {NotifyService} from "../../../service/utils/notify.service";
 })
 export class ControlTransactionComponent implements OnInit {
 
+  isCommercant!: boolean;
   dataSource!: MatTableDataSource<ControlTransactionInterface>;
   columnsToDisplay = ['sous-compte', 'service', 'montant-seuil',
-    'montant-journalier', 'montant-hebdomadaire', 'heure-debut', 'heure-fin', 'action'];
+    'montant-hebdomadaire', 'montant-journalier', 'heure-debut', 'heure-fin', 'action'];
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
   constructor(private api: ControlTransactionService,
@@ -35,6 +36,8 @@ export class ControlTransactionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isCommercant = !(<UserModel>JSON.parse(localStorage.getItem('currentUser')!))
+      .roles!.find( role=> role.code === 'COMMERCANT');
     this.getMyControlTransactions();
   }
 
@@ -42,6 +45,7 @@ export class ControlTransactionComponent implements OnInit {
     let myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
     this.api.getMyControlTransactions(myId).subscribe(
       res => {
+        console.log(res)
         this.dataSource = new MatTableDataSource<ControlTransactionInterface>(res.data as ControlTransactionInterface[]);
         console.log(this.dataSource)
         this.dataSource.paginator = this.paginator;
@@ -73,11 +77,6 @@ export class ControlTransactionComponent implements OnInit {
     )
   }
 
-  isCommercant (): boolean {
-     return !!(<UserModel>JSON.parse(localStorage.getItem('currentUser')!))
-       .roles!.find( role=> role.code === 'COMMERCANT');
-  }
-
   deleteControl(row: ControlTransactionInterface) {
     let conf = confirm("Voulez vous supprimer ce contrôle")
     if(!conf){
@@ -85,10 +84,15 @@ export class ControlTransactionComponent implements OnInit {
     }
     this.api.deleteControlTransaction(row.id!).subscribe({
       next:()=>{
-        this.notify.snackMessage("Contrôle de transaction pour le sous-compte "+ row.sCompte.sousCompteName
+        this.notify.snackMessage("Contrôle de transaction pour le sous-compte "+ row.scompte.sousCompteName
         +  " et le service "+ row.service.serviceName+ " supprimé avec Success", 3000, 'success');
         this.getMyControlTransactions();
       }
     })
+  }
+
+  formatTime(value: string) {
+    let timeInfos = value.split(':').slice(0, 2);
+    return `${timeInfos[0]}h ${timeInfos[1]}min`;
   }
 }

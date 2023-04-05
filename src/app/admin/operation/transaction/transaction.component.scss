@@ -36,6 +36,24 @@ table {
   background-color: rgba(48, 189, 88, 0.25);
 }
 
+.successTrans {
+  border-radius: 50px;
+  text-align: center;
+  margin: 1rem 1rem 1rem 0;
+  color: darkgreen;
+  font-weight: bold;
+  background-color: rgba(48, 189, 88, 0.25);
+}
+
+.failedTrans {
+  border-radius: 50px;
+  text-align: center;
+  margin: 1rem 1rem 1rem 0;
+  font-weight: bold;
+  color: darkred;
+  background-color: rgba(252, 2, 2, 0.2);
+}
+
 .sent-trans {
   border-radius: 50px;
   text-align: center;

@@ -4,7 +4,7 @@ import {SousCompteModel} from "./sousCompte.model";
 export interface ControlTransactionInterface {
   id?: number;
   service: ServiceModel;
-  sCompte: SousCompteModel;
+  scompte: SousCompteModel;
   montantSeuil: number;
   montantHebdomadaire?: number;
   montantJournalier?: number;

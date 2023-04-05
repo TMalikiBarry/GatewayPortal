@@ -60,7 +60,7 @@ export class TransactionComponent implements OnInit {
   addTransaction() {
     this.dialog.open(DialogTransactionComponent, {
       width: '80rem',
-      minHeight: '30rem',
+      maxHeight: '60rem',
     }).afterClosed().subscribe(
       () => {
         this.getTransaction();

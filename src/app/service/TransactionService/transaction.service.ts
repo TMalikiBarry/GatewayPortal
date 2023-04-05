@@ -29,6 +29,10 @@ export class TransactionService {
     );
   }
 
+  getCurrentControlTransaction(serviceId: number, sCompte_id: number){
+    return this.http.get<ApiResponse>(`${this.API_URL}/control/ctByServiceAndScompte/${serviceId}/${sCompte_id}`)
+  }
+
   getMySousComptes(myId: number) {
     return this.http.get<ApiResponse>(this.API_URL+"/scompte/commercant/" + myId);
   }

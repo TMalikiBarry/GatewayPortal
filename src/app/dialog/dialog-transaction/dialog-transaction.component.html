@@ -5,7 +5,8 @@
       <mat-card *ngFor="let service of listServices$| async; let i = index"
                 [ngClass]="[myServiceLabel !== service.serviceName ? 'mat-elevation-z1' : 'card-clicked', 'mat-elevation-z7']"
                 (click)="onChooseService(service)">
-        <img [src]="'assets/fromFigma/' + (i === 0 ? listLogos[i]: listLogos[1])" alt="Logo service">
+<!--        <img [src]="'assets/fromFigma/' + (i === 0 ? listLogos[i]: listLogos[1])" alt="Logo service">-->
+        <img [src]="'assets/fromFigma/' + listLogos[i]" alt="Logo service">
         <p>{{service.serviceName}}</p>
       </mat-card>
 
@@ -21,7 +22,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>Choisissez le sous réseau</mat-label>
+          <mat-label>Choisissez le sous compte</mat-label>
           <mat-select [(value)]="chosenSousCompte" required>
             <mat-option *ngFor="let item of listSousComptes$ | async" [value]="item">{{item.sousCompteName}}</mat-option>
           </mat-select>
