@@ -24,19 +24,21 @@
   <!-- montant-seuil Column -->
   <ng-container matColumnDef="montant-seuil">
     <th *matHeaderCellDef mat-header-cell mat-sort-header>Montant seuil</th>
-    <td *matCellDef="let row" mat-cell> {{row.montantSeuil | currency:'XOF':'symbol':'2.0-3': 'fr'}} </td>
+    <td *matCellDef="let row" mat-cell> {{row.montantSeuil | currency:'XOF':'symbol':'1.0-3': 'fr'}} </td>
   </ng-container>
 
   <!-- montant-hebdomadaire Column -->
   <ng-container matColumnDef="montant-hebdomadaire">
     <th *matHeaderCellDef mat-header-cell mat-sort-header> Seuil Hebdomadaire </th>
-    <td *matCellDef="let row" mat-cell> {{ row.montantHebdomadaire | currency:'XOF':'symbol':'2.0-3': 'fr'}} </td>
+    <td *matCellDef="let row" mat-cell> {{ row.montantHebdomadaire | currency:'XOF':'symbol':'1' +
+    '.0' +
+    '-3': 'fr'}} </td>
   </ng-container>
 
   <!-- montant-journalier Column -->
   <ng-container matColumnDef="montant-journalier">
     <th *matHeaderCellDef mat-header-cell mat-sort-header> Seuil Journalier </th>
-    <td *matCellDef="let row" mat-cell> {{row.montantJournalier | currency:'XOF':'symbol':'2.0-3': 'fr'}} </td>
+    <td *matCellDef="let row" mat-cell> {{row.montantJournalier | currency:'XOF':'symbol':'1.0-3': 'fr'}} </td>
   </ng-container>
 
   <!-- heure-debut Column -->

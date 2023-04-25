@@ -14,7 +14,7 @@ export const AdminLayoutRoutes: Routes = [
     path : 'dashboard',
     component : DashboardComponent,
     canActivate: [AuthentificationGuard],
-    data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
+    data: {roles: [ROLE.COMMERCANT, ROLE.SUPERVISEUR]}
   },
   {
     path : 'acces',
