@@ -69,7 +69,7 @@ export class DialogControlTransComponent implements OnInit {
       this.chosenSousCompte = this.editData.scompte;
       this.chosenService = this.editData.service;
       this.cTransacForm.controls['service'].setValue(this.editData.service.id.toString());
-      this.cTransacForm.controls['scompte'].setValue(this.editData.scompte.id.toString());
+      this.cTransacForm.controls['scompte'].setValue(this.editData.scompte.id!.toString());
       this.cTransacForm.controls['montantSeuil'].setValue(this.editData.montantSeuil.toString());
       this.cTransacForm.controls['montantJournalier'].setValue(this.editData.montantJournalier!.toString());
       this.cTransacForm.controls['montantHebdomadaire'].setValue(this.editData.montantHebdomadaire!.toString());

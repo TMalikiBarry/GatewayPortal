@@ -1,80 +1,82 @@
- <div class="containerTable">
-      <div style="margin-top: 10px;">
+<div class="containerTable">
+  <div style="margin-top: 10px;">
 
-        <button id="btnAdd" (click)="add()" mat-raised-button color="primary">
-          <mat-icon>add_circle_outline</mat-icon>
-          Ajouter Un Agent
-        </button>
+    <button (click)="add()" color="primary" id="btnAdd" mat-raised-button>
+      <mat-icon>add_circle_outline</mat-icon>
+      Ajouter Un Agent
+    </button>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Recherche</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Filtrer l'Utilisateur" #input>
-        </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Recherche</mat-label>
+      <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer l'Utilisateur">
+    </mat-form-field>
 
-        <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort>
-            <!-- Profil Column -->
-            <ng-container matColumnDef="username">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Identifiant </th>
-              <td mat-cell *matCellDef="let row"> {{row.username}} </td>
-            </ng-container>
+    <div class="mat-elevation-z8">
+      <table [dataSource]="dataSource" mat-table matSort>
+        <!-- Profil Column -->
+        <ng-container matColumnDef="username">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Identifiant</th>
+          <td *matCellDef="let row" mat-cell> {{row.username}} </td>
+        </ng-container>
 
-            <!-- Identifiant Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
-              <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-            </ng-container>
+        <!-- Identifiant Column -->
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom</th>
+          <td *matCellDef="let row" mat-cell> {{row.name}} </td>
+        </ng-container>
 
-            <!-- Identifiant Column -->
-            <ng-container matColumnDef="number">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Numero </th>
-              <td mat-cell *matCellDef="let row"> {{row.number}} </td>
-            </ng-container>
+        <!-- Numéro Column -->
+        <ng-container matColumnDef="number">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Numero</th>
+          <td *matCellDef="let row" mat-cell> {{row.number}} </td>
+        </ng-container>
 
-            <!-- Statut Column -->
-            <ng-container matColumnDef="email">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-              <td mat-cell *matCellDef="let row"> {{row.email}} </td>
-            </ng-container>
+        <!-- Statut Column -->
+        <ng-container matColumnDef="email">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Email</th>
+          <td *matCellDef="let row" mat-cell> {{row.email}} </td>
+        </ng-container>
 
-            <!-- Statut Column -->
-            <ng-container matColumnDef="roles">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Profil </th>
-              <td mat-cell *matCellDef="let row" > {{ row.roles[0].name }} </td>
-            </ng-container>
+        <!-- Statut Column -->
+        <ng-container matColumnDef="roles">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Profil</th>
+          <td *matCellDef="let row" mat-cell> {{ row.roles[0].name }} </td>
+        </ng-container>
 
-            <!-- Action Column -->
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
-              <td mat-cell  *matCellDef="let row" >
-                <button mat-icon-button #tooltip="matTooltip"
-                        color="primary"
-                        matTooltip="Modifier"
-                        matTooltipPosition="left"
-                        *ngIf="authService.hasRole('COMMERCANT')" (click)="update(row)">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button
-                  mat-icon-button #tooltip="matTooltip"
-                  color="warn"
-                  matTooltip="Supprimer"
-                  matTooltipPosition="after"
-                  *ngIf="authService.hasRole('COMMERCANT')" (click)="delete(row)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </td>
-            </ng-container>
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Actions</th>
+          <td *matCellDef="let row" mat-cell>
+            <button #tooltip="matTooltip" (click)="update(row)"
+                    *ngIf="authService.hasRole('COMMERCANT')"
+                    color="primary"
+                    mat-icon-button
+                    matTooltip="Modifier" matTooltipPosition="left">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              #tooltip="matTooltip" (click)="delete(row)"
+              *ngIf="authService.hasRole('COMMERCANT')"
+              color="warn"
+              mat-icon-button
+              matTooltip="Supprimer" matTooltipPosition="after">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+        <tr *matHeaderRowDef="columnsToDisplay" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: columnsToDisplay;" mat-row></tr>
 
-            <!-- Row shown when there is no matching data. -->
-            <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="5">table vide"{{input.value}}"</td>
-            </tr>
-          </table>
+        <!-- Row shown when there is no matching data. -->
+        <tr *matNoDataRow class="mat-row">
+          <td class="mat-cell" colspan="5" *ngIf="input.value">Aucune recherche correspondant à "{{input.value}}"</td>
+          <td class="mat-cell" colspan="5" *ngIf="!input.value">Vous n'avez aucun accès dans votre espace</td>
+        </tr>
+      </table>
 
-          <mat-paginator showFirstLastButtons [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-        </div>
-      </div>
- </div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"
+                     showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

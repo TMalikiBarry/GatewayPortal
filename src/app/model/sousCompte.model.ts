@@ -4,7 +4,7 @@ import {UserModel} from "./user.model";
 import {PointsInterface} from "./points.interface";
 
 export interface SousCompteModel{
-  id: number;
+  id?: number;
   sousCompteName: string;
   compte?: CompteModel;
   sreseau: SousReseauInterface;

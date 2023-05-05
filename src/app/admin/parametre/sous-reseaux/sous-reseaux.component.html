@@ -1,15 +1,9 @@
 <div class="containerTable">
   <div style="margin-top: 10px;">
-    <button class="btnAdd" (click)="add()" mat-raised-button color="primary" >
+    <button class="btnAdd blue-border" (click)="add()" mat-stroked-button color="primary" >
       <mat-icon>add_circle_outline</mat-icon>
-      Ajouter un reseau
+      Ajouter un Sous-Réseau
     </button>
-
-    <button class="btnAdd blue-border" (click)="addAccesToReseau()" mat-stroked-button color="primary">
-      <mat-icon>add_circle_outline</mat-icon>
-      Attribuer agent
-    </button>
-
 
     <mat-form-field appearance="fill">
       <mat-label>Recherche</mat-label>
@@ -19,10 +13,24 @@
     <div class="mat-elevation-z8">
       <table mat-table
              [dataSource]="dataSource" multiTemplateDataRows
-             class="mat-elevation-z1">
-        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-          <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-          <td mat-cell *matCellDef="let element" > {{element[column]}} </td>
+             class="mat-elevation-z1" matSort>
+
+        <!-- NOM Column -->
+        <ng-container matColumnDef="sousReseauName">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom </th>
+          <td *matCellDef="let row" mat-cell> {{row.sousReseauName}} </td>
+        </ng-container>
+
+        <!-- CODE Column -->
+        <ng-container matColumnDef="code">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Code </th>
+          <td *matCellDef="let row" mat-cell> {{row.code}} </td>
+        </ng-container>
+
+        <!-- RESEAU Column -->
+        <ng-container matColumnDef="reseau">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom du réseau</th>
+          <td *matCellDef="let row" mat-cell> {{ row.reseau.name }} </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
@@ -41,7 +49,7 @@
                 color="warn"
                 matTooltip="Supprimer"
                 matTooltipPosition="after"
-                (click)="delete(element.id)">
+                (click)="delete(element)">
                 <mat-icon>delete</mat-icon>
               </button>
             </div> </td>
@@ -64,13 +72,11 @@
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <table>
                 <tr>
-                  <th>Username</th>
-                  <th>Profil</th>
+                  <th>Libellé Sous Compte</th>
                 </tr>
                 <tbody>
-                  <tr *ngFor="let acces of element.accesCollection">
-                    <td *ngIf="acces.id !== authService.getId() && acces">{{ acces.name}}</td>
-                    <td *ngIf="acces.id !== authService.getId() && acces">{{ acces.roles[0].name}}</td>
+                  <tr *ngFor="let scompte of element.scomptes">
+                    <td>{{scompte.sousCompteName}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -85,6 +91,10 @@
             (click)="expandedElement = expandedElement === element ? null : element">
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        <tr *matNoDataRow class="mat-row">
+          <td class="mat-cell" colspan="5" *ngIf="input.value">Aucune recherche correspondant à "{{input.value}}"</td>
+          <td class="mat-cell" colspan="5" *ngIf="!input.value">Vous n'avez aucun sous-réseau dans votre espace</td>
+        </tr>
       </table>
 
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>

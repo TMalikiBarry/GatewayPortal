@@ -16,8 +16,8 @@ export const RoleModelCommercant : RoleModel[] = [
   },
   {
     id : 2,
-    name : "Operation",
-    code : "OPERATION",
+    name : "Operateur",
+    code : "OPERATEUR",
   }
 ]
 
@@ -31,7 +31,7 @@ export class DialogUserComponent implements OnInit {
   options : RoleModel[] = [];
   optionsCommercant = RoleModelCommercant;
   User !: UserModel;
-  UserForm !: FormGroup;
+  sousReseauForm !: FormGroup;
   actionBtn : string = "Sauvegarder"
   roles : RoleModel[] = [];
   phonePattern = /^(7[0-9])\s(\d{3})\s(\d{2})\s(\d{2})$/;
@@ -62,7 +62,7 @@ export class DialogUserComponent implements OnInit {
         })
       }
     })
-    this.UserForm = this.formBuilder.group({
+    this.sousReseauForm = this.formBuilder.group({
       id : [''],
       name : ['',[Validators.required, Validators.minLength(3)]],
       number : ['',[Validators.required, Validators.minLength(9), Validators.pattern(this.phonePattern)]],
@@ -76,22 +76,22 @@ export class DialogUserComponent implements OnInit {
     if(this.editData){
       this.title = "Modifier Agent"
       this.actionBtn = "Mettre a jour"
-      this.UserForm.controls['id'].setValue(this.editData.id)
-      this.UserForm.controls['username'].setValue(this.editData.username)
-      this.UserForm.controls['roles'].setValue(this.editData.roles[0].name)
-      this.UserForm.controls['email'].setValue(this.editData.email)
-      this.UserForm.controls['number'].setValue(this.editData.number)
-      this.UserForm.controls['name'].setValue(this.editData.name)
-      this.UserForm.controls['idParent'].setValue(this.editData.idParent)
-      this.UserForm.controls['password'].setValue(this.editData.password)
+      this.sousReseauForm.controls['id'].setValue(this.editData.id)
+      this.sousReseauForm.controls['username'].setValue(this.editData.username)
+      this.sousReseauForm.controls['roles'].setValue(this.editData.roles[0].name)
+      this.sousReseauForm.controls['email'].setValue(this.editData.email)
+      this.sousReseauForm.controls['number'].setValue(this.editData.number)
+      this.sousReseauForm.controls['name'].setValue(this.editData.name)
+      this.sousReseauForm.controls['idParent'].setValue(this.editData.idParent)
+      this.sousReseauForm.controls['password'].setValue(this.editData.password)
       console.log(this.editData)
     }
   }
   addUser(){
     if(!this.editData){
-      if(this.UserForm.valid){
-        this.User = this.UserForm.value
-        this.roles.push(this.options?.find(x => x.name === this.UserForm.controls['roles'].value) as RoleModel)
+      if(this.sousReseauForm.valid){
+        this.User = this.sousReseauForm.value
+        this.roles.push(this.options?.find(x => x.name === this.sousReseauForm.controls['roles'].value) as RoleModel)
         if (!this.roles) {
           this._snackBar.openFromComponent(DialogAlertComponent, {
             data: "Lrole spécifié n'est pas autorisé ici",
@@ -114,7 +114,7 @@ export class DialogUserComponent implements OnInit {
                 horizontalPosition: "end",
                 panelClass: ["custom-style-add"]
               })
-              this.UserForm.reset();
+              this.sousReseauForm.reset();
               this.dialogRef.close('save');
             },
             error:()=>{
@@ -133,9 +133,9 @@ export class DialogUserComponent implements OnInit {
     }
   }
   updateUser(){
-    if(this.UserForm.valid){
-      this.User = this.UserForm.value
-      this.roles.push(this.options?.find(x => x.name === this.UserForm.controls['roles'].value) as RoleModel);
+    if(this.sousReseauForm.valid){
+      this.User = this.sousReseauForm.value
+      this.roles.push(this.options?.find(x => x.name === this.sousReseauForm.controls['roles'].value) as RoleModel);
       if (!this.roles) {
         this._snackBar.openFromComponent(DialogAlertComponent, {
           data: "Lrole spécifié n'est pas autorisé ici",
@@ -158,7 +158,7 @@ export class DialogUserComponent implements OnInit {
               horizontalPosition: "end",
               panelClass: ["custom-style-update"]
             })
-            this.UserForm.reset();
+            this.sousReseauForm.reset();
             this.dialogRef.close('update')
           },
           error : ()=>{

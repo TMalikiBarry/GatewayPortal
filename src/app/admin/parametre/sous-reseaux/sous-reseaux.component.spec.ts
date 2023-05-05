@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReseauxComponent } from './reseaux.component';
+import { SousReseauxComponent } from './sous-reseaux.component';
 
 describe('ReseauxComponent', () => {
-  let component: ReseauxComponent;
-  let fixture: ComponentFixture<ReseauxComponent>;
+  let component: SousReseauxComponent;
+  let fixture: ComponentFixture<SousReseauxComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReseauxComponent ]
+      declarations: [ SousReseauxComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ReseauxComponent);
+    fixture = TestBed.createComponent(SousReseauxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

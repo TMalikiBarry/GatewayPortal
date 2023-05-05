@@ -1,0 +1,124 @@
+<h1 mat-dialog-title> {{ title }} </h1>
+<div mat-dialog-content>
+  <form [formGroup]="sousCompteForm">
+    <mat-form-field appearance="outline">
+      <mat-label> Libelle Sous-Compte</mat-label>
+      <input formControlName="sousCompteName" matInput placeholder="Libelle Sous Compte">
+      <mat-error *ngIf="sousCompteForm.controls['sousCompteName'].errors">
+        {{getErrorMessage(sousCompteForm.controls['sousCompteName'].errors)}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label> Choisir un Sous Réseau </mat-label>
+      <mat-select (selectionChange)="onChooseSousReseau($event)" formControlName="sreseau" placeholder="Choisir le Sous-Réseau">
+        <mat-option *ngFor="let sreseau of listSousReseaux" [value]="sreseau.id">{{sreseau.sousReseauName}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="sousCompteForm.controls['sreseau'].errors">
+        {{getErrorMessage(sousCompteForm.controls['sreseau'].errors)}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-accordion  multi>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Liste Points
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="input-add" style="display: flex">
+          <mat-form-field appearance="outline">
+            <mat-label> Ajouter un Point </mat-label>
+            <mat-select formControlName="points" placeholder="Choisir le Point">
+              <mat-option *ngFor="let point of listPoints" [value]="point.id">{{point.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="sousCompteForm.controls['points'].errors">
+              {{getErrorMessage(sousCompteForm.controls['points'].errors)}}
+            </mat-error>
+          </mat-form-field>
+          <a style="margin: 10px" mat-icon-button color="primary" (click)="addPoint()"> <mat-icon>add</mat-icon> </a>
+        </div>
+
+        <table mat-table [dataSource]="dataSourcePoints" matSort>
+          <!-- Profil Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom du Point </th>
+            <td mat-cell *matCellDef="let row"> {{ row.name}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+            <td mat-cell *matCellDef="let row">
+              <button (click)="deletePoint(row)" mat-icon-button color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">Aucun Point dans ce sous Compte</td>
+          </tr>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion  multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Liste Agent
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="input-add" style="display: flex">
+          <mat-form-field appearance="outline">
+            <mat-label> Ajouter un Agent </mat-label>
+            <mat-select formControlName="accesCollection" placeholder="Choisir l'agent">
+              <mat-option *ngFor="let agent of listAgents" [value]="agent.id">{{agent.name | titlecase}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="sousCompteForm.controls['accesCollection'].errors">
+              {{getErrorMessage(sousCompteForm.controls['accesCollection'].errors)}}
+            </mat-error>
+          </mat-form-field>
+          <a style="margin: 10px" mat-icon-button color="primary" (click)="addAgent()"> <mat-icon>add</mat-icon> </a>
+        </div>
+
+        <table mat-table [dataSource]="dataSourceAgents" matSort>
+          <!-- Profil Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom de l'agent </th>
+            <td mat-cell *matCellDef="let row"> {{ row.name}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+            <td mat-cell *matCellDef="let row">
+              <button (click)="deleteAgent(row)" mat-icon-button color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">Aucun Agent enregistré dans ce sous Compte</td>
+          </tr>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </form>
+</div>
+<div [align]="'center'" mat-dialog-actions>
+  <button (click)="addSousCompte()" color="primary" mat-raised-button style="margin-right:.8rem;"> {{actionBtn}} </button>
+  <button color="warn" mat-dialog-close="yoo" [ngClass]="'closer-style'" mat-stroked-button> Fermer</button>
+</div>

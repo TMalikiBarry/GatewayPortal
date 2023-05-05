@@ -21,7 +21,7 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../securite/securite.module').then(m => m.SecuriteModule)
   },
   {
-    path : 'reseaux',
+    path : 'param',
     loadChildren: () => import('../parametre/parametre.module').then(m => m.ParametreModule)
   },
   {

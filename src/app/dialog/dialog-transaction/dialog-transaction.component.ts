@@ -101,7 +101,7 @@ export class DialogTransactionComponent implements OnInit {
   }
 
   initialiseControl(service: ServiceModel, scompte: SousCompteModel){
-    this.tService.getCurrentControlTransaction(service.id, scompte.id).pipe(
+    this.tService.getCurrentControlTransaction(service.id, scompte.id!).pipe(
       tap(console.dir),
       map(res => res.data as ControlTransactionInterface)
     ).subscribe({
