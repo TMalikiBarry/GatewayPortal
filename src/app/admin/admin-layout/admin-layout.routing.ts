@@ -14,14 +14,14 @@ export const AdminLayoutRoutes: Routes = [
     path : 'dashboard',
     component : DashboardComponent,
     canActivate: [AuthentificationGuard],
-    data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
+    data: {roles: [ROLE.COMMERCANT, ROLE.SUPERVISEUR]}
   },
   {
     path : 'acces',
     loadChildren: () => import('../securite/securite.module').then(m => m.SecuriteModule)
   },
   {
-    path : 'reseaux',
+    path : 'param',
     loadChildren: () => import('../parametre/parametre.module').then(m => m.ParametreModule)
   },
   {

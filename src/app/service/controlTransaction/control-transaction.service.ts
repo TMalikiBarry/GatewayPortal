@@ -18,15 +18,15 @@ export class ControlTransactionService {
     return this.http.get<ApiResponse>(`${environment.API_URL}/control/commercant/${myID}`);
   }
 
-  getSousCompteById(id:number){
+  getPointsById(id:number){
     return this.http.get<ApiResponse>(environment.API_URL+"/scompte/" + id);
   }
 
   getServiceById(id:number){
     return this.http.get<ApiResponse>(environment.API_URL+"/services/" + id);
   }
-  getMySousComptes(myId: number) {
-    return this.http.get<ApiResponse>(environment.API_URL+"/scompte/commercant/" + myId);
+  getMyPoints(myId: number) {
+    return this.http.get<ApiResponse>(environment.API_URL+"/points/commercant/" + myId);
   }
   getAllService(){
     return this.http.get<ApiResponse>(environment.API_URL+"/services/all")

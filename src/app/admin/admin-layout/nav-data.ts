@@ -12,9 +12,9 @@ export const navbarData = [
     roles : ["COMMERCANT","SUPERVISEUR"],
     items : [
       {
-        routerLink : 'reseaux',
+        routerLink : 'sous-reseaux',
         icon: 'account_balance',
-        label : 'Reseaux',
+        label : 'Sous-Reseaux',
         visible : true,
         roles : ["COMMERCANT","SUPERVISEUR"]
       }

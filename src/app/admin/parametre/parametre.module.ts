@@ -1,17 +1,26 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
-import {ReseauxComponent} from "./reseaux/reseaux.component";
+import {SousReseauxComponent} from "./sous-reseaux/sous-reseaux.component";
 import {AuthentificationGuard} from "../../service/guards/authentification.guard";
 import {ROLE} from "../admin-layout/admin-layout.routing";
 import {SharedModule} from "../shared/shared.module";
-import {DialogReseauxComponent} from "../../dialog/Reseaux/dialog-reseaux.component";
-import {DialogAccesReseauComponent} from "../../dialog/ReseauAcces/dialog-acces-reseau.component";
+import {DialogSousReseauxComponent} from "../../dialog/Sous-Reseaux/dialog-sous-reseaux.component";
+import {DialogAccesSCompteComponent} from "../../dialog/SousCompteAcces/dialog-acces-s-compte.component";
+import { SousComptesComponent } from './sous-comptes/sous-comptes.component';
+import { DialogSousCompteComponent } from '../../dialog/SousCompte/dialog-sous-compte.component';
 
 const ParametreRouting: Routes = [
   {
-    path : '',
+    path : 'sous-reseaux',
     pathMatch: 'full',
-    component : ReseauxComponent,
+    component : SousReseauxComponent,
+    canActivate: [AuthentificationGuard],
+    data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
+  },
+  {
+    path : 'sous-comptes',
+    pathMatch: 'full',
+    component : SousComptesComponent,
     canActivate: [AuthentificationGuard],
     data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
   }
@@ -19,9 +28,11 @@ const ParametreRouting: Routes = [
 
 @NgModule({
   declarations: [
-    ReseauxComponent,
-    DialogReseauxComponent,
-    DialogAccesReseauComponent
+    SousReseauxComponent,
+    DialogSousReseauxComponent,
+    DialogAccesSCompteComponent,
+    SousComptesComponent,
+    DialogSousCompteComponent
   ],
   imports: [
     SharedModule,

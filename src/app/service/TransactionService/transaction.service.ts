@@ -29,12 +29,12 @@ export class TransactionService {
     );
   }
 
-  getCurrentControlTransaction(serviceId: number, sCompte_id: number){
-    return this.http.get<ApiResponse>(`${this.API_URL}/control/ctByServiceAndScompte/${serviceId}/${sCompte_id}`)
+  getCurrentControlTransaction(serviceId: number, point_id: number){
+    return this.http.get<ApiResponse>(`${this.API_URL}/control/ctByServiceAndScompte/${serviceId}/${point_id}`)
   }
 
-  getMySousComptes(myId: number) {
-    return this.http.get<ApiResponse>(this.API_URL+"/scompte/commercant/" + myId);
+  getMyPoints(myId: number) {
+    return this.http.get<ApiResponse>(this.API_URL+"/points/commercant/" + myId);
   }
   getAllService(){
     return this.http.get<ApiResponse>(this.API_URL+"/services/all")
@@ -45,14 +45,6 @@ export class TransactionService {
 
   getMyTransactions(idCommercant: number){
     return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"commercant/" + idCommercant);
-  }
-
-  putTransaction(data : TransactionModel, id : number){
-    return this.http.put<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"edit/"+id, data)
-  }
-
-  deleteTransaction(id : number){
-    return this.http.delete<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"delete/"+id)
   }
 
 }

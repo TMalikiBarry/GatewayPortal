@@ -1,16 +1,17 @@
 import {ServiceModel} from "./service.model";
-import {SousCompteModel} from "./sousCompte.model";
+import {PointsInterface} from "./points.interface";
 
 export interface TransactionModel{
-  id?: number
-  destinataire : string
-  montant : number
-  commission : number
+  id?: number;
+  destinataire : string;
+  expeditaire : string;
+  montant : number;
+  commission : number;
   statut : StatutTransactionEnum;
   dateTransaction : Date,
   typeTransaction : TypeTransactionEnum;
   service : ServiceModel;
-  scompte : SousCompteModel
+  points : PointsInterface
 }
 export enum TypeTransactionEnum {
   C_BANCAIRE= 'CARTE_BANCAIRE',

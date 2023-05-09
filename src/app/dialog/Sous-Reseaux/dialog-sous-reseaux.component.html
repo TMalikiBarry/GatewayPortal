@@ -1,0 +1,91 @@
+<h1 mat-dialog-title> {{ title }} </h1>
+<div mat-dialog-content>
+  <form [formGroup]="sousReseauForm">
+
+    <mat-form-field appearance="outline">
+      <mat-label> Libelle Sous-Reseau</mat-label>
+      <input formControlName="sousReseauName" matInput placeholder="Libelle Reseau">
+      <mat-error *ngIf="sousReseauForm.controls['sousReseauName'].errors">
+        {{getErrorMessage(sousReseauForm.controls['sousReseauName'].errors)}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-accordion  multi>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Liste Sous-Comptes
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="input-add" style="display: flex">
+          <mat-form-field appearance="outline">
+            <mat-label> Ajouter un Sous-Compte </mat-label>
+            <mat-select formControlName="scomptes" placeholder="Choisir le Sous-Compte">
+              <mat-option *ngFor="let scompte of listSousComptes" [value]="scompte.id">{{scompte.sousCompteName}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="sousReseauForm.controls['scomptes'].errors">
+              {{getErrorMessage(sousReseauForm.controls['scomptes'].errors)}}
+            </mat-error>
+          </mat-form-field>
+          <a style="margin: 10px" mat-icon-button color="primary" (click)="addSCompte()"> <mat-icon>add</mat-icon> </a>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- Profil Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom Sous-Compte </th>
+            <td mat-cell *matCellDef="let row"> {{ row.sousCompteName}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+            <td mat-cell *matCellDef="let row">
+              <button (click)="deleteSCompte(row)" mat-icon-button color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">Aucun Profil</td>
+          </tr>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <!--    <mat-form-field appearance="outline">
+          <mat-label>Liste Sous Comptes</mat-label>
+          <mat-select (selectionChange)="filter($event)" formControlName="accesCollection" multiple>
+            <mat-select-trigger *ngIf="valueUser[0]">
+              {{valueUser[0].name || ''}}
+              <span *ngIf="valueUser && (valueUser.length || 0) > 1" class="example-additional-selection">
+            (+{{(valueUser.length || 0) - 1}} {{valueUser.length === 2 ? 'autre' : 'autres'}})
+          </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let acces of accesList" [value]="acces">{{acces?.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Liste Agent</mat-label>
+          <mat-select (selectionChange)="filter($event)" formControlName="accesCollection" multiple>
+            <mat-select-trigger *ngIf="valueUser[0]">
+              {{valueUser[0].name || ''}}
+              <span *ngIf="valueUser && (valueUser.length || 0) > 1" class="example-additional-selection">
+            (+{{(valueUser.length || 0) - 1}} {{valueUser.length === 2 ? 'autre' : 'autres'}})
+          </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let acces of accesList" [value]="acces">{{acces?.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>-->
+  </form>
+</div>
+<div [align]="'center'" mat-dialog-actions>
+  <button (click)="addSousReseau()" color="primary" mat-raised-button style="margin-right:.8rem;"> {{actionBtn}} </button>
+  <button color="warn" mat-dialog-close="yoo" [ngClass]="'closer-style'" mat-stroked-button> Fermer</button>
+</div>

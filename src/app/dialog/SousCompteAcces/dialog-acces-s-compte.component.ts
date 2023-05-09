@@ -2,20 +2,19 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ReseauxService} from "../../service/reseauService/reseaux.service";
+import {SousReseauxService} from "../../service/SousReseauService/sous-reseaux.service";
 import {UserService} from "../../service/UserService/user.service";
 import {UserModel} from "../../model/user.model";
 import {ReseauModel} from "../../model/reseau.model";
 import {AuthService} from "../../service/authService/auth.service";
-import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
 import {ReseauAccesModel} from "../../model/reseau.acces.model";
 
 @Component({
   selector: 'app-dialog-acces-reseau',
-  templateUrl: './dialog-acces-reseau.component.html',
-  styleUrls: ['./dialog-acces-reseau.component.scss']
+  templateUrl: './dialog-acces-s-compte.component.html',
+  styleUrls: ['./dialog-acces-s-compte.component.scss']
 })
-export class DialogAccesReseauComponent implements OnInit {
+export class DialogAccesSCompteComponent implements OnInit {
 
   title : string = "Ajout agent au reseau"
   Acces !: UserModel[];
@@ -27,13 +26,13 @@ export class DialogAccesReseauComponent implements OnInit {
   errorMessage: any;
 
   constructor(private formBuilder : FormBuilder ,
-              private apiReseau: ReseauxService ,
+              private apiReseau: SousReseauxService ,
               private apiAcces: UserService ,
               @Inject(MAT_DIALOG_DATA) public editData : any,
               private dialogAlert : MatDialog,
               private authService : AuthService,
               private _snackBar: MatSnackBar,
-              private dialogRef : MatDialogRef<DialogAccesReseauComponent>) { }
+              private dialogRef : MatDialogRef<DialogAccesSCompteComponent>) { }
 
   ngOnInit(): void {
     this.apiAcces.getAllUser(this.authService.getId())
@@ -45,13 +44,13 @@ export class DialogAccesReseauComponent implements OnInit {
           alert("Erreur sur la recuperation des Agents")
         }
       })
-    this.apiReseau.getAllReseau(this.authService.getId())
+    this.apiReseau.getMySousReseaux()
       .subscribe({
         next: (res) => {
           this.Reseau = res.data as ReseauModel[]
         },
         error:()=>{
-          alert("Erreur sur la recuperation des Reseaux")
+          alert("Erreur sur la recuperation des Sous-Reseaux")
         }
       })
     this.ReseauAccessForm = this.formBuilder.group({
@@ -60,11 +59,12 @@ export class DialogAccesReseauComponent implements OnInit {
     })
   }
   addAccesToReseau(){
+/*
     if(!this.editData){
       if(this.ReseauAccessForm.valid){
         this.ReseauAcces = this.ReseauAccessForm.value
         console.log(this.ReseauAcces)
-        this.apiReseau.postReseauToAcces(this.ReseauAcces)
+        this.apiReseau.postSousReseau(this.ReseauAcces)
           .subscribe({
             next:()=>{
               this._snackBar.openFromComponent(DialogAlertComponent, {
@@ -89,40 +89,8 @@ export class DialogAccesReseauComponent implements OnInit {
           })
        }
      }
-    //else{
-    //   this.updateSCompte()
-    // }
+*/
   }
-  // updateSCompte(){
-  //   if(this.SCompteForm.valid){
-  //     this.SCompte = this.SCompteForm.value
-  //     this.SCompte.compte = this.Comptes?.find(x => x.id = this.SCompteForm.controls['Compte'].value)
-  //     console.log(this.SCompte)
-  //     this.apiSCompte.putSCompte(this.SCompteForm.value, this.editData.id)
-  //       .subscribe({
-  //         next : (res)=>{
-  //           this._snackBar.openFromComponent(DialogAlertComponent, {
-  //             data: "Sous-Compte Mis a jour avec Success",
-  //             duration: 2000,
-  //             verticalPosition: "bottom",
-  //             horizontalPosition: "end",
-  //             panelClass: ["custom-style-update"]
-  //           })
-  //           this.SCompteForm.reset();
-  //           this.dialogRef.close('update')
-  //         },
-  //         error : (err)=>{
-  //           this._snackBar.openFromComponent(DialogAlertComponent, {
-  //             data: "Veillez verifier le formulaire",
-  //             duration: 2000,
-  //             verticalPosition: "top",
-  //             horizontalPosition: "end",
-  //             panelClass: ["custom-style-delete"]
-  //           })
-  //         }
-  //       })
-  //   }
-  // }
 
   getErrorMessage( errors : ValidationErrors){
     if(errors['required']){
