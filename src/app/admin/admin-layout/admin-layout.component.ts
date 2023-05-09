@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {navbarData} from "./nav-data";
 import {MonProfilComponent} from "../../dialog/mon-profil/mon-profil.component";
 import {MatDialog} from "@angular/material/dialog";
+import {ResetComponent} from "../../reset/reset.component";
 
 @Component({
   selector: 'app-admin-layout',
@@ -67,6 +68,12 @@ export class AdminLayoutComponent implements OnInit {
     this.dialog.open(MonProfilComponent, {
       width:'30rem',
       maxHeight: '40rem',
+    })
+  }
+
+  changePasse() {
+    this.dialog.open(ResetComponent, {
+      data : this.user
     })
   }
 

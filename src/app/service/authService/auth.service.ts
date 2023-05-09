@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, map, Observable, of} from "rxjs";
+import {BehaviorSubject, map, Observable, of, tap} from "rxjs";
 import {UserService} from "../UserService/user.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment.prod";
 import {LoginModel} from "../../model/login.model";
+import {ApiResponse} from "../../request/ApiResponse";
+import {ResetRequest} from "../../request/ResetRequest";
+import {UserModel} from "../../model/user.model";
 @Injectable({
   providedIn: 'root'
 })
@@ -52,6 +55,27 @@ export class AuthService {
     return this.currentUserSubject.getValue()!.roles.includes(roles);
   }
 
+  public forgot( request: ResetRequest) {
+    return this.http.post<ApiResponse>(`${environment.API_URL}/forgot`, request)
+      .pipe(map(user => {
+        return user;
+      }));
+  }
+
+  public confirm( token : String) {
+    return this.http.post<ApiResponse>(`${environment.API_URL}/confirm`, token )
+      .pipe(map(user => {
+        return user;
+      }));
+  }
+
+  public reset(id: number | undefined, token: string | null, password: string , oldPassword: string | null, confirm: string) {
+    return this.http.post<ApiResponse>(`${environment.API_URL}/reset`, { id, token ,password, oldPassword, confirm })
+      .pipe(map(user => {
+        return user;
+      }));
+  }
+
   public isAuthentificated():boolean{
     this.isAuth = this.currentUser != null;
     return this.isAuth;
@@ -83,14 +107,27 @@ export class AuthService {
   }
 
   routingAlreadyConnectedApp(){
+    // console.log('babs');
     if (localStorage.getItem('currentUser')) {
       let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
       if(user){
         this.AuthentificateUser(user);
         this.isAuth = true;
-        this.router.navigateByUrl('/admin/dashboard');
+        let utilisateur = user as LoginModel
+        this.loginService.getUser(utilisateur.id).pipe(
+          tap(console.dir),
+          map(res => res.data as UserModel),
+          tap(user1 => {
+            user = user1;
+          })
+        ).subscribe();
+        if(!user.rememberMe){
+          this.router.navigateByUrl('reset');
+        }else{
+          this.router.navigateByUrl('/admin/dashboard');
+        }
       }else{
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('/login');
       }
     }
   }

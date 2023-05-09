@@ -15,9 +15,8 @@
         </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="onUpdateProfil()"><mat-icon>perm_identity</mat-icon> Profil </button>
-          <button mat-menu-item (click)="logout()">
-            <mat-icon>subdirectory_arrow_right</mat-icon> Deconnexion
-          </button>
+          <button mat-menu-item (click)="changePasse()"><mat-icon>update</mat-icon> Changer Mot de passe</button>
+          <button mat-menu-item (click)="logout()"><mat-icon>subdirectory_arrow_right</mat-icon> Deconnexion</button>
         </mat-menu>
       </ul>
     </div>

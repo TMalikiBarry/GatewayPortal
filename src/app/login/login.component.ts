@@ -5,6 +5,11 @@ import {AuthService} from "../service/authService/auth.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DialogAlertComponent} from "../dialog/SnackBar/dialog-alert.component";
+import {LoginModel} from "../model/login.model";
+import {tap} from "rxjs/operators";
+import {map} from "rxjs";
+import {UserModel} from "../model/user.model";
+import {UserService} from "../service/UserService/user.service";
 
 @Component({
   selector: 'app-login',
@@ -16,7 +21,12 @@ export class LoginComponent implements OnInit {
   loginForm !: FormGroup;
   errorMessage : any;
   hide : boolean = true ;
-  constructor(private dialog : MatDialog, private formBuilder : FormBuilder, private api : AuthService , private router : Router, private _snackBar : MatSnackBar) { }
+  constructor(private dialog : MatDialog,
+              private formBuilder : FormBuilder,
+              private api : AuthService ,
+              private router : Router,
+              private userService : UserService,
+              private _snackBar : MatSnackBar) { }
 
   ngOnInit(): void {
     console.log(this.api.isAuth);
@@ -41,14 +51,25 @@ export class LoginComponent implements OnInit {
               console.log("data "+data)
               if(this.api.currentUserValue){
                 console.log("login.ts "+this.api.currentUserValue.roles)
-                this.router.navigate(['admin/dashboard']);
-                this._snackBar.openFromComponent(DialogAlertComponent, {
-                  data: `Bienvenue dans votre espace, ${user.username}` ,
-                  duration: 2000,
-                  verticalPosition: "top",
-                  horizontalPosition: "end",
-                  panelClass: ["custom-style-add"]
-                })
+                let utilisateur = user as LoginModel
+                this.userService.getUser(utilisateur.id).pipe(
+                  tap(console.dir),
+                  map(res => res.data as UserModel),
+                  tap(user => {
+                    if(user.rememberMe) {
+                      this.router.navigate(['admin/dashboard']);
+                      this._snackBar.openFromComponent(DialogAlertComponent, {
+                        data: `Bienvenue ${user.username}`,
+                        duration: 2000,
+                        verticalPosition: "top",
+                        horizontalPosition: "end",
+                        panelClass: ["custom-style-add"]
+                      })
+                    }else{
+                      this.router.navigate(['reset']);
+                    }
+                  })
+                ).subscribe();
               }
             }
           })
@@ -64,14 +85,14 @@ export class LoginComponent implements OnInit {
             });
             return;
           }
+          console.log(err)
           this._snackBar.openFromComponent(DialogAlertComponent, {
             data: "Identifiant ou mot de passe incorrect",
             duration: 5000,
             verticalPosition: "top",
             horizontalPosition: "end",
             panelClass: ["custom-style-delete"]
-          });
-          console.error(err);
+          })
         }
       })
   }

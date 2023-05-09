@@ -19,7 +19,7 @@ import {ErrorInterceptor} from "./helpers/error.interceptor";
 import {JwtInterceptor} from "./helpers/jwt.interceptor";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {MatDialogModule} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
@@ -28,12 +28,14 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatStepperModule} from "@angular/material/stepper";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
+import { ResetComponent } from './reset/reset.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DialogAlertComponent,
+    ResetComponent,
   ],
     imports: [
         BrowserModule,
@@ -58,11 +60,12 @@ import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
         MatTableExporterModule
     ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor,multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor,multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: MAT_SNACK_BAR_DATA, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatSnackBarRef, useValue: {} },
-    { provide: LOCALE_ID, useValue: 'fr-FR'},
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false }
