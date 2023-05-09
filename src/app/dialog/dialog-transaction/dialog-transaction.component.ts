@@ -14,10 +14,10 @@ import {
 import {Observable, tap} from "rxjs";
 import {ServiceModel} from "../../model/service.model";
 import {map} from "rxjs/operators";
-import {SousCompteModel} from "../../model/sousCompte.model";
 import {UserModel} from "../../model/user.model";
 import {MatSelectChange} from "@angular/material/select";
 import {ControlTransactionInterface} from "../../model/control-transaction.interface";
+import {PointsInterface} from "../../model/points.interface";
 
 export interface TransactionType {
   value: TransactionKey;
@@ -36,8 +36,8 @@ export class DialogTransactionComponent implements OnInit {
   amount: number = 100;
   currentControlTransaction?: ControlTransactionInterface
   listTransactionsByServiceAndScompte$!: Observable<TransactionModel[]>;
-  listSousComptes$!: Observable<SousCompteModel[]>;
-  chosenSousCompte!:SousCompteModel;
+  listPoints$!: Observable<PointsInterface[]>;
+  chosenPoint!:PointsInterface;
   chosenService!: ServiceModel | undefined;
   myServiceLabel!: string;
   typeTrasaction!: TransactionKey;
@@ -76,8 +76,8 @@ export class DialogTransactionComponent implements OnInit {
       map(res => res.data as ServiceModel []),
     );
     if (myId){
-      this.listSousComptes$ = this.tService.getMySousComptes(myId).pipe(
-        map(res => res.data as SousCompteModel[]),
+      this.listPoints$ = this.tService.getMyPoints(myId).pipe(
+        map(res => res.data as PointsInterface[]),
       )
     }
   }
@@ -100,8 +100,8 @@ export class DialogTransactionComponent implements OnInit {
 
   }
 
-  initialiseControl(service: ServiceModel, scompte: SousCompteModel){
-    this.tService.getCurrentControlTransaction(service.id, scompte.id!).pipe(
+  initialiseControl(service: ServiceModel, points: PointsInterface){
+    this.tService.getCurrentControlTransaction(service.id, points.id!).pipe(
       tap(console.dir),
       map(res => res.data as ControlTransactionInterface)
     ).subscribe({
@@ -126,7 +126,7 @@ export class DialogTransactionComponent implements OnInit {
   }*/
 
   infoStep() {
-    if (!this.chosenSousCompte){
+    if (!this.chosenPoint){
       this.snackMessage(`Veuillez choisir un sous compte`, 3000, 'delete');
       return;
     }
@@ -146,9 +146,9 @@ export class DialogTransactionComponent implements OnInit {
       map(res => <TransactionModel[]>res.data),
       map(transactions => transactions
         .filter(transaction=> (transaction.service.id === this.chosenService?.id
-          && transaction.scompte.id === this.chosenSousCompte.id) ))
+          && transaction.points.id === this.chosenPoint.id) ))
     )
-    this.initialiseControl(this.chosenService!, this.chosenSousCompte);
+    this.initialiseControl(this.chosenService!, this.chosenPoint);
     this.stepper.next();
   }
 
@@ -209,7 +209,8 @@ export class DialogTransactionComponent implements OnInit {
     return {
       destinataire: this.infoForm.controls['beneficiaryName'].value!,
       typeTransaction: TypeTransactionEnum[this.typeTrasaction],
-      scompte: this.chosenSousCompte,
+      expeditaire: this.infoForm.controls['senderName'].value!,
+      points: this.chosenPoint,
       service: this.chosenService!,
       montant: this.amount,
       dateTransaction: new Date(),
@@ -233,6 +234,6 @@ export class DialogTransactionComponent implements OnInit {
   afficheSousCompte($event: MatSelectChange) {
     console.log($event);
     console.log('TypeTrans', this.typeTrasaction);
-    console.log('SousCompte', this.chosenSousCompte);
+    console.log('SousCompte', this.chosenPoint);
   }
 }

@@ -1,10 +1,10 @@
 import {ServiceModel} from "./service.model";
-import {SousCompteModel} from "./sousCompte.model";
+import {PointsInterface} from "./points.interface";
 
 export interface ControlTransactionInterface {
   id?: number;
   service: ServiceModel;
-  scompte: SousCompteModel;
+  points: PointsInterface;
   montantSeuil: number;
   montantHebdomadaire?: number;
   montantJournalier?: number;

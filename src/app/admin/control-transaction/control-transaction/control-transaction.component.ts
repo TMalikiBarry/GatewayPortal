@@ -18,7 +18,7 @@ export class ControlTransactionComponent implements OnInit {
 
   isCommercant!: boolean;
   dataSource!: MatTableDataSource<ControlTransactionInterface>;
-  columnsToDisplay = ['sous-compte', 'service', 'montant-seuil',
+  columnsToDisplay = ['points', 'service', 'montant-seuil',
     'montant-hebdomadaire', 'montant-journalier', 'heure-debut', 'heure-fin', 'action'];
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -84,7 +84,7 @@ export class ControlTransactionComponent implements OnInit {
     }
     this.api.deleteControlTransaction(row.id!).subscribe({
       next:()=>{
-        this.notify.snackMessage("Contrôle de transaction pour le sous-compte "+ row.scompte.sousCompteName
+        this.notify.snackMessage("Contrôle de transaction pour le sous-compte "+ row.points.name
         +  " et le service "+ row.service.serviceName+ " supprimé avec Success", 3000, 'success');
         this.getMyControlTransactions();
       }

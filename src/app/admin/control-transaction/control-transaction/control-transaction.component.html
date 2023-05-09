@@ -10,9 +10,9 @@
 
 <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
   <!-- sous-compte Column -->
-  <ng-container matColumnDef="sous-compte">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header> Sous Compte </th>
-    <td *matCellDef="let row" mat-cell> {{row.scompte.sousCompteName}} </td>
+  <ng-container matColumnDef="points">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Point de transaction </th>
+    <td *matCellDef="let row" mat-cell> {{row.points.name}} </td>
   </ng-container>
 
   <!-- service Column -->
