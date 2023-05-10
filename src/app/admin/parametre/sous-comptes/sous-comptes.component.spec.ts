@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogReseauxComponent } from './dialog-reseaux.component';
+import { SousComptesComponent } from './sous-comptes.component';
 
-describe('DialogReseauxComponent', () => {
-  let component: DialogReseauxComponent;
-  let fixture: ComponentFixture<DialogReseauxComponent>;
+describe('SousComptesComponent', () => {
+  let component: SousComptesComponent;
+  let fixture: ComponentFixture<SousComptesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogReseauxComponent ]
+      declarations: [ SousComptesComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DialogReseauxComponent);
+    fixture = TestBed.createComponent(SousComptesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

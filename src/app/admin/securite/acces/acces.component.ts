@@ -8,6 +8,7 @@ import {UserModel} from "../../../model/user.model";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../../service/UserService/user.service";
 import {AuthService} from "../../../service/authService/auth.service";
+import {NotifyService} from "../../../service/utils/notify.service";
 
 
 @Component({
@@ -30,7 +31,10 @@ export class AccesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
 
-  constructor(private api : UserService, public authService : AuthService, public dialog : MatDialog) { }
+  constructor(private api : UserService,
+              public authService : AuthService,
+              public dialog : MatDialog,
+              private notify: NotifyService) { }
 
   ngOnInit(): void {
     this.getUser()
@@ -75,7 +79,7 @@ export class AccesComponent implements OnInit {
     this.api.deleteLogin(row.id).subscribe({
       next:()=>{
         this.getUser();
-        alert("Utilisateur supprimé avec Success")
+        this.notify.snackMessage(`Utilisateur ${row.name} supprimé avec Success`, 2000, "success")
       }
     })
   }

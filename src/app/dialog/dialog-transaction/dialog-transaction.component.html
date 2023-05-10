@@ -23,8 +23,8 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Choisissez le sous compte</mat-label>
-          <mat-select [(value)]="chosenSousCompte" required>
-            <mat-option *ngFor="let item of listSousComptes$ | async" [value]="item">{{item.sousCompteName}}</mat-option>
+          <mat-select [(value)]="chosenPoint" required>
+            <mat-option *ngFor="let item of listPoints$ | async" [value]="item">{{item.name}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

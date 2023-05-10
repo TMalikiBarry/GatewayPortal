@@ -1,32 +1,32 @@
 <h1  mat-dialog-title> {{ title }} </h1>
 <div mat-dialog-content>
-  <form [formGroup]="UserForm">
+  <form [formGroup]="sousReseauForm">
     <mat-form-field appearance="outline">
       <mat-label> Nom </mat-label>
       <input formControlName="name" matInput placeholder="Nom">
-      <mat-error *ngIf="UserForm.controls['name'].errors">
-        {{getErrorMessage(UserForm.controls['name'].errors)}}
+      <mat-error *ngIf="sousReseauForm.controls['name'].errors">
+        {{getErrorMessage(sousReseauForm.controls['name'].errors)}}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label> Username </mat-label>
       <input formControlName="username" matInput placeholder="Username">
-      <mat-error *ngIf="UserForm.controls['username'].errors">
-        {{getErrorMessage(UserForm.controls['username'].errors)}}
+      <mat-error *ngIf="sousReseauForm.controls['username'].errors">
+        {{getErrorMessage(sousReseauForm.controls['username'].errors)}}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label> Telephone </mat-label>
       <input type="tel" formControlName="number" matInput placeholder="Example: 70 765 65 65">
-      <mat-error *ngIf="UserForm.controls['number'].errors">
-        {{getErrorMessage(UserForm.controls['number'].errors)}}
+      <mat-error *ngIf="sousReseauForm.controls['number'].errors">
+        {{getErrorMessage(sousReseauForm.controls['number'].errors)}}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label> Email </mat-label>
       <input formControlName="email" matInput placeholder="Email">
-      <mat-error *ngIf="UserForm.controls['email'].errors">
-        {{getErrorMessage(UserForm.controls['email'].errors)}}
+      <mat-error *ngIf="sousReseauForm.controls['email'].errors">
+        {{getErrorMessage(sousReseauForm.controls['email'].errors)}}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
@@ -41,8 +41,8 @@
           {{option.name}}
         </mat-option>
       </mat-autocomplete>
-      <mat-error *ngIf="UserForm.controls['roles'].errors">
-        {{getErrorMessage(UserForm.controls['roles'].errors)}}
+      <mat-error *ngIf="sousReseauForm.controls['roles'].errors">
+        {{getErrorMessage(sousReseauForm.controls['roles'].errors)}}
       </mat-error>
     </mat-form-field>
   </form>

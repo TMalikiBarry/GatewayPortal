@@ -4,12 +4,12 @@ import {ControlTransactionService} from "../../service/controlTransaction/contro
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ControlTransactionInterface} from "../../model/control-transaction.interface";
 import {NotifyService} from "../../service/utils/notify.service";
-import {SousCompteModel} from "../../model/sousCompte.model";
 import {ServiceModel} from "../../model/service.model";
 import {Observable, tap} from "rxjs";
 import {UserModel} from "../../model/user.model";
 import {map} from "rxjs/operators";
 import {AVAILABLE_SERVICES} from "../../../assets/List-Service-Dispo/Available_Services";
+import {PointsInterface} from "../../model/points.interface";
 
 @Component({
   selector: 'app-dialog-control-trans',
@@ -21,22 +21,15 @@ export class DialogControlTransComponent implements OnInit {
   title: string = "Ajouter un";
   actionBtn: string = "ENREGISTRER";
 
-  listSousComptes!: SousCompteModel[];
-  chosenSousCompte!:SousCompteModel;
+  listPoints!: PointsInterface[];
+  chosenPoint!:PointsInterface;
 
   listServices$!:Observable<ServiceModel[]>;
   chosenService!: ServiceModel;
 
-  // service: ServiceModel;
-  // sCompte: SousCompteModel;
-  // montantSeuil: number;
-  // montantHebdomadaire?: number;
-  // montantJournalier?: number;
-  // heureDebut?: string;
-  // heureFin?: string;
   cTransacForm = this.fb.group({
     service : ['', Validators.required],
-    scompte : ['', Validators.required],
+    points : ['', Validators.required],
     montantSeuil : [ '' , [Validators.required, Validators.pattern("^[1-9]*[05]+$")]],
     montantHebdomadaire : [ '', [Validators.pattern("^[1-9]*[05]+$")]],
     montantJournalier : ['', Validators.pattern("^[1-9]*[05]+$")],
@@ -52,9 +45,9 @@ export class DialogControlTransComponent implements OnInit {
 
   ngOnInit(): void {
     let myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
-    this.api.getMySousComptes(myId).subscribe(
+    this.api.getMyPoints(myId).subscribe(
       res => {
-        this.listSousComptes = res.data as SousCompteModel[];
+        this.listPoints = res.data as PointsInterface[];
       }
     );
     this.listServices$ = this.api.getAllService().pipe(
@@ -66,10 +59,10 @@ export class DialogControlTransComponent implements OnInit {
       this.title = "Modifier le";
       this.actionBtn = "Mettre à jour"
 
-      this.chosenSousCompte = this.editData.scompte;
+      this.chosenPoint = this.editData.points;
       this.chosenService = this.editData.service;
       this.cTransacForm.controls['service'].setValue(this.editData.service.id.toString());
-      this.cTransacForm.controls['scompte'].setValue(this.editData.scompte.id.toString());
+      this.cTransacForm.controls['points'].setValue(this.editData.points.id!.toString());
       this.cTransacForm.controls['montantSeuil'].setValue(this.editData.montantSeuil.toString());
       this.cTransacForm.controls['montantJournalier'].setValue(this.editData.montantJournalier!.toString());
       this.cTransacForm.controls['montantHebdomadaire'].setValue(this.editData.montantHebdomadaire!.toString());
@@ -86,14 +79,14 @@ export class DialogControlTransComponent implements OnInit {
       }
       this.api.createNewControlTransaction(this.getControlFromForm()).subscribe(
         ()=> {
-          this.notify.snackMessage(`Contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenSousCompte.sousCompteName} ajouté avec succès`,
+          this.notify.snackMessage(`Contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} ajouté avec succès`,
             2500, "success");
           this.dialogRef.close('OK');
         },
         error => {
           console.error(error)
           if (error.statusCode === 400)
-            this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenSousCompte.sousCompteName} a déjà été soumis`,
+            this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} a déjà été soumis`,
               3000, "danger");
         }
       )
@@ -103,13 +96,13 @@ export class DialogControlTransComponent implements OnInit {
   updateControl(){
     this.api.updateControlTransaction(this.getControlFromForm(), this.editData.id!).subscribe(
       ()=> {
-        this.notify.snackMessage(`Contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenSousCompte.sousCompteName} ajouté avec succès`,
+        this.notify.snackMessage(`Contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} ajouté avec succès`,
           2500, "success");
         this.dialogRef.close('OK');
       },
       error => {
         if (error.statusCode === 400)
-          this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenSousCompte.sousCompteName} a déjà été soumis`,
+          this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} a déjà été soumis`,
             3000, "danger");
       }
     )
@@ -123,16 +116,20 @@ export class DialogControlTransComponent implements OnInit {
         this.chosenService = res.data
       }
     )
+
   }
   onChooseSousCompte() {
-    this.api.getSousCompteById(Number(this.cTransacForm.controls['scompte'].value)).pipe(
+    this.chosenPoint = this.listPoints
+      .find(x => x.id.toString() == this.cTransacForm.controls['points'].value)!;
+    /*this.api.getPointsById(Number(this.cTransacForm.controls['points'].value)).pipe(
       tap(console.dir)
     )
       .subscribe(
         res => {
-          this.chosenSousCompte = res.data
+          this.chosenPoint = res.data
         }
-      )
+      )*/
+
   }
   getControlFromForm(){
     const {montantSeuil, montantJournalier,
@@ -140,7 +137,7 @@ export class DialogControlTransComponent implements OnInit {
       heureFin} = this.cTransacForm.value
     return <ControlTransactionInterface> {
       service: this.chosenService,
-      scompte: this.chosenSousCompte,
+      points: this.chosenPoint,
       montantSeuil: Number(montantSeuil),
       montantJournalier: Number(montantJournalier),
       montantHebdomadaire: Number(montantHebdomadaire),
