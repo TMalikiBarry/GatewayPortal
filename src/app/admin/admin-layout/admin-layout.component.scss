@@ -67,6 +67,10 @@ li{
   background-color:brown;
   color:white;
 }
+::ng-deep .custom-style-info{
+  background-color: #a89929;
+  color:white;
+}
 
 .toolbar-item-spacer {
   flex: 1 1 auto;

@@ -22,13 +22,25 @@ export class AuthentificationGuard implements CanActivate {
     if (this.authService.isLoggedIn()) {
       const userRole = this.authService.getRole();
       if (route.data['roles'] && route.data['roles'].indexOf(userRole) === -1) {
-        console.log(userRole + " != " +route.data['roles'])
         this._snackBar.openFromComponent(DialogAlertComponent, {
           data: "Acces non autoriser",
           duration: 5000,
           verticalPosition: "top",
           horizontalPosition: "end",
           panelClass: ["custom-style-delete"]
+        })
+        this.router.navigate(['/login']);
+        return false;
+      }
+      // check si dossier valider
+      if(localStorage.getItem('DOSS') === 'false'){
+        this.authService.logout();
+        this._snackBar.openFromComponent(DialogAlertComponent, {
+          data: `Veillez contacter l'administrateur pour vous connecter`,
+          duration: 5000,
+          verticalPosition: "top",
+          horizontalPosition: "end",
+          panelClass: ["custom-style-info"]
         })
         this.router.navigate(['/login']);
         return false;

@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
               private _snackBar : MatSnackBar) { }
 
   ngOnInit(): void {
-    console.log(this.api.isAuth);
     this.loginForm = this.formBuilder.group({
       username : ['', [Validators.required, Validators.minLength(3)] ],
       password : ['', [Validators.required, Validators.minLength(5)] ]
@@ -48,26 +47,26 @@ export class LoginComponent implements OnInit {
         next : (user) => {
           this.api.AuthentificateUser(user).subscribe({
             next : (data) => {
-              console.log("data "+data)
               if(this.api.currentUserValue){
-                console.log("login.ts "+this.api.currentUserValue.roles)
                 let utilisateur = user as LoginModel
                 this.userService.getUser(utilisateur.id).pipe(
                   tap(console.dir),
                   map(res => res.data as UserModel),
                   tap(user => {
-                    if(user.rememberMe) {
-                      this.router.navigate(['admin/dashboard']);
-                      this._snackBar.openFromComponent(DialogAlertComponent, {
-                        data: `Bienvenue ${user.username}`,
-                        duration: 2000,
-                        verticalPosition: "top",
-                        horizontalPosition: "end",
-                        panelClass: ["custom-style-add"]
-                      })
-                    }else{
-                      this.router.navigate(['reset']);
-                    }
+                      if(user.rememberMe && this.api.isAuth) {
+                        this.router.navigate(['admin/dashboard']);
+                        if(localStorage.getItem('DOSS') === 'true'){
+                          this._snackBar.openFromComponent(DialogAlertComponent, {
+                            data: `Bienvenue ${user.username}`,
+                            duration: 2000,
+                            verticalPosition: "top",
+                            horizontalPosition: "end",
+                            panelClass: ["custom-style-add"]
+                          })
+                        }
+                      }else{
+                        this.router.navigate(['reset']);
+                      }
                   })
                 ).subscribe();
               }

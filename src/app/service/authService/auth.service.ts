@@ -8,6 +8,8 @@ import {LoginModel} from "../../model/login.model";
 import {ApiResponse} from "../../request/ApiResponse";
 import {ResetRequest} from "../../request/ResetRequest";
 import {UserModel} from "../../model/user.model";
+import {DossierService} from "../DossierService/dossier.service";
+import {DossierModel} from "../../model/dossier.model";
 @Injectable({
   providedIn: 'root'
 })
@@ -16,10 +18,12 @@ export class AuthService {
   isAuth : boolean = false
   roleAs !: string | null
   role !: string;
+  dossiers !: DossierModel[]
+  utilisateur !: UserModel[];
   private currentUserSubject!: BehaviorSubject<LoginModel>;
   public currentUser!: Observable<LoginModel>;
 
-  constructor(private http : HttpClient, private loginService : UserService, private router : Router) {
+  constructor(private http : HttpClient, private loginService : UserService, private router : Router, private apiDossier : DossierService) {
     this.currentUserSubject = new BehaviorSubject<LoginModel>(JSON.parse(<string>localStorage.getItem("currentUser")));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -36,11 +40,33 @@ export class AuthService {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify(user));
           localStorage.setItem('STATE', 'true');
+          localStorage.setItem('DOSS', 'true');
           localStorage.setItem('ROLE', this.getTheRole(user.roles));
           localStorage.setItem('TOKEN', user.accessToken)
           this.isAuth = true;
           this.currentUserSubject.next(user);
         }
+        this.apiDossier.DossierbyId(user.id).subscribe({
+          next : value => {
+            this.dossiers = value.data as DossierModel[]
+            if (this.dossiers.length > 0){
+              this.dossiers.forEach(dossier => {
+                if(dossier.statut !== 'VALIDER'){
+                  localStorage.setItem('DOSS','false')
+                  console.log(dossier.name +" est "+dossier.statut)
+                }
+              })
+            }else {
+              localStorage.setItem('DOSS','false')
+              console.log("pas de dossier pour ce commercant "+user.username)
+            }
+          }
+        })
+        this.loginService.getUser(user.id).subscribe({
+          next : value => {
+            this.utilisateur = value.data as UserModel[]
+          }
+        })
         return user;
       }));
   }
@@ -88,10 +114,7 @@ export class AuthService {
   public logout() : Observable<boolean>{
     this.isAuth = false;
     this.roleAs = '';
-    localStorage.removeItem("currentUser");
-    localStorage.setItem('STATE', 'false');
-    localStorage.setItem('ROLE', '');
-    localStorage.setItem('TOKEN','')
+    localStorage.clear()
     return of(true);
   }
 
@@ -113,15 +136,19 @@ export class AuthService {
       if(user){
         this.AuthentificateUser(user);
         this.isAuth = true;
-        let utilisateur = user as LoginModel
-        this.loginService.getUser(utilisateur.id).pipe(
-          tap(console.dir),
-          map(res => res.data as UserModel),
-          tap(user1 => {
-            user = user1;
-          })
-        ).subscribe();
-        if(!user.rememberMe){
+        // this.loginService.getUser(utilisateur.id).pipe(
+        //   tap(console.dir),
+        //   map(res => res.data as UserModel),
+        //   tap(user1 => {
+        //     user = user1;
+        //   })
+        // ).subscribe()
+        if (localStorage.getItem('DOSS') !== 'true'){
+          this.logout();
+          return
+        }
+        if(this.utilisateur && !this.utilisateur[0].rememberMe){
+          console.log("reset")
           this.router.navigateByUrl('reset');
         }else{
           this.router.navigateByUrl('/admin/dashboard');
