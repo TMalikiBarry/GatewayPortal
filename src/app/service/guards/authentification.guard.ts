@@ -23,7 +23,7 @@ export class AuthentificationGuard implements CanActivate {
       const userRole = this.authService.getRole();
       if (route.data['roles'] && route.data['roles'].indexOf(userRole) === -1) {
         this._snackBar.openFromComponent(DialogAlertComponent, {
-          data: "Acces non autoriser",
+          data: "Accès non autorisé",
           duration: 5000,
           verticalPosition: "top",
           horizontalPosition: "end",

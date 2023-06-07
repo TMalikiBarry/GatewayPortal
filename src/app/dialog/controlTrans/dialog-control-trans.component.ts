@@ -22,26 +22,27 @@ export class DialogControlTransComponent implements OnInit {
   actionBtn: string = "ENREGISTRER";
 
   listPoints!: PointsInterface[];
-  chosenPoint!:PointsInterface;
+  chosenPoint!: PointsInterface;
 
-  listServices$!:Observable<ServiceModel[]>;
+  listServices$!: Observable<ServiceModel[]>;
   chosenService!: ServiceModel;
 
   cTransacForm = this.fb.group({
-    service : ['', Validators.required],
-    points : ['', Validators.required],
-    montantSeuil : [ '' , [Validators.required, Validators.pattern("^[1-9]*[05]+$")]],
-    montantHebdomadaire : [ '', [Validators.pattern("^[1-9]*[05]+$")]],
-    montantJournalier : ['', Validators.pattern("^[1-9]*[05]+$")],
+    service: ['', Validators.required],
+    points: ['', Validators.required],
+    montantSeuil: ['', [Validators.required, Validators.pattern("^[1-9]*[05]+$")]],
+    montantHebdomadaire: ['', [Validators.pattern("^[1-9]*[05]+$")]],
+    montantJournalier: ['', Validators.pattern("^[1-9]*[05]+$")],
     heureDebut: '',
     heureFin: '',
   })
 
   constructor(private fb: FormBuilder,
               private api: ControlTransactionService,
-              @Inject(MAT_DIALOG_DATA) public editData : ControlTransactionInterface,
+              @Inject(MAT_DIALOG_DATA) public editData: ControlTransactionInterface,
               private notify: NotifyService,
-              private dialogRef: MatDialogRef<DialogControlTransComponent>) { }
+              private dialogRef: MatDialogRef<DialogControlTransComponent>) {
+  }
 
   ngOnInit(): void {
     let myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
@@ -52,17 +53,21 @@ export class DialogControlTransComponent implements OnInit {
     );
     this.listServices$ = this.api.getAllService().pipe(
       map(res => res.data as ServiceModel[]),
-      map(services => services.filter(service=> AVAILABLE_SERVICES.includes(service.serviceName)))
+      map(services => services.filter(service => AVAILABLE_SERVICES.includes(service.serviceName)))
     );
 
-    if (this.editData){
+    if (this.editData) {
       this.title = "Modifier le";
       this.actionBtn = "Mettre à jour"
 
       this.chosenPoint = this.editData.points;
       this.chosenService = this.editData.service;
-      this.cTransacForm.controls['service'].setValue(this.editData.service.id.toString());
-      this.cTransacForm.controls['points'].setValue(this.editData.points.id!.toString());
+      // Ajouter "// @ts-ignore" pour résoudre le probleme pour le moment
+      // @ts-ignore
+      this.cTransacForm.controls['service'].setValue(this.editData.service.id);
+      // Ajouter "// @ts-ignore" pour résoudre le probleme pour le moment
+      // @ts-ignore
+      this.cTransacForm.controls['points'].setValue(this.editData.points.id!);
       this.cTransacForm.controls['montantSeuil'].setValue(this.editData.montantSeuil.toString());
       this.cTransacForm.controls['montantJournalier'].setValue(this.editData.montantJournalier!.toString());
       this.cTransacForm.controls['montantHebdomadaire'].setValue(this.editData.montantHebdomadaire!.toString());
@@ -71,56 +76,64 @@ export class DialogControlTransComponent implements OnInit {
     }
   }
 
-  addControl(){
+  addControl() {
     if (this.cTransacForm.valid) {
-      if (this.editData){
+      if (this.editData) {
         this.updateControl();
         return;
       }
       this.api.createNewControlTransaction(this.getControlFromForm()).subscribe(
-        ()=> {
-          this.notify.snackMessage(`Contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} ajouté avec succès`,
-            2500, "success");
-          this.dialogRef.close('OK');
-        },
-        error => {
-          console.error(error)
-          if (error.statusCode === 400)
-            this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} a déjà été soumis`,
-              3000, "danger");
+        {
+          next: ()=> {
+            this.notify.snackMessage(`Contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} ajouté avec succès`,
+              2500, "success");
+            this.dialogRef.close('OK');
+          }
+          ,
+          error: error => {
+            console.error(error)
+            if (error.statusCode === 400)
+              this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} a déjà été soumis`,
+                3000, "danger");
+          }
         }
       )
     }
   }
 
-  updateControl(){
+  updateControl() {
     this.api.updateControlTransaction(this.getControlFromForm(), this.editData.id!).subscribe(
-      ()=> {
-        this.notify.snackMessage(`Contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} ajouté avec succès`,
-          2500, "success");
-        this.dialogRef.close('OK');
-      },
-      error => {
-        if (error.statusCode === 400)
-          this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} a déjà été soumis`,
-            3000, "danger");
+      {
+        next: () => {
+          this.notify.snackMessage(`Contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} mis à jour avec succès`,
+            2500, "success");
+          this.dialogRef.close('OK');
+        }
+        ,
+        error: error => {
+          if (error.statusCode === 400)
+            this.notify.snackMessage(`un contrôle pour le service ${this.chosenService.serviceName} et le sous-compte ${this.chosenPoint.name} a déjà été soumis`,
+              3000, "danger");
+        }
       }
     )
   }
+
   onChooseService() {
     this.api.getServiceById(Number(this.cTransacForm.controls['service'].value)).pipe(
       tap(console.dir)
     )
       .subscribe(
-      res => {
-        this.chosenService = res.data
-      }
-    )
+        res => {
+          this.chosenService = res.data
+        }
+      )
 
   }
+
   onChooseSousCompte() {
     this.chosenPoint = this.listPoints
-      .find(x => x.id.toString() == this.cTransacForm.controls['points'].value)!;
+      .find(x => x.id === Number(this.cTransacForm.controls['points'].value))!;
     /*this.api.getPointsById(Number(this.cTransacForm.controls['points'].value)).pipe(
       tap(console.dir)
     )
@@ -131,24 +144,7 @@ export class DialogControlTransComponent implements OnInit {
       )*/
 
   }
-  getControlFromForm(){
-    const {montantSeuil, montantJournalier,
-      montantHebdomadaire, heureDebut,
-      heureFin} = this.cTransacForm.value
-    return <ControlTransactionInterface> {
-      service: this.chosenService,
-      points: this.chosenPoint,
-      montantSeuil: Number(montantSeuil),
-      montantJournalier: Number(montantJournalier),
-      montantHebdomadaire: Number(montantHebdomadaire),
-      heureDebut,
-      heureFin
-    }
-  }
 
-  hasAvalue(value: number|string): boolean {
-    return !(value === '' || value === 0)
-  }
   getErrorMessage(errors: ValidationErrors) {
     if (errors['required']) {
       return 'Champ Obligatoire'
@@ -161,6 +157,26 @@ export class DialogControlTransComponent implements OnInit {
     }
   }
 
+  getControlFromForm() {
+    const {
+      montantSeuil, montantJournalier,
+      montantHebdomadaire, heureDebut,
+      heureFin
+    } = this.cTransacForm.value
+    return <ControlTransactionInterface>{
+      service: this.chosenService,
+      points: this.chosenPoint,
+      montantSeuil: Number(montantSeuil),
+      montantJournalier: Number(montantJournalier),
+      montantHebdomadaire: Number(montantHebdomadaire),
+      heureDebut,
+      heureFin
+    }
+  }
+
+  hasAvalue(value: number | string): boolean {
+    return !(value === '' || value === 0)
+  }
 
 
 }

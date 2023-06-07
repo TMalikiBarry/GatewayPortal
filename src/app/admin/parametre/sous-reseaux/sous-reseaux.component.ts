@@ -12,8 +12,9 @@ import {DialogAccesSCompteComponent} from "../../../dialog/SousCompteAcces/dialo
 import {SousReseauInterface} from "../../../model/sous-reseau.interface";
 import {NotifyService} from "../../../service/utils/notify.service";
 import {SousCompteModel} from "../../../model/sousCompte.model";
+import {forkJoin} from "rxjs";
 
-type columnName = 'sousReseauName' | 'code' | 'reseau';
+type columnName = 'sousReseauName' | 'code' | 'reseau' |  'acces';
 
 @Component({
   selector: 'app-sous-reseaux',
@@ -29,9 +30,10 @@ type columnName = 'sousReseauName' | 'code' | 'reseau';
 })
 export class SousReseauxComponent implements OnInit {
 
-  columnsToDisplay: columnName[] = ['sousReseauName', 'code', 'reseau'];
+  columnsToDisplay: columnName[] = ['sousReseauName', 'code', 'acces', 'reseau'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'action', 'expand'];
-  expandedElement ?: SousCompteModel | null;
+  expandedElement ?: SousCompteModel;
+  listSComptes!: SousCompteModel [];
 
   dataSource !: MatTableDataSource<SousReseauInterface>;
 
@@ -44,9 +46,37 @@ export class SousReseauxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getMySousReseaux()
+    this.apiSousReseau.getMySousComptes().subscribe(
+      res => this.listSComptes = res.data as SousCompteModel[],
+    );
+
+    this.getMySousReseaux();
   }
 
+  getMySousReseaux() {
+    forkJoin({
+      sousReseaux: this.apiSousReseau.getMySousReseaux(),
+      scomptes: this.apiSousReseau.getMySousComptes()
+    }).subscribe({
+      next: (res: { sousReseaux: ApiResponse, scomptes: ApiResponse }) => {
+        console.log(res.sousReseaux.data);
+        console.log(res.scomptes.data);
+
+        const sousReseaux: SousReseauInterface[] = <SousReseauInterface[]>res.sousReseaux.data ;
+        const scomptes: SousCompteModel[] = res.scomptes.data as SousCompteModel[];
+
+        sousReseaux.forEach(sousReseau => {
+          sousReseau.scomptes = this.getSousComptesBySReseauId(scomptes, sousReseau.id!);
+        });
+
+        this.dataSource = new MatTableDataSource<SousReseauInterface>(sousReseaux);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+    });
+  }
+
+/*
   getMySousReseaux() {
     this.apiSousReseau.getMySousReseaux()
       .subscribe({
@@ -58,11 +88,11 @@ export class SousReseauxComponent implements OnInit {
         }
       })
   }
+*/
 
   update(row: ReseauModel) {
     this.dialog.open(DialogSousReseauxComponent, {
       data: row,
-      height: '17rem',
     }).afterClosed().subscribe(value => {
       if (value === 'OK') {
         this.getMySousReseaux();
@@ -73,9 +103,11 @@ export class SousReseauxComponent implements OnInit {
   add() {
     this.dialog.open(DialogSousReseauxComponent,
       {
-        height: '17rem',
-      }).afterClosed().subscribe(() => {
+        width: '25rem',
+      }).afterClosed().subscribe(value => {
+      if (value === 'OK') {
         this.getMySousReseaux();
+      }
     })
   }
 
@@ -117,5 +149,9 @@ export class SousReseauxComponent implements OnInit {
     } else {
       return 'Sous Réseau';
     }
+  }
+
+  getSousComptesBySReseauId(scomptes: SousCompteModel[], id: number): SousCompteModel [] {
+    return  scomptes.filter( scompte => scompte.sreseau.id === id);
   }
 }

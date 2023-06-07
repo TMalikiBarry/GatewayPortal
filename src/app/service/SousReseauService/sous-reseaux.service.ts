@@ -32,10 +32,9 @@ export class SousReseauxService {
     return this.http.get<ApiResponse>(`${environment.API_URL + '/scompte'}/commercant/${this.myId}`);
   }
 
-  getSousReseauById(id : number){
-    return this.http.get<ApiResponse>(`${this.currentEnv}/${id}`);
+  getAllMySuperviseurs(){
+    return this.http.get<ApiResponse>(`${environment.API_URL + '/users'}/${this.myId}`);
   }
-
   getMySousReseaux(){
     return this.http.get<ApiResponse>(`${this.currentEnv}/commercant/${this.myId}`)
   }

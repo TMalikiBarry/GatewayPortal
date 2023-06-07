@@ -27,6 +27,12 @@
           <td *matCellDef="let row" mat-cell> {{row.code}} </td>
         </ng-container>
 
+        <!-- ACCES Column -->
+        <ng-container matColumnDef="acces">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Superviseur </th>
+          <td *matCellDef="let row" mat-cell> {{row.acces.name}} </td>
+        </ng-container>
+
         <!-- RESEAU Column -->
         <ng-container matColumnDef="reseau">
           <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom du réseau</th>
@@ -72,11 +78,14 @@
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <table>
                 <tr>
-                  <th>Libellé Sous Compte</th>
+                  <th mat-header-cell>Libellé Sous Compte</th>
                 </tr>
                 <tbody>
                   <tr *ngFor="let scompte of element.scomptes">
                     <td>{{scompte.sousCompteName}}</td>
+                  </tr>
+                  <tr class="mat-row" *ngIf="element.scomptes.length===0 || !element.scomptes">
+                    <td class="mat-cell" colspan="5"><em>Aucun Sous-Compte</em></td>
                   </tr>
                 </tbody>
               </table>
@@ -97,7 +106,7 @@
         </tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      <mat-paginator showFirstLastButtons [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </div>
   </div>
 </div>

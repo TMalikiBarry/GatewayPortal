@@ -55,7 +55,7 @@
                 color="warn"
                 matTooltip="Supprimer"
                 matTooltipPosition="after"
-                (click)="delete(element.id)">
+                (click)="delete(element)">
                 <mat-icon>delete</mat-icon>
               </button>
             </div> </td>
@@ -78,13 +78,13 @@
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <table>
                 <tr>
-                  <th>Username</th>
-                  <th>Profil</th>
+                  <th>Point</th>
+                  <th>Agent</th>
                 </tr>
                 <tbody>
-                <tr *ngFor="let acces of element.accesCollection">
-                  <td *ngIf="acces.id !== api.myId && acces">{{ acces.name}}</td>
-                  <td *ngIf="acces.id !== api.myId && acces">{{ acces.roles[0].name}}</td>
+                <tr *ngFor="let point of element.points">
+                  <td>{{ point.name}}</td>
+                  <td>{{ point.acces.name}}</td>
                 </tr>
                 </tbody>
               </table>

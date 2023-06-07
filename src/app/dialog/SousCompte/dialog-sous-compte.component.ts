@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {UserModel} from "../../model/user.model";
-import {PointsInterface} from "../../model/points.interface";
 import {CompteModel} from "../../model/compte.model";
 import {SousReseauInterface} from "../../model/sous-reseau.interface";
 import {FormBuilder, ValidationErrors, Validators} from "@angular/forms";
@@ -11,6 +10,7 @@ import {SousCompteService} from "../../service/SousCompte/sous-compte.service";
 import {SousCompteModel} from "../../model/sousCompte.model";
 import {tap} from "rxjs";
 import {MatSelectChange} from "@angular/material/select";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-sous-compte',
@@ -20,15 +20,14 @@ import {MatSelectChange} from "@angular/material/select";
 export class DialogSousCompteComponent implements OnInit {
 
   dataSourceAgents !: MatTableDataSource<UserModel>;
-  dataSourcePoints !: MatTableDataSource<PointsInterface>;
 
   myCompte !: CompteModel;
   listSousReseaux !: SousReseauInterface[];
   chosenSousReseau !: SousReseauInterface;
-  listPoints !: PointsInterface[];
-  currentListPoints !: PointsInterface[];
+/*  listPoints !: PointsInterface[];
+  currentListPoints !: PointsInterface[];*/
   listAgents !: UserModel[];
-  currentListAgents !: UserModel[];
+  currentListAgents: UserModel[] = [];
 
   title : string = "Ajouter un Sous-Compte"
   actionBtn : string = "Sauvegarder";
@@ -37,9 +36,8 @@ export class DialogSousCompteComponent implements OnInit {
 
   sousCompteForm = this.formBuilder.group({
     sousCompteName : ['', Validators.required],
-    sreseau : ['', Validators.required],
-    accesCollection: ['', Validators.required],
-    points : ['', Validators.required]
+    sreseau : ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+    accesCollection: '',
   })
 
   constructor(private formBuilder : FormBuilder ,
@@ -49,12 +47,19 @@ export class DialogSousCompteComponent implements OnInit {
               private dialogRef : MatDialogRef<DialogSousCompteComponent>) { }
 
   ngOnInit(): void {
-    this.api.getMyPoints().subscribe(
+   /* this.api.getMyPoints().subscribe(
       res=> this.listPoints = <PointsInterface[]> res.data,
-    )
+    )*/
 
-    this.api.getMyAgents().subscribe(
-      res => this.listAgents = res.data as UserModel[],
+    this.api.getMyAgents().pipe(
+      map(res => {
+        let users = <UserModel[]>res.data;
+        return users.filter(user => user.roles?.some(role => role.code === 'OPERATEUR'))
+      }),
+    ).subscribe(
+      ops => {
+        this.listAgents = ops;
+      }
     );
 
     this.api.getMySousReseaux().subscribe({
@@ -74,11 +79,16 @@ export class DialogSousCompteComponent implements OnInit {
       this.actionBtn = "Mettre à jour";
 
       this.sousCompteForm.controls['sousCompteName'].setValue(this.editData.sousCompteName);
-      this.sousCompteForm.controls['sreseau'].setValue(this.editData.sreseau.sousReseauName);
+
+      // Ajouter "// @ts-ignore" pour résoudre le probleme pour le moment
+      // @ts-ignore
+      this.sousCompteForm.controls['sreseau'].setValue(this.editData.sreseau.id!);
 
       this.chosenSousReseau = this.editData.sreseau;
-      this.currentListPoints = this.editData.points;
+      // this.currentListPoints = this.editData.points;
       this.currentListAgents = this.editData.accesCollection;
+      this.setAgentTableRows(this.currentListAgents);
+
     }
   }
 
@@ -86,9 +96,12 @@ export class DialogSousCompteComponent implements OnInit {
     if (this.sousCompteForm.valid){
       if (!this.editData) {
         this.api.addSCompte(this.getSousCompte()).subscribe(
-          () => this.notify
-            .snackMessage(`Sous-Compte ${this.getSousCompte().sousCompteName} a été ajouté avec succès`,
-              2500, "success"),
+          () => {
+            this.dialogRef.close('OK');
+            this.notify
+              .snackMessage(`Sous-Compte ${this.getSousCompte().sousCompteName} a été ajouté avec succès`,
+                2500, "success")
+          },
         );
       } else {
         this.updateSousCompte();
@@ -101,12 +114,15 @@ export class DialogSousCompteComponent implements OnInit {
     this.editData.compte = this.myCompte;
     this.editData.sreseau = this.chosenSousReseau;
     this.editData.accesCollection = this.currentListAgents;
-    this.editData.points = this.currentListPoints;
+    // this.editData.points = this.currentListPoints;
 
     this.api.updateSCompte(this.editData).subscribe(
-      () => this.notify
-        .snackMessage(`Sous-Compte ${this.getSousCompte().sousCompteName} a été modifié avec succès`,
-          2500, "success"),
+      () => {
+        this.dialogRef.close('OK');
+        this.notify
+          .snackMessage(`Sous-Compte ${this.getSousCompte().sousCompteName} a été modifié avec succès`,
+            2500, "success")
+      },
     )
   }
   getErrorMessage( errors : ValidationErrors){
@@ -125,11 +141,11 @@ export class DialogSousCompteComponent implements OnInit {
       compte: this.myCompte,
       sreseau: this.chosenSousReseau,
       accesCollection: this.currentListAgents,
-      points: this.currentListPoints
+      // points: this.currentListPoints
     }
   }
 
-  addPoint() {
+/*  addPoint() {
     let chosenPoint = this.listPoints
       .find(x=> x.id.toString() === this.sousCompteForm.controls['points'].value);
 
@@ -148,19 +164,21 @@ export class DialogSousCompteComponent implements OnInit {
       this.currentListPoints.splice(index, 1);
       this.setPointTablerows(this.currentListPoints);
     }
-  }
+  }*/
 
   addAgent() {
     let chosenAgent = this.listAgents
-      .find(x=> x.id.toString() === this.sousCompteForm.controls['points'].value);
-
+      .find(x=> x.id === Number(this.sousCompteForm.value.accesCollection));
+    console.log('Agent choisi ',chosenAgent);
+    console.log('Type champ', typeof this.sousCompteForm.controls['accesCollection'].value);
+    console.log('Valeur champ', this.sousCompteForm.controls['accesCollection'].value);
     if (chosenAgent && !this.currentListAgents.includes(chosenAgent)) {
       this.currentListAgents.push(chosenAgent);
       this.setAgentTableRows(this.currentListAgents);
     } else {
-      this.notify.snackMessage('Ce Point a déjà été ajouté', 3000, 'warning');
+      this.notify.snackMessage('Cet opératreur a déjà été ajouté', 3000, 'danger');
     }
-    this.sousCompteForm.controls['points'].setValue(null);
+    this.sousCompteForm.controls['accesCollection'].setValue(null);
   }
 
   deleteAgent(acces: UserModel) {
@@ -175,12 +193,12 @@ export class DialogSousCompteComponent implements OnInit {
     this.dataSourceAgents = new MatTableDataSource<UserModel>(agents);
   }
 
-  setPointTablerows(points: PointsInterface[]) {
+  /*setPointTablerows(points: PointsInterface[]) {
     this.dataSourcePoints = new MatTableDataSource<PointsInterface>(points);
-  }
+  }*/
 
   onChooseSousReseau(event: MatSelectChange) {
-    console.log(event);
+    console.log(event, typeof event, typeof event.value);
     this.chosenSousReseau = this.listSousReseaux
       .find(x=> x.id == event.value)!
   }

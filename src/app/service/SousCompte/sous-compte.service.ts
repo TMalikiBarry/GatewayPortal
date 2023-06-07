@@ -23,7 +23,7 @@ export class SousCompteService {
   }
 
   getMySousReseaux(){
-    return this.http.get<ApiResponse>(`${environment.API_URL}/scompte/commercant/${this.myId}`)
+    return this.http.get<ApiResponse>(`${environment.API_URL}/sreseau/commercant/${this.myId}`)
   }
 
   getMyPoints() {

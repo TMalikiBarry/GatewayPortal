@@ -4,12 +4,23 @@
 
     <mat-form-field appearance="outline">
       <mat-label> Libelle Sous-Reseau</mat-label>
-      <input formControlName="sousReseauName" matInput placeholder="Libelle Reseau">
+      <input formControlName="sousReseauName" matInput placeholder="Libelle Sous-Reseau">
       <mat-error *ngIf="sousReseauForm.controls['sousReseauName'].errors">
         {{getErrorMessage(sousReseauForm.controls['sousReseauName'].errors)}}
       </mat-error>
     </mat-form-field>
 
+    <mat-form-field appearance="outline">
+      <mat-label> Choisir le Superviseur </mat-label>
+      <mat-select (selectionChange)="onChooseAcces($event)" formControlName="acces" placeholder="Superviseur">
+        <mat-option *ngFor="let acces of listSuperviseurs" [value]="acces.id">{{acces.name | titlecase}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="sousReseauForm.controls['acces'].errors">
+        {{getErrorMessage(sousReseauForm.controls['acces'].errors)}}
+      </mat-error>
+    </mat-form-field>
+
+<!--
     <mat-accordion  multi>
 
       <mat-expansion-panel>
@@ -33,7 +44,7 @@
         </div>
 
         <table mat-table [dataSource]="dataSource" matSort>
-          <!-- Profil Column -->
+          &lt;!&ndash; Profil Column &ndash;&gt;
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom Sous-Compte </th>
             <td mat-cell *matCellDef="let row"> {{ row.sousCompteName}}</td>
@@ -51,13 +62,14 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-          <!-- Row shown when there is no matching data. -->
+          &lt;!&ndash; Row shown when there is no matching data. &ndash;&gt;
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="5">Aucun Profil</td>
           </tr>
         </table>
       </mat-expansion-panel>
     </mat-accordion>
+-->
 
     <!--    <mat-form-field appearance="outline">
           <mat-label>Liste Sous Comptes</mat-label>

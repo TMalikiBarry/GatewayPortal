@@ -25,7 +25,7 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../parametre/parametre.module').then(m => m.ParametreModule)
   },
   {
-    path : 'transactions',
+    path : 'operation',
     loadChildren: () => import('../operation/operation.module').then(m => m.OperationModule)
   },
   {

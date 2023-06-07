@@ -1,0 +1,85 @@
+<button (click)="addAControl()" color="primary" id="btnAdd" mat-raised-button>
+  <mat-icon>add_circle_outline</mat-icon>
+  Ajouter un Point
+</button>
+
+<mat-form-field appearance="fill">
+  <mat-label>Recherche</mat-label>
+  <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer l'Utilisateur">
+</mat-form-field>
+
+<table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+  <!-- NAME Column -->
+  <ng-container matColumnDef="name">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Nom du point</th>
+    <td *matCellDef="let row" mat-cell> {{row.name}} </td>
+  </ng-container>
+
+  <!-- LONGITUDE Column -->
+  <ng-container matColumnDef="long">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Longitude </th>
+    <td *matCellDef="let row" mat-cell> {{row.longitude}} </td>
+  </ng-container>
+  columnsToDisplay = ['name', 'long', 'lat', 'sous-compte', 'acces', 'action'];
+
+  <!-- Latitude Column -->
+  <ng-container matColumnDef="lat">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Latitude</th>
+    <td *matCellDef="let row" mat-cell> {{row.latitude }} </td>
+  </ng-container>
+
+  <!-- OPERATEUR Column -->
+  <ng-container matColumnDef="acces">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Opérateur </th>
+    <td *matCellDef="let row" mat-cell> {{ row.acces.name }} </td>
+  </ng-container>
+
+  <!-- SOUS-COMPTE Column -->
+  <ng-container matColumnDef="sous-compte">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Sous-Compte </th>
+    <td *matCellDef="let row" mat-cell> {{ row.scompte.sousCompteName }} </td>
+  </ng-container>
+
+  <!-- Action Column -->
+  <ng-container matColumnDef="action">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Actions</th>
+    <td *matCellDef="let row" mat-cell>
+      <button #tooltip="matTooltip" (click)="updatePoint(row)"
+              color="primary"
+              mat-icon-button
+              matTooltip="Modifier" matTooltipPosition="left">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        #tooltip="matTooltip" (click)="deletePoint(row)"
+        color="warn"
+        mat-icon-button
+        matTooltip="Supprimer" matTooltipPosition="after">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <a [href]="'http://maps.google.com/maps?z=18&q='+row.latitude+','+row.longitude" target="_blank"
+          mat-stroked-button matTooltip="Voir sur Google Maps" matTooltipPosition="after">
+        <mat-icon>visibility</mat-icon>
+      </a>
+<!--      <button
+        #tooltip="matTooltip" (click)="deletePoint(row)"
+        color="warn"
+        mat-icon-button
+        matTooltip="Supprimer" matTooltipPosition="after">
+        <mat-icon>delete</mat-icon>
+      </button>-->
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="columnsToDisplay" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: columnsToDisplay;" mat-row></tr>
+
+  <!-- Row shown when there is no matching data. -->
+  <tr *matNoDataRow class="mat-row">
+    <td class="mat-cell" colspan="5" *ngIf="!input.value" style="color: #757575"><b><em>Vous n'avez encore aucun contrôle enregistré !</em></b></td>
+    <td class="mat-cell" colspan="5" *ngIf="input.value">Aucun contrôle correspondant à la recherche "{{input.value}}"</td>
+  </tr>
+</table>
+
+<mat-paginator class="mat-elevation-z8" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"
+               showFirstLastButtons></mat-paginator>

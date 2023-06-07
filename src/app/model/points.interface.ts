@@ -1,4 +1,5 @@
 import {SousCompteModel} from "./sousCompte.model";
+import {UserModel} from "./user.model";
 
 export interface PointsInterface {
   id: number;
@@ -6,4 +7,5 @@ export interface PointsInterface {
   longitude: string;
   latitude: string;
   scompte: SousCompteModel;
+  acces: UserModel;
 }

@@ -8,9 +8,10 @@
         <li class="nav-item"><a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} routerLink="dashboard">Vue d'ensemble</a></li>
         <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="acces">Agents</a></li>
         <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="param/sous-reseaux">Mon Réseau</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="param/sous-comptes">Sous Comptes</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="transactions">Transactions</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="control">Contrôleurs des transactions</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="param/sous-comptes">Mon Compte</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="operation/points">Mes Points</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="operation/transac">Transactions</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="control">Contrôleurs</a></li>
         <button mat-button [matMenuTriggerFor]="menu">
           {{ authService.getRole()}} <mat-icon>expand_more</mat-icon>
         </button>

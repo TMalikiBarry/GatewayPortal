@@ -6,21 +6,30 @@ import {AuthentificationGuard} from "../../service/guards/authentification.guard
 import {SharedModule} from "../shared/shared.module";
 import {MatStepperModule} from "@angular/material/stepper";
 import {DialogTransactionComponent} from "../../dialog/dialog-transaction/dialog-transaction.component";
+import { PointsComponent } from './points/points.component';
 
 const TransactionRouting: Routes = [
   {
-    path : '',
+    path : 'transac',
     pathMatch: 'full',
     component : TransactionComponent,
     canActivate: [AuthentificationGuard],
     data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
-  }
+  },
+  {
+    path : 'points',
+    pathMatch: 'full',
+    component : PointsComponent,
+    canActivate: [AuthentificationGuard],
+    data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
+  },
 ]
 
 @NgModule({
   declarations: [
     TransactionComponent,
-    DialogTransactionComponent
+    DialogTransactionComponent,
+    PointsComponent
   ],
   imports: [
     SharedModule,

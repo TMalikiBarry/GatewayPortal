@@ -29,6 +29,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatStepperModule} from "@angular/material/stepper";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import { ResetComponent } from './reset/reset.component';
+import { PointsDialogComponent } from './dialog/points-dialog/points-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ResetComponent } from './reset/reset.component';
     LoginComponent,
     DialogAlertComponent,
     ResetComponent,
+    PointsDialogComponent,
   ],
     imports: [
         BrowserModule,

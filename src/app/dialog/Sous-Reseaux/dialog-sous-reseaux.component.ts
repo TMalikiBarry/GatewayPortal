@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {UserModel} from "../../model/user.model";
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
@@ -6,12 +6,9 @@ import {SousReseauxService} from "../../service/SousReseauService/sous-reseaux.s
 import {ReseauModel} from "../../model/reseau.model";
 import {SousReseauInterface} from "../../model/sous-reseau.interface";
 import {NotifyService} from "../../service/utils/notify.service";
-import {SousCompteModel} from "../../model/sousCompte.model";
-import {MatSort} from "@angular/material/sort";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatTableDataSource} from "@angular/material/table";
 import {tap} from "rxjs";
 import {map} from "rxjs/operators";
+import {MatSelectChange} from "@angular/material/select";
 
 
 export class AccesReseau {
@@ -26,19 +23,20 @@ export class AccesReseau {
 })
 export class DialogSousReseauxComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator !: MatPaginator;
+/*  @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
-  dataSource!: MatTableDataSource<SousCompteModel>;
+  dataSource!: MatTableDataSource<SousCompteModel>;*/
 
   title : string = "Ajouter un Sous-Réseau"
-  valueUser : UserModel[] = [];
+  // valueUser : UserModel[] = [];
   myReseau!: ReseauModel;
-  listSousComptes!: SousCompteModel[];
-  currentListSComptes!: SousCompteModel[];
+  // currentListSComptes!: SousCompteModel[];
   sousReseauForm !: FormGroup;
   actionBtn : string = "Sauvegarder";
+  listSuperviseurs!: UserModel[];
+  superviseur!: UserModel;
 
-  displayedColumns = ['name','action'];
+  // displayedColumns = ['name','action'];
 
   constructor(private formBuilder : FormBuilder ,
               private api : SousReseauxService ,
@@ -47,10 +45,18 @@ export class DialogSousReseauxComponent implements OnInit {
               private dialogRef : MatDialogRef<DialogSousReseauxComponent>) { }
 
   ngOnInit(): void {
-
-    this.api.getMySousComptes().subscribe({
+    /*this.api.getMySousComptes().subscribe({
       next: res => this.listSousComptes = res.data as SousCompteModel[],
-    });
+    });*/
+    this.api.getAllMySuperviseurs().pipe(
+      map(res=> {
+        let users = res.data as UserModel[];
+        return users.filter(user => user.roles?.some( role => role.code === 'SUPERVISEUR'));
+      }),
+      tap(console.dir),
+    ).subscribe(
+      superviseurs => this.listSuperviseurs = superviseurs,
+    );
 
     this.api.getMyReseau().pipe(
       tap(console.dir),
@@ -61,45 +67,49 @@ export class DialogSousReseauxComponent implements OnInit {
     this.sousReseauForm = this.formBuilder.group({
       id : [''],
       sousReseauName : ['',[Validators.required, Validators.minLength(3)]],
-      scomptes : ['']
+      acces : ['',[Validators.required]],
     });
 
     if(this.editData){
-      this.title = "Modifier un Sous-Réseau"
-      this.actionBtn = "Mettre a jour"
-      this.sousReseauForm.controls['id'].setValue(this.editData.id)
-      this.sousReseauForm.controls['sousReseauName'].setValue(this.editData.sousReseauName)
+      this.title = "Modifier un Sous-Réseau";
+      this.actionBtn = "Mettre a jour";
+      this.sousReseauForm.controls['id'].setValue(this.editData.id);
+      this.sousReseauForm.controls['sousReseauName'].setValue(this.editData.sousReseauName);
+      this.sousReseauForm.controls['acces'].setValue(this.editData.acces.id);
 
-      this.currentListSComptes = this.editData.scomptes;
+      // this.currentListSComptes = this.editData.scomptes;
     }
   }
-  filter(data : any){
-    this.valueUser = data.value
-    console.log(this.valueUser)
-  }
-
   addSousReseau(){
     if (this.sousReseauForm.valid) {
       if (!this.editData) {
         this.api.postSousReseau(this.getSousReseau()).subscribe({
-          next: () => this.notify
-            .snackMessage(`Sous-Reseau ${this.getSousReseau().sousReseauName} a été ajouté avec succès`,
-              2500, "success"),
+          next: () => {
+            this.dialogRef.close('OK');
+            this.notify
+              .snackMessage(`Sous-Reseau ${this.getSousReseau().sousReseauName} a été ajouté avec succès`,
+                2500, "success")
+          },
         })
       } else {
         this.updateSousReseau();
       }
     }
   }
+
   updateSousReseau(){
     this.editData.sousReseauName = this.sousReseauForm.controls['sousReseauName'].value;
-    this.editData.scomptes = this.currentListSComptes;
+    // this.editData.scomptes = this.currentListSComptes;
     this.editData.reseau = this.myReseau;
     this.api.putSousReseau(this.editData).subscribe(
-      ()=> this.notify.snackMessage(`Sous-Réseau ${this.editData.sousReseauName} mis à jour avec succès`, 2500, "success"),
+      ()=> {
+        this.dialogRef.close('OK');
+        this.notify
+          .snackMessage(`Sous-Réseau ${this.editData.sousReseauName} mis à jour avec succès`,
+            2500, "success")
+      },
     )
   }
-
   getErrorMessage( errors : ValidationErrors){
     if(errors['required']){
       return 'Champs Obligatoire'
@@ -113,11 +123,21 @@ export class DialogSousReseauxComponent implements OnInit {
   getSousReseau(): SousReseauInterface{
     return <SousReseauInterface>{
       sousReseauName: this.sousReseauForm.controls['sousReseauName'].value,
-      scomptes: this.currentListSComptes,
+      // scomptes: this.currentListSComptes,
+      acces: this.superviseur,
       reseau: this.myReseau,
     }
   }
-  addSCompte(){
+
+  onChooseAcces(event: MatSelectChange) {
+    this.superviseur = this.listSuperviseurs.find(sup => sup.id == event.value)!;
+  }
+
+  /*  filter(data : any){
+      this.valueUser = data.value
+      console.log(this.valueUser)
+    }*/
+  /*addSCompte(){
     let chosenSCompte = this.listSousComptes
       .find(x => x.id == this.sousReseauForm.controls['scomptes'].value);
     if (chosenSCompte && !this.currentListSComptes.includes(chosenSCompte)) {
@@ -141,5 +161,5 @@ export class DialogSousReseauxComponent implements OnInit {
     this.dataSource = new MatTableDataSource(rows);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
+  }*/
 }

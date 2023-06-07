@@ -9,6 +9,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogSousCompteComponent} from "../../../dialog/SousCompte/dialog-sous-compte.component";
 import {DialogAccesSCompteComponent} from "../../../dialog/SousCompteAcces/dialog-acces-s-compte.component";
 import {NotifyService} from "../../../service/utils/notify.service";
+import {forkJoin} from "rxjs";
+import {ApiResponse} from "../../../request/ApiResponse";
+import {PointsInterface} from "../../../model/points.interface";
 
 @Component({
   selector: 'app-sous-comptes',
@@ -43,9 +46,29 @@ export class SousComptesComponent implements OnInit {
   }
 
   getMySousComptes(){
-    this.api.getMySousComptes().subscribe( {
+    /*this.api.getMySousComptes().subscribe( {
       next: value => {
         this.dataSource = new MatTableDataSource<SousCompteModel>(value.data as SousCompteModel[]);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+    })*/
+    forkJoin({
+      scomptes: this.api.getMySousComptes(),
+      points: this.api.getMyPoints(),
+    }).subscribe({
+      next: (res: { points: ApiResponse, scomptes: ApiResponse }) => {
+        console.log(res.points.data);
+        console.log(res.scomptes.data);
+
+        const points: PointsInterface[] = <PointsInterface[]>res.points.data ;
+        const scomptes: SousCompteModel[] = res.scomptes.data as SousCompteModel[];
+
+        scomptes.forEach(scompte => {
+          scompte.points = this.getSousComptesBySReseauId(points, scompte.id!);
+        });
+
+        this.dataSource = new MatTableDataSource<SousCompteModel>(scomptes);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }
@@ -102,5 +125,9 @@ export class SousComptesComponent implements OnInit {
         this.getMySousComptes();
       }
     })
+  }
+
+  getSousComptesBySReseauId(points: PointsInterface[], id: number): PointsInterface[] {
+    return  points.filter( point => point.scompte.id === id);
   }
 }

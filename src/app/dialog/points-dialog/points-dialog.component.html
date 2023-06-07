@@ -1,0 +1,66 @@
+<div class="alignMyItems" mat-dialog-title>
+  <p>{{title }} point </p>
+  <img matDialogClose="r1" src="assets/fromFigma/closecircle.svg" alt="Fermer">
+</div>
+
+<div matDialogContent [formGroup]="pointForm">
+  <mat-form-field appearance="outline">
+    <mat-label> Sous Compte</mat-label>
+    <mat-select formControlName="scompte" placeholder="Choisir le Sous-Compte du point" (selectionChange)="onChooseSousCompte()">
+      <mat-option *ngFor="let scompte of allMySousComptes" [value]="scompte.id">{{scompte.sousCompteName}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="pointForm.controls['scompte'].errors">
+      {{getErrorMessage(pointForm.controls['scompte'].errors)}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Opérateur</mat-label>
+    <mat-select formControlName="acces" placeholder="Choisir l'opérateur en charge" (selectionChange)="onChooseOperator()">
+      <mat-option *ngFor="let op of allMyOperators" [value]="op.id">{{op.name}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="pointForm.controls['acces'].errors">
+      {{getErrorMessage(pointForm.controls['acces'].errors)}}
+    </mat-error>
+  </mat-form-field>
+<!--  <mat-form-field appearance="outline">
+    <mat-label> Name </mat-label>
+    <input formControlName="montantSeuil" matInput placeholder="Montant Seuil ex: 107 500 000">
+    <mat-error *ngIf="pointForm.controls['montantSeuil'].errors">
+      {{getErrorMessage(pointForm.controls['montantSeuil'].errors)}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label> Montant Seuil Hebdomadaire </mat-label>
+    <input formControlName="montantHebdomadaire" matInput placeholder="Montant autorisé dans la semaine">
+    <mat-error *ngIf="pointForm.controls['montantHebdomadaire'].errors">
+      {{getErrorMessage(pointForm.controls['montantHebdomadaire'].errors)}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label> Montant Seuil Journalier </mat-label>
+    <input formControlName="montantJournalier" matInput placeholder="Montant autorisé par jour">
+    <mat-error *ngIf="pointForm.controls['montantJournalier'].errors">
+      {{getErrorMessage(pointForm.controls['montantJournalier'].errors)}}
+    </mat-error>
+  </mat-form-field>-->
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label> Position </mat-label>
+      <input formControlName="position" matInput placeholder="latitude, longitude">
+      <mat-error *ngIf="pointForm.controls['position'].errors">
+        {{getErrorMessage(pointForm.controls['position'].errors)}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label> Nom </mat-label>
+      <input formControlName="name" matInput placeholder="Nom du point">
+      <mat-error *ngIf="pointForm.controls['name'].errors">
+        {{getErrorMessage(pointForm.controls['name'].errors)}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+<div mat-dialog-actions [align]="'center'">
+  <button mat-raised-button color="warn" [disabled]="pointForm.invalid" (click)="addControl()"> {{actionBtn}} </button>
+</div>
