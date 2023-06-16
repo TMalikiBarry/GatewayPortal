@@ -121,3 +121,68 @@ li > a.active {
     font-size: 16px;
   }
 }
+
+
+::ng-deep .custom-style-add{
+  background-color:green;
+  color:white;
+}
+::ng-deep .custom-style-update{
+  background-color:yellowgreen;
+  color:white;
+}
+::ng-deep .custom-style-delete{
+  background-color:brown;
+  color:white;
+}
+
+
+.toolbar-item-spacer {
+  flex: 1 1 auto;
+}
+
+.app-container {
+  height: 90%;
+  margin: 0;
+
+}
+.app-sidenav {
+
+  width: 280px;
+  span{
+    margin: 10px;
+  }
+}
+.app-sidenav-content {
+  align-items: center;
+  justify-content: center;
+}
+mat-nav-list a {
+  font-size: 14px;
+}
+mat-icon{
+  margin: 4px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar-user{
+  font-size: 16px;
+  font-family: Poppins, "Helvetica Neue", sans-serif;
+  width: 100% ;
+  display: inline-flex;
+  //margin-top: 1rem;
+  mat-button{
+    margin-right:10px;
+  }
+}
+
+.user-profil{
+  flex: 1 1 auto;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}

@@ -1,30 +1,88 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light " id="mainNav">
-  <div class="container">
-    <img src="assets/fromFigma/SiteLogo.svg" alt="Logo du site">
-    <a class="navbar-brand">Espace Commerçant</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} routerLink="dashboard">Vue d'ensemble</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="acces">Agents</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="param/sous-reseaux">Mon Réseau</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="param/sous-comptes">Mon Compte</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="operation/points">Mes Points</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="operation/transac">Transactions</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="control">Contrôleurs</a></li>
-        <button mat-button [matMenuTriggerFor]="menu">
-          {{ authService.getRole()}} <mat-icon>expand_more</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onUpdateProfil()"><mat-icon>perm_identity</mat-icon> Profil </button>
-          <button mat-menu-item (click)="changePasse()"><mat-icon>update</mat-icon> Changer Mot de passe</button>
-          <button mat-menu-item (click)="logout()"><mat-icon>subdirectory_arrow_right</mat-icon> Deconnexion</button>
-        </mat-menu>
-      </ul>
-    </div>
+<!--<nav class="navbar navbar-expand-lg navbar-light bg-light " id="mainNav">-->
+<!--  <div class="container">-->
+<!--    <img src="assets/fromFigma/SiteLogo.svg" alt="Logo du site">-->
+<!--    <a class="navbar-brand">Espace Commerçant</a>-->
+<!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarResponsive">-->
+<!--      <ul class="navbar-nav ms-auto">-->
+<!--        <li class="nav-item"><a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} routerLink="dashboard">Vue d'ensemble</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="acces">Agents</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="param/sous-reseaux">Sous Reseaux</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="param/sous-comptes">Sous Comptes</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="operation/points">Points</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="operation/transac">Transactions</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="control">Contrôleurs</a></li>-->
+<!--        <button mat-button [matMenuTriggerFor]="menu">-->
+<!--          {{ authService.getRole()}} <mat-icon>expand_more</mat-icon>-->
+<!--        </button>-->
+<!--        <mat-menu #menu="matMenu">-->
+<!--          <button mat-menu-item (click)="onUpdateProfil()"><mat-icon>perm_identity</mat-icon> Profil </button>-->
+<!--          <button mat-menu-item (click)="changePasse()"><mat-icon>update</mat-icon> Changer Mot de passe</button>-->
+<!--          <button mat-menu-item (click)="logout()"><mat-icon>subdirectory_arrow_right</mat-icon> Deconnexion</button>-->
+<!--        </mat-menu>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+<!--<mat-sidenav-container class="app-container">-->
+<!--  <mat-sidenav-content class="app-sidenav-content">-->
+<!--    <router-outlet></router-outlet>-->
+<!--  </mat-sidenav-content>-->
+<!--</mat-sidenav-container>-->
+
+<mat-toolbar class="toolbar-user">
+  <button mat-button color="primary" style="margin-right: 10px" (click)="sidenav.toggle()">
+    <mat-icon *ngIf="!opened">menu</mat-icon>
+    <mat-icon *ngIf="opened">clear</mat-icon>
+  </button>
+  <span>Espace Commercant</span>
+  <span class="example-spacer"></span>
+  <div class="">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <img src="../../../assets/icon/user.png" style="width: 24px; height: 24px" alt="avatar">
+    </button>
   </div>
-</nav>
+  <div class="divInfo">
+    <span> {{ user!.username}}</span>
+    <button mat-button [matMenuTriggerFor]="menu">
+      {{ authService.getRole()}} <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onUpdateProfil()">
+        <mat-icon>perm_identity</mat-icon> Profil
+      </button>
+      <button mat-menu-item (click)="changePasse()">
+        <mat-icon>update</mat-icon> Changer Mot de passe
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>subdirectory_arrow_right</mat-icon> Deconnexion
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+
 <mat-sidenav-container class="app-container">
+  <mat-sidenav #sidenav mode="side" [class.mat-elevation-z4]="true" class="app-sidenav">
+    <mat-nav-list *ngFor="let nav of navList">
+      <mat-nav-list>
+        <a mat-list-item *ngIf="!nav.items" [routerLink]="nav.routerLink" routerLinkActive="active">
+          <mat-icon> <img src="assets/icon/{{nav.icon}}" alt="{{nav.icon}}"></mat-icon>
+          <span>{{nav.label}}</span>
+        </a>
+      </mat-nav-list>
+      <mat-expansion-panel *ngIf="nav.items" [class.mat-elevation-z0]="true">
+        <mat-expansion-panel-header>
+          <mat-icon><img src="assets/icon/{{nav.icon}}" alt="{{nav.icon}}"></mat-icon><span>{{nav.label}}</span>
+        </mat-expansion-panel-header>
+        <mat-nav-list  *ngFor="let subMenu of nav.items">
+          <a mat-list-item [routerLink]="subMenu.routerLink" routerLinkActive="active">
+            <img src="assets/icon/{{subMenu.icon}}" alt="{{nav.icon}}">
+            <span>{{subMenu.label}}</span>
+          </a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-nav-list>
+  </mat-sidenav>
   <mat-sidenav-content class="app-sidenav-content">
     <router-outlet></router-outlet>
   </mat-sidenav-content>

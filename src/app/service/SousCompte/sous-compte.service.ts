@@ -4,6 +4,7 @@ import {SousCompteModel} from "../../model/sousCompte.model";
 import {environment} from "../../../environments/environment.prod";
 import {ApiResponse} from "../../request/ApiResponse";
 import {UserModel} from "../../model/user.model";
+import {AccesScompte} from "../../model/AccesScompte";
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,9 @@ export class SousCompteService {
   }
   getMySousComptes(){
     return this.http.get<ApiResponse>(`${this.myEnv}/commercant/${this.myId}`);
+  }
+
+  affectAgent(AccesScompte : AccesScompte){
+    return this.http.put<ApiResponse>(`${this.myEnv}/agentscompte/`,AccesScompte)
   }
 }

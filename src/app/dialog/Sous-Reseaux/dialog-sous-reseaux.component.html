@@ -10,15 +10,15 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label> Choisir le Superviseur </mat-label>
-      <mat-select (selectionChange)="onChooseAcces($event)" formControlName="acces" placeholder="Superviseur">
-        <mat-option *ngFor="let acces of listSuperviseurs" [value]="acces.id">{{acces.name | titlecase}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="sousReseauForm.controls['acces'].errors">
-        {{getErrorMessage(sousReseauForm.controls['acces'].errors)}}
-      </mat-error>
-    </mat-form-field>
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label> Choisir le Superviseur </mat-label>-->
+<!--      <mat-select (selectionChange)="onChooseAcces($event)" formControlName="acces" placeholder="Superviseur">-->
+<!--        <mat-option *ngFor="let acces of listSuperviseurs" [value]="acces.id">{{acces.name | titlecase}}</mat-option>-->
+<!--      </mat-select>-->
+<!--      <mat-error *ngIf="sousReseauForm.controls['acces'].errors">-->
+<!--        {{getErrorMessage(sousReseauForm.controls['acces'].errors)}}-->
+<!--      </mat-error>-->
+<!--    </mat-form-field>-->
 
 <!--
     <mat-accordion  multi>

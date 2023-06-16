@@ -1,38 +1,50 @@
 export const navbarData = [
   {
     routerLink : 'dashboard',
-    icon: 'dashboard',
+    icon: 'dashboard.svg',
     label : 'Dashboard',
     roles : ["COMMERCANT","SUPERVISEUR"]
   },
   {
-    icon: 'settings',
-    label : 'Parametre',
-    dropDown : false,
-    roles : ["COMMERCANT","SUPERVISEUR"],
-    items : [
-      {
-        routerLink : 'sous-reseaux',
-        icon: 'account_balance',
-        label : 'Sous-Reseaux',
-        visible : true,
-        roles : ["COMMERCANT","SUPERVISEUR"]
-      }
-    ]
+    routerLink: 'operation/transac',
+    icon : 'transaction.svg',
+    label: 'Transactions',
+    visible : true,
+    roles : ["COMMERCANT","SUPERVISEUR"]
   },
   {
-    icon: 'security',
-    label : 'Securite',
-    dropDown : false,
-    roles : ["COMMERCANT"],
-    items : [
-      {
-        routerLink : 'acces',
-        icon: 'person',
-        label : 'Acces',
-        visible : true,
-        roles : ["COMMERCANT"]
-      }
-    ]
+    routerLink: 'acces',
+    icon: 'user.svg',
+    label: 'Agent',
+    visible: true,
+    roles: ["COMMERCANT","SUPERVISEUR"]
+  },
+  {
+    routerLink: 'param/sous-reseaux',
+    icon : 'zone.svg',
+    label: 'Sous Reseau',
+    visible : true,
+    roles : ["COMMERCANT","SUPERVISEUR"]
+  },
+  {
+    routerLink: 'param/sous-comptes',
+    icon : 'compte.svg',
+    label: 'Sous Compte',
+    visible: true,
+    roles: ["COMMERCANT", "SUPERVISEUR"]
+  },
+  {
+    routerLink: 'operation/points',
+    icon : 'point.svg',
+    label: 'Points',
+    visible : true,
+    roles : ["COMMERCANT","SUPERVISEUR"]
+  },
+  {
+    routerLink: 'control',
+    icon : 'controle.svg',
+    label: 'Controle Transaction',
+    visible : true,
+    roles : ["COMMERCANT","SUPERVISEUR"]
   }
 ];

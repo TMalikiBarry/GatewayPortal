@@ -56,7 +56,6 @@ export class AccesComponent implements OnInit {
     console.log(row)
     this.dialog.open(DialogUserComponent,{
       data : row,
-      maxWidth: '25rem',
     }).afterClosed().subscribe(value => {
       if(value==='update'){
         this.getUser();
@@ -65,9 +64,7 @@ export class AccesComponent implements OnInit {
   }
 
   add(){
-    this.dialog.open(DialogUserComponent,{
-      maxWidth: '25rem',
-    }).afterClosed().subscribe(value => {
+    this.dialog.open(DialogUserComponent).afterClosed().subscribe(value => {
       if(value==='save'){
         this.getUser();
       }

@@ -30,7 +30,7 @@ type columnName = 'sousReseauName' | 'code' | 'reseau' |  'acces';
 })
 export class SousReseauxComponent implements OnInit {
 
-  columnsToDisplay: columnName[] = ['sousReseauName', 'code', 'acces', 'reseau'];
+  columnsToDisplay: columnName[] = [ 'code','sousReseauName'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'action', 'expand'];
   expandedElement ?: SousCompteModel;
   listSComptes!: SousCompteModel [];

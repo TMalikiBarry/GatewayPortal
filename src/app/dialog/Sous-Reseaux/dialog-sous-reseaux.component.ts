@@ -67,7 +67,7 @@ export class DialogSousReseauxComponent implements OnInit {
     this.sousReseauForm = this.formBuilder.group({
       id : [''],
       sousReseauName : ['',[Validators.required, Validators.minLength(3)]],
-      acces : ['',[Validators.required]],
+      // acces : ['',[Validators.required]],
     });
 
     if(this.editData){
@@ -75,7 +75,7 @@ export class DialogSousReseauxComponent implements OnInit {
       this.actionBtn = "Mettre a jour";
       this.sousReseauForm.controls['id'].setValue(this.editData.id);
       this.sousReseauForm.controls['sousReseauName'].setValue(this.editData.sousReseauName);
-      this.sousReseauForm.controls['acces'].setValue(this.editData.acces.id);
+      //this.sousReseauForm.controls['acces'].setValue(this.editData.acces.id);
 
       // this.currentListSComptes = this.editData.scomptes;
     }

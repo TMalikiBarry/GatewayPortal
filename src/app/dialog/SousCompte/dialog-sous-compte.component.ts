@@ -3,7 +3,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {UserModel} from "../../model/user.model";
 import {CompteModel} from "../../model/compte.model";
 import {SousReseauInterface} from "../../model/sous-reseau.interface";
-import {FormBuilder, ValidationErrors, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {NotifyService} from "../../service/utils/notify.service";
 import {SousCompteService} from "../../service/SousCompte/sous-compte.service";
@@ -34,7 +34,7 @@ export class DialogSousCompteComponent implements OnInit {
 
   displayedColumns = ['name', 'action'];
 
-  sousCompteForm = this.formBuilder.group({
+  sousCompteForm : FormGroup = this.formBuilder.group({
     sousCompteName : ['', Validators.required],
     sreseau : ['', [Validators.required, Validators.pattern(/^\d+$/)]],
     accesCollection: '',
@@ -79,11 +79,7 @@ export class DialogSousCompteComponent implements OnInit {
       this.actionBtn = "Mettre à jour";
 
       this.sousCompteForm.controls['sousCompteName'].setValue(this.editData.sousCompteName);
-
-      // Ajouter "// @ts-ignore" pour résoudre le probleme pour le moment
-      // @ts-ignore
       this.sousCompteForm.controls['sreseau'].setValue(this.editData.sreseau.id!);
-
       this.chosenSousReseau = this.editData.sreseau;
       // this.currentListPoints = this.editData.points;
       this.currentListAgents = this.editData.accesCollection;

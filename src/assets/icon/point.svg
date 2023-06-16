@@ -1,0 +1,5 @@
+<svg width="10" height="20" viewBox="0 0 10 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.5 5C9.5 7.48528 7.48528 9.5 5 9.5C2.51472 9.5 0.5 7.48528 0.5 5C0.5 2.51472 2.51472 0.5 5 0.5C7.48528 0.5 9.5 2.51472 9.5 5Z" stroke="#474646"/>
+<path d="M5.07422 9.60428L5.07422 16.6043" stroke="#474646" stroke-linecap="round"/>
+<ellipse cx="2.47692" cy="0.625297" rx="2.47692" ry="0.625297" transform="matrix(0.999614 0.0277971 0.0277971 -0.999614 2.57422 19.8544)" fill="#DBDBDB" fill-opacity="0.3"/>
+</svg>

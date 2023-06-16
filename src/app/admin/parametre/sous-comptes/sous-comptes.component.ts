@@ -28,7 +28,7 @@ import {PointsInterface} from "../../../model/points.interface";
 export class SousComptesComponent implements OnInit {
 
 
-  columnsToDisplay = ['sousCompteName', 'compte', 'sreseau'];
+  columnsToDisplay = ['sousCompteName', 'sreseau'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay,'action', 'expand'];
   expandedElement ?: SousCompteModel | null;
 
@@ -87,9 +87,7 @@ export class SousComptesComponent implements OnInit {
     this.dialog.open(DialogSousCompteComponent,{
       data : row
     }).afterClosed().subscribe(value => {
-      if(value==='OK'){
         this.getMySousComptes();
-      }
     })
   }
 
@@ -120,10 +118,10 @@ export class SousComptesComponent implements OnInit {
   }
 
   addAccesToSousCompte(){
-    this.dialog.open(DialogAccesSCompteComponent).afterClosed().subscribe(value => {
-      if(value==='OK'){
-        this.getMySousComptes();
-      }
+    this.dialog.open(DialogAccesSCompteComponent).afterClosed()
+      .subscribe(value => {
+        if(value == 'save')
+          this.getMySousComptes();
     })
   }
 

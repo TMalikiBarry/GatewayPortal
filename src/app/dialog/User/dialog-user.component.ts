@@ -92,16 +92,16 @@ export class DialogUserComponent implements OnInit {
       if(this.sousReseauForm.valid){
         this.User = this.sousReseauForm.value
         this.roles.push(this.options?.find(x => x.name === this.sousReseauForm.controls['roles'].value) as RoleModel)
-        if (!this.roles) {
-          this._snackBar.openFromComponent(DialogAlertComponent, {
-            data: "Lrole spécifié n'est pas autorisé ici",
-            duration: 2500,
-            verticalPosition: "top",
-            horizontalPosition: "center",
-            panelClass: ["custom-style-delete"]
-          });
-          return;
-        }
+        // if (!this.roles) {
+        //   this._snackBar.openFromComponent(DialogAlertComponent, {
+        //     data: "Le role spécifié n'est pas autorisé ici",
+        //     duration: 2500,
+        //     verticalPosition: "top",
+        //     horizontalPosition: "center",
+        //     panelClass: ["custom-style-delete"]
+        //   });
+        //   return;
+        // }
         this.User.roles = this.roles
         console.log(this.User)
         this.api.postUser(this.User)
@@ -136,16 +136,16 @@ export class DialogUserComponent implements OnInit {
     if(this.sousReseauForm.valid){
       this.User = this.sousReseauForm.value
       this.roles.push(this.options?.find(x => x.name === this.sousReseauForm.controls['roles'].value) as RoleModel);
-      if (!this.roles) {
-        this._snackBar.openFromComponent(DialogAlertComponent, {
-          data: "Lrole spécifié n'est pas autorisé ici",
-          duration: 2500,
-          verticalPosition: "top",
-          horizontalPosition: "center",
-          panelClass: ["custom-style-delete"]
-        });
-        return;
-      }
+      // if (!this.roles) {
+      //   this._snackBar.openFromComponent(DialogAlertComponent, {
+      //     data: "Lrole spécifié n'est pas autorisé ici",
+      //     duration: 2500,
+      //     verticalPosition: "top",
+      //     horizontalPosition: "center",
+      //     panelClass: ["custom-style-delete"]
+      //   });
+      //   return;
+      // }
       this.User.roles = this.roles
       console.log(this.User)
       this.api.putUser(this.User, this.editData.id)

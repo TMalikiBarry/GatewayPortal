@@ -15,29 +15,29 @@
              [dataSource]="dataSource" multiTemplateDataRows
              class="mat-elevation-z1" matSort>
 
-        <!-- NOM Column -->
-        <ng-container matColumnDef="sousReseauName">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom </th>
-          <td *matCellDef="let row" mat-cell> {{row.sousReseauName}} </td>
-        </ng-container>
-
         <!-- CODE Column -->
         <ng-container matColumnDef="code">
           <th *matHeaderCellDef mat-header-cell mat-sort-header> Code </th>
           <td *matCellDef="let row" mat-cell> {{row.code}} </td>
         </ng-container>
 
-        <!-- ACCES Column -->
-        <ng-container matColumnDef="acces">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header> Superviseur </th>
-          <td *matCellDef="let row" mat-cell> {{row.acces.name}} </td>
+        <!-- NOM Column -->
+        <ng-container matColumnDef="sousReseauName">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom </th>
+          <td *matCellDef="let row" mat-cell> {{row.sousReseauName}} </td>
         </ng-container>
 
-        <!-- RESEAU Column -->
-        <ng-container matColumnDef="reseau">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom du réseau</th>
-          <td *matCellDef="let row" mat-cell> {{ row.reseau.name }} </td>
-        </ng-container>
+<!--        &lt;!&ndash; ACCES Column &ndash;&gt;-->
+<!--        <ng-container matColumnDef="acces">-->
+<!--          <th *matHeaderCellDef mat-header-cell mat-sort-header> Superviseur </th>-->
+<!--          <td *matCellDef="let row" mat-cell> {{row.acces.name}} </td>-->
+<!--        </ng-container>-->
+
+<!--        &lt;!&ndash; RESEAU Column &ndash;&gt;-->
+<!--        <ng-container matColumnDef="reseau">-->
+<!--          <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom du réseau</th>-->
+<!--          <td *matCellDef="let row" mat-cell> {{ row.reseau.name }} </td>-->
+<!--        </ng-container>-->
 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef aria-label="row actions1"> Action</th>
@@ -76,17 +76,17 @@
           <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
             <div class="example-element-detail"
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-              <table>
-                <tr>
-                  <th mat-header-cell>Libellé Sous Compte</th>
+              <table class="mat-table" >
+                <tr class="mat-header-row">
+                  <th class="mat-header-cell">Libelle Sous Compte</th>
                 </tr>
-                <tbody>
-                  <tr *ngFor="let scompte of element.scomptes">
-                    <td>{{scompte.sousCompteName}}</td>
-                  </tr>
-                  <tr class="mat-row" *ngIf="element.scomptes.length===0 || !element.scomptes">
-                    <td class="mat-cell" colspan="5"><em>Aucun Sous-Compte</em></td>
-                  </tr>
+                <tbody *ngFor="let scompte of element.scomptes">
+                <tr class="mat-row" *ngIf="scompte">
+                  <td class="mat-cell">{{ scompte.sousCompteName}}</td>
+                </tr>
+                <tr class="mat-row" *ngIf="element.scomptes.length===0 || !element.scomptes">
+                  <td class="mat-cell" colspan="5"><em>Aucun Sous-Compte</em></td>
+                </tr>
                 </tbody>
               </table>
             </div>

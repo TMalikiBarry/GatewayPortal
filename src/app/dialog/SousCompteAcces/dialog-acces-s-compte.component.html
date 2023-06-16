@@ -4,25 +4,25 @@
   <form [formGroup]="ReseauAccessForm">
     <mat-form-field appearance="outline">
       <mat-label> Agent </mat-label>
-      <mat-select formControlName="username" placeholder="Choisir l'acces">
-        <mat-option *ngFor="let acces of Acces" [value]="acces.username">{{acces.name}}</mat-option>
+      <mat-select formControlName="acces" placeholder="Choisir l'acces" (selectionChange)="onChooseAcces()">
+        <mat-option *ngFor="let acces of Acces" [value]="acces">{{acces.name}}</mat-option>
       </mat-select>
-      <mat-error *ngIf="ReseauAccessForm.controls['username'].errors">
-        {{getErrorMessage(ReseauAccessForm.controls['username'].errors)}}
+      <mat-error *ngIf="ReseauAccessForm.controls['acces'].errors">
+        {{getErrorMessage(ReseauAccessForm.controls['acces'].errors)}}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label> Reseau </mat-label>
-      <mat-select formControlName="reseau" placeholder="Choisir le reseau">
-        <mat-option *ngFor="let reseau of Reseau" [value]="reseau.code">{{reseau.name}}</mat-option>
+      <mat-label> Sous Compte </mat-label>
+      <mat-select formControlName="scompte" placeholder="Choisir le sous compte" (selectionChange)="onChooseScompte()">
+        <mat-option *ngFor="let scompte of SCompte" [value]="scompte">{{scompte.sousCompteName}}</mat-option>
       </mat-select>
-      <mat-error *ngIf="ReseauAccessForm.controls['reseau'].errors">
-        {{getErrorMessage(ReseauAccessForm.controls['reseau'].errors)}}
+      <mat-error *ngIf="ReseauAccessForm.controls['scompte'].errors">
+        {{getErrorMessage(ReseauAccessForm.controls['scompte'].errors)}}
       </mat-error>
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions [align]="'end'">
-  <button style="margin-left:8px;" mat-raised-button color="primary" (click)="addAccesToReseau()"> {{actionBtn}} </button>
+  <button style="margin-left:8px;" mat-raised-button color="primary" (click)="addAccesToScompte()"> {{actionBtn}} </button>
   <button mat-raised-button color="warn" mat-dialog-close="false"> Fermer </button>
 </div>

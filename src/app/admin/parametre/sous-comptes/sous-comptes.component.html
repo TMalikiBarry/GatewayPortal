@@ -23,19 +23,19 @@
 
         <!-- SOUS COMPTE NAME Column -->
         <ng-container matColumnDef="sousCompteName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Sous Compte </th>
           <td mat-cell *matCellDef="let row"> {{row.sousCompteName}} </td>
         </ng-container>
 
-        <!-- COMPTE Column -->
-        <ng-container matColumnDef="compte">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom du compte </th>
-          <td mat-cell *matCellDef="let row"> {{row.compte.compteName}} </td>
-        </ng-container>
+<!--        &lt;!&ndash; COMPTE Column &ndash;&gt;-->
+<!--        <ng-container matColumnDef="compte">-->
+<!--          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom du compte </th>-->
+<!--          <td mat-cell *matCellDef="let row"> {{row.compte.compteName}} </td>-->
+<!--        </ng-container>-->
 
         <!-- SOUS RESEAU Column -->
         <ng-container matColumnDef="sreseau">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom du Sous Réseau </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Sous Réseau </th>
           <td mat-cell *matCellDef="let row"> {{row.sreseau.sousReseauName}} </td>
         </ng-container>
 
@@ -76,16 +76,16 @@
           <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
             <div class="example-element-detail"
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-              <table>
-                <tr>
-                  <th>Point</th>
-                  <th>Agent</th>
+              <table class="mat-table" >
+                <tr class="mat-header-row">
+                  <th class="mat-header-cell">Agent</th>
+                  <th class="mat-header-cell">Profil</th>
                 </tr>
-                <tbody>
-                <tr *ngFor="let point of element.points">
-                  <td>{{ point.name}}</td>
-                  <td>{{ point.acces.name}}</td>
-                </tr>
+                <tbody *ngFor="let agent of element.accesCollection">
+                  <tr class="mat-row" *ngIf="agent">
+                    <td class="mat-cell">{{ agent.name}}</td>
+                    <td class="mat-cell">{{ agent.roles[0].name}}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>

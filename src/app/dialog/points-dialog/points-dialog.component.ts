@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {PointsInterface} from "../../model/points.interface";
-import {FormBuilder, ValidationErrors, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {NotifyService} from "../../service/utils/notify.service";
 import {UserModel} from "../../model/user.model";
@@ -24,7 +24,8 @@ export class PointsDialogComponent implements OnInit {
   allMySousComptes!: SousCompteModel[];
   chosenSousCompte!: SousCompteModel;
 
-  pointForm = this.fb.group({
+  pointForm : FormGroup = this.fb.group({
+    id : [''],
     name: ['', Validators.required],
     position: ['', [Validators.required, Validators.pattern(/^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/)]],
     scompte: ['', Validators.required],
@@ -40,6 +41,9 @@ export class PointsDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.api.getMySousComptes().subscribe(
+      res => this.allMySousComptes = <SousCompteModel[]>res.data,
+    );
     this.api.getMyAgents().pipe(
       map(res => {
         let users = <UserModel[]>res.data;
@@ -48,10 +52,9 @@ export class PointsDialogComponent implements OnInit {
     ).subscribe(
       ops => {
         this.allMyOperators = ops;
+        if(this.editData)
+          this.getOpSCompte(this.editData.scompte);
       }
-    );
-    this.api.getMySousComptes().subscribe(
-      res => this.allMySousComptes = <SousCompteModel[]>res.data,
     );
 
     if (this.editData) {
@@ -60,8 +63,9 @@ export class PointsDialogComponent implements OnInit {
 
       this.chosenOperator = this.editData.acces;
       this.chosenSousCompte = this.editData.scompte;
-      this.pointForm.controls['scompte'].setValue(this.editData.scompte.id!.toString());
-      this.pointForm.controls['acces'].setValue(this.editData.acces.id!.toString());
+      this.pointForm.controls['id'].setValue(this.editData.id);
+      this.pointForm.controls['scompte'].setValue(this.editData.scompte.id, this.editData.scompte.sousCompteName);
+      this.pointForm.controls['acces'].setValue(this.editData.acces.id);
       this.pointForm.controls['name'].setValue(this.editData.name);
       this.pointForm.controls['position'].setValue(`${this.editData.latitude}, ${this.editData.longitude}`);
     }
@@ -99,6 +103,7 @@ export class PointsDialogComponent implements OnInit {
   onChooseSousCompte() {
     this.chosenSousCompte = this.allMySousComptes
       .find(x => x.id!.toString() == this.pointForm.controls['scompte'].value)!;
+    this.getOpSCompte(this.chosenSousCompte);
   }
 
   onChooseOperator() {
@@ -134,11 +139,20 @@ export class PointsDialogComponent implements OnInit {
   private getPointFromForm() {
     let pos = this.getPositionInfos();
     return {
+      id : this.pointForm.value.id,
       name: this.pointForm.value.name,
       acces: this.chosenOperator,
       scompte: this.chosenSousCompte,
       latitude: pos[0],
       longitude: pos[1],
     } as PointsInterface;
+  }
+
+  private getOpSCompte(sousComptesChoose : SousCompteModel) {
+    this.allMySousComptes.forEach(scompte => {
+      if(scompte.id === sousComptesChoose.id){
+        this.allMyOperators = sousComptesChoose.accesCollection.filter(x => x.roles?.some(role => role.code === 'OPERATEUR'));
+      }
+    })
   }
 }

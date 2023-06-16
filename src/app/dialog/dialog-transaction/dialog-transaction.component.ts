@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, ValidationErrors, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatStepper} from "@angular/material/stepper";
 import {ParamListInterface} from "../../model/param-list.interface";
@@ -53,7 +53,7 @@ export class DialogTransactionComponent implements OnInit {
     };
   });
 
-  infoForm = this.fb.group({
+  infoForm : FormGroup = this.fb.group({
     senderName: ['Freeman Kay', Validators.required],
     senderMobileNo: ['0202205113', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
     beneficiaryName: ['Stephen Kojo', Validators.required],
@@ -110,12 +110,12 @@ export class DialogTransactionComponent implements OnInit {
   }
 
   onChooseService(service: ServiceModel) {
-    if (!AVAILABLE_SERVICES.includes(service.serviceName)) {
-      this.snackMessage(`Le service ${service.serviceName} n'est pas encore disponible`, 3000, 'delete');
-      this.myServiceLabel = '';
-      this.chosenService = undefined;
-      return;
-    }
+    // if (!AVAILABLE_SERVICES.includes(service.serviceName)) {
+    //   this.snackMessage(`Le service ${service.serviceName} n'est pas encore disponible`, 3000, 'delete');
+    //   this.myServiceLabel = '';
+    //   this.chosenService = undefined;
+    //   return;
+    // }
     this.chosenService = service;
     this.myServiceLabel = service.serviceName;
 

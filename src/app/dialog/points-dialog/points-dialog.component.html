@@ -5,6 +5,13 @@
 
 <div matDialogContent [formGroup]="pointForm">
   <mat-form-field appearance="outline">
+    <mat-label> Nom </mat-label>
+    <input formControlName="name" matInput placeholder="Nom du point">
+    <mat-error *ngIf="pointForm.controls['name'].errors">
+      {{getErrorMessage(pointForm.controls['name'].errors)}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label> Sous Compte</mat-label>
     <mat-select formControlName="scompte" placeholder="Choisir le Sous-Compte du point" (selectionChange)="onChooseSousCompte()">
       <mat-option *ngFor="let scompte of allMySousComptes" [value]="scompte.id">{{scompte.sousCompteName}}</mat-option>
@@ -22,43 +29,17 @@
       {{getErrorMessage(pointForm.controls['acces'].errors)}}
     </mat-error>
   </mat-form-field>
-<!--  <mat-form-field appearance="outline">
-    <mat-label> Name </mat-label>
-    <input formControlName="montantSeuil" matInput placeholder="Montant Seuil ex: 107 500 000">
-    <mat-error *ngIf="pointForm.controls['montantSeuil'].errors">
-      {{getErrorMessage(pointForm.controls['montantSeuil'].errors)}}
+  <mat-form-field appearance="outline">
+    <mat-label> Localisation Point </mat-label>
+    <input formControlName="position" matInput placeholder="latitude, longitude">
+    <a matSuffix mat-icon-button href="https://www.google.com/maps/place/Dakar" matTooltip="Une fois sur Maps, faites un clic droit
+      sur l'emplacement de l'agent. Cliquez de nouveau sur les nombres du modal qui s'affiche, revenez ici
+      et collez (Ctrl + V) dans le champ 'Position'." matTooltipClass="tool-tip-class"
+       target="_blank"><mat-icon color="primary">add_location</mat-icon></a>
+    <mat-error *ngIf="pointForm.controls['position'].errors">
+      {{getErrorMessage(pointForm.controls['position'].errors)}}
     </mat-error>
   </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label> Montant Seuil Hebdomadaire </mat-label>
-    <input formControlName="montantHebdomadaire" matInput placeholder="Montant autorisé dans la semaine">
-    <mat-error *ngIf="pointForm.controls['montantHebdomadaire'].errors">
-      {{getErrorMessage(pointForm.controls['montantHebdomadaire'].errors)}}
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label> Montant Seuil Journalier </mat-label>
-    <input formControlName="montantJournalier" matInput placeholder="Montant autorisé par jour">
-    <mat-error *ngIf="pointForm.controls['montantJournalier'].errors">
-      {{getErrorMessage(pointForm.controls['montantJournalier'].errors)}}
-    </mat-error>
-  </mat-form-field>-->
-  <div>
-    <mat-form-field appearance="outline">
-      <mat-label> Position </mat-label>
-      <input formControlName="position" matInput placeholder="latitude, longitude">
-      <mat-error *ngIf="pointForm.controls['position'].errors">
-        {{getErrorMessage(pointForm.controls['position'].errors)}}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label> Nom </mat-label>
-      <input formControlName="name" matInput placeholder="Nom du point">
-      <mat-error *ngIf="pointForm.controls['name'].errors">
-        {{getErrorMessage(pointForm.controls['name'].errors)}}
-      </mat-error>
-    </mat-form-field>
-  </div>
 </div>
 
 <div mat-dialog-actions [align]="'center'">
