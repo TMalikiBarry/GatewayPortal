@@ -4,7 +4,7 @@ import {PointsInterface} from "./points.interface";
 export interface ControlTransactionInterface {
   id?: number;
   service: ServiceModel;
-  points: PointsInterface;
+  point: PointsInterface;
   montantSeuil: number;
   montantHebdomadaire?: number;
   montantJournalier?: number;

@@ -29,7 +29,7 @@ export class DialogControlTransComponent implements OnInit {
 
   cTransacForm = this.fb.group({
     service: ['', Validators.required],
-    points: ['', Validators.required],
+    point: ['', Validators.required],
     montantSeuil: ['', [Validators.required, Validators.pattern("^[1-9]*[05]+$")]],
     montantHebdomadaire: ['', [Validators.pattern("^[1-9]*[05]+$")]],
     montantJournalier: ['', Validators.pattern("^[1-9]*[05]+$")],
@@ -60,14 +60,14 @@ export class DialogControlTransComponent implements OnInit {
       this.title = "Modifier le";
       this.actionBtn = "Mettre à jour"
 
-      this.chosenPoint = this.editData.points;
+      this.chosenPoint = this.editData.point;
       this.chosenService = this.editData.service;
       // Ajouter "// @ts-ignore" pour résoudre le probleme pour le moment
       // @ts-ignore
       this.cTransacForm.controls['service'].setValue(this.editData.service.id);
       // Ajouter "// @ts-ignore" pour résoudre le probleme pour le moment
       // @ts-ignore
-      this.cTransacForm.controls['points'].setValue(this.editData.points.id!);
+      this.cTransacForm.controls['point'].setValue(this.editData.point.id!);
       this.cTransacForm.controls['montantSeuil'].setValue(this.editData.montantSeuil.toString());
       this.cTransacForm.controls['montantJournalier'].setValue(this.editData.montantJournalier!.toString());
       this.cTransacForm.controls['montantHebdomadaire'].setValue(this.editData.montantHebdomadaire!.toString());
@@ -133,7 +133,7 @@ export class DialogControlTransComponent implements OnInit {
 
   onChooseSousCompte() {
     this.chosenPoint = this.listPoints
-      .find(x => x.id === Number(this.cTransacForm.controls['points'].value))!;
+      .find(x => x.id === Number(this.cTransacForm.controls['point'].value))!;
     /*this.api.getPointsById(Number(this.cTransacForm.controls['points'].value)).pipe(
       tap(console.dir)
     )
@@ -165,7 +165,7 @@ export class DialogControlTransComponent implements OnInit {
     } = this.cTransacForm.value
     return <ControlTransactionInterface>{
       service: this.chosenService,
-      points: this.chosenPoint,
+      point: this.chosenPoint,
       montantSeuil: Number(montantSeuil),
       montantJournalier: Number(montantJournalier),
       montantHebdomadaire: Number(montantHebdomadaire),

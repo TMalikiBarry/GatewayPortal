@@ -84,7 +84,7 @@ export class ControlTransactionComponent implements OnInit {
     }
     this.api.deleteControlTransaction(row.id!).subscribe({
       next:()=>{
-        this.notify.snackMessage("Contrôle de transaction pour le sous-compte "+ row.points.name
+        this.notify.snackMessage("Contrôle de transaction pour le sous-compte "+ row.point.name
         +  " et le service "+ row.service.serviceName+ " supprimé avec Success", 3000, 'success');
         this.getMyControlTransactions();
       }
