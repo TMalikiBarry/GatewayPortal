@@ -34,7 +34,7 @@ export class DialogUserComponent implements OnInit {
   sousReseauForm !: FormGroup;
   actionBtn : string = "Sauvegarder"
   roles : RoleModel[] = [];
-  phonePattern = /^(7[0-9])\s(\d{3})\s(\d{2})\s(\d{2})$/;
+  //phonePattern = /^(7[0-9])\s(\d{3})\s(\d{2})\s(\d{2})$/;
   rolesApi !: RoleModel[];
   code : String | undefined;
   title : string = "Ajout Agent"
@@ -65,7 +65,7 @@ export class DialogUserComponent implements OnInit {
     this.sousReseauForm = this.formBuilder.group({
       id : [''],
       name : ['',[Validators.required, Validators.minLength(3)]],
-      number : ['',[Validators.required, Validators.minLength(9), Validators.pattern(this.phonePattern)]],
+      number : ['',[Validators.required, Validators.minLength(9)]],
       email : ['',[Validators.required, Validators.minLength(8)]],
       username : ['',[Validators.required, Validators.minLength(3)]],
       password : [''],

@@ -257,7 +257,7 @@ export class DialogTransactionComponent implements OnInit {
       points : this.chosenPoint,
       service : this.chosenService!,
       montant : this.amount,
-      statut : this.getTransactionStatus(StatutTransactionEnum.INITIATED)
+      statut : StatutTransactionEnum.INITIATED
     }
   }
 

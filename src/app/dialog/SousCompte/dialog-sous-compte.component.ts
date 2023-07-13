@@ -171,8 +171,10 @@ export class DialogSousCompteComponent implements OnInit {
     if (chosenAgent && !this.currentListAgents.includes(chosenAgent)) {
       this.currentListAgents.push(chosenAgent);
       this.setAgentTableRows(this.currentListAgents);
-    } else {
+    } else if(this.currentListAgents.length > 0) {
       this.notify.snackMessage('Cet opératreur a déjà été ajouté', 3000, 'danger');
+    }else{
+      this.notify.snackMessage('Veillez choisir un agent', 3000, 'danger');
     }
     this.sousCompteForm.controls['accesCollection'].setValue(null);
   }
