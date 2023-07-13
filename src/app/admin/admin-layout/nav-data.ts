@@ -7,7 +7,7 @@ export const navbarData = [
   },
   {
     routerLink: 'operation/transac',
-    icon : 'transaction.svg',
+    icon : 'transactionIc.svg',
     label: 'Transactions',
     visible : true,
     roles : ["COMMERCANT","SUPERVISEUR"]

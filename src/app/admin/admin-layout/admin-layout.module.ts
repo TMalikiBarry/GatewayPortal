@@ -28,6 +28,7 @@ import {MonProfilComponent} from "../../dialog/mon-profil/mon-profil.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {HighchartsChartModule} from "highcharts-angular";
 
 @NgModule({
   declarations: [
@@ -35,32 +36,33 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     DashboardComponent,
     MonProfilComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
-    MatListModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatSidenavModule,
-    MatExpansionModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatTableModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatSortModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatSnackBarModule,
-    MatTooltipModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatDatepickerModule,
-    MatGridListModule,
-    MatProgressBarModule,
-    MatTableExporterModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(AdminLayoutRoutes),
+        MatListModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatSidenavModule,
+        MatExpansionModule,
+        MatToolbarModule,
+        MatMenuModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatTableModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatSortModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatSnackBarModule,
+        MatTooltipModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatGridListModule,
+        MatProgressBarModule,
+        MatTableExporterModule,
+        HighchartsChartModule
+    ]
 })
 export class AdminLayoutModule { }

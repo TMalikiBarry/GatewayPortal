@@ -1,22 +1,265 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+  <mat-grid-list cols="6" rowHeight="200px">
+    <mat-grid-tile colspan="2" rowspan="1">
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
+            Total des transactions
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
+        <mat-card-content class="small_card">
+          <div class="block">
+            <mat-icon> <img src="assets/icon/transaction.svg" alt="transactions"></mat-icon>
+            <div class="div1">
+              {{ transactionsCount }} Transactions
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile *ngFor="let card of cards | async" colspan="4" rowspan="3">
+      <mat-card class="dashboard-card">
+        <mat-card-content class="small_card">
+          <mat-grid-list cols="1" rowHeight="500px">
+                <mat-card-header>
+                  <mat-card-title>
+                    {{card.title}}
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="dashboard-card-content" *ngIf="card.chart">
+                  <highcharts-chart
+                    [Highcharts] = "card.chart"
+                    [options] = "card.options"
+                    style = "width: 100%; height: 100%; display: block;">
+                  </highcharts-chart>
+                </mat-card-content>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="2" rowspan="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Total Agents
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="small_card">
+          <div class="block">
+            <mat-icon> <img src="assets/icon/acces.svg" alt="acces"></mat-icon>
+            <div class="div1">
+              {{ accesCount }} Agents
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="2" rowspan="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Total Sous Reseaux
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="small_card">
+          <div class="block">
+            <mat-icon> <img src="assets/icon/reseau.svg" alt="sousreseau"></mat-icon>
+            <div class="div1">
+              {{sousReseauCount}} Sous Reseaux
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="6" rowHeight="200px">
+    <mat-grid-tile colspan="3" rowspan="2">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Agents
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="small_card">
+          <div class="voirplus"><a style="float: right" routerLink="../acces">Voir tous les agents</a></div>
+          <table [dataSource]="dataSourceAcces" mat-table matSort>
+
+            <!-- Identifiant Column -->
+            <ng-container matColumnDef="name">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom</th>
+              <td *matCellDef="let row" mat-cell> {{row.name}} </td>
+            </ng-container>
+
+            <!-- Numéro Column -->
+            <ng-container matColumnDef="number">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header> Numero</th>
+              <td *matCellDef="let row" mat-cell> {{row.number}} </td>
+            </ng-container>
+
+            <!-- Statut Column -->
+            <ng-container matColumnDef="roles">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header> Profil</th>
+              <td *matCellDef="let row" mat-cell> {{ row.roles[0].name }} </td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="displayedColumnsAcces" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumnsAcces;" mat-row></tr>
+
+            <!-- Row shown when there is no matching data. -->
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="3" rowspan="2">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Sous Reseaux
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="small_card">
+          <div class="voirplus" ><a style="float: right" routerLink="../param/sous-reseaux">Voir tous les sous reseaux</a></div>
+          <table mat-table matTableExporter [dataSource]="dataSourceSousReseau" matSort>
+
+            <!-- Profil Column -->
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+              <td mat-cell *matCellDef="let row"> {{row.code}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sousReseauName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom Sous Reseau </th>
+              <td mat-cell *matCellDef="let row"> {{row.sousReseauName}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSousReseau"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSousReseau;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="5">No data matching the filter</td>
+            </tr>
+          </table>
+<!--          <table mat-table matTableExporter [dataSource]="dataSourceSousReseau" matSort>-->
+
+<!--            &lt;!&ndash; Profil Column &ndash;&gt;-->
+<!--            <ng-container matColumnDef="dateTransaction">-->
+<!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Transaction </th>-->
+<!--              <td mat-cell *matCellDef="let row"> {{row.sousReseauName | date:'shortDate'}} </td>-->
+<!--            </ng-container>-->
+
+<!--            <ng-container matColumnDef="scompte">-->
+<!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Intitule Point </th>-->
+<!--              <td mat-cell *matCellDef="let row"> {{row.points.name}} </td>-->
+<!--            </ng-container>-->
+
+<!--            &lt;!&ndash; Identifiant Column &ndash;&gt;-->
+<!--            <ng-container matColumnDef="service">-->
+<!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Service </th>-->
+<!--              <td mat-cell *matCellDef="let row"> {{row.service.serviceName}} </td>-->
+<!--            </ng-container>-->
+
+<!--            &lt;!&ndash; Statut Column &ndash;&gt;-->
+<!--            <ng-container matColumnDef="typeTransaction">-->
+<!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de Transaction </th>-->
+<!--              <td mat-cell *matCellDef="let row"> {{row.typeTransaction}} </td>-->
+<!--            </ng-container>-->
+
+<!--            &lt;!&ndash; Identifiant Column &ndash;&gt;-->
+<!--            <ng-container matColumnDef="expeditaire">-->
+<!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Expeditaire </th>-->
+<!--              <td mat-cell *matCellDef="let row"> {{row.expeditaire}} </td>-->
+<!--            </ng-container>-->
+
+<!--            &lt;!&ndash; Identifiant Column &ndash;&gt;-->
+<!--            <ng-container matColumnDef="destinataire">-->
+<!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Destinataire </th>-->
+<!--              <td mat-cell *matCellDef="let row"> {{row.destinataire}} </td>-->
+<!--            </ng-container>-->
+
+<!--            &lt;!&ndash; Identifiant Column &ndash;&gt;-->
+<!--            <ng-container matColumnDef="statut">-->
+<!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Statut </th>-->
+<!--              <td mat-cell *matCellDef="let row"> {{row.statut }} </td>-->
+<!--            </ng-container>-->
+
+<!--            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+
+<!--            &lt;!&ndash; Row shown when there is no matching data. &ndash;&gt;-->
+<!--            <tr class="mat-row" *matNoDataRow>-->
+<!--              <td class="mat-cell" colspan="5">No data matching the filter</td>-->
+<!--            </tr>-->
+<!--          </table>-->
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="6" rowspan="2">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Historique des Transactions
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="small_card">
+          <div class="voirplus"><a style="float: right" routerLink="../operation/transac">Voir toutes les transactions</a></div>
+          <table mat-table matTableExporter [dataSource]="dataSourceTransaction" matSort>
+
+            <!-- Profil Column -->
+            <ng-container matColumnDef="dateTransaction">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Transaction </th>
+              <td mat-cell *matCellDef="let row"> {{row.dateTransaction | date:'shortDate'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="scompte">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Intitule Point </th>
+              <td mat-cell *matCellDef="let row"> {{row.points.name}} </td>
+            </ng-container>
+
+            <!-- Identifiant Column -->
+            <ng-container matColumnDef="service">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Service </th>
+              <td mat-cell *matCellDef="let row"> {{row.service.serviceName}} </td>
+            </ng-container>
+
+            <!-- Statut Column -->
+            <ng-container matColumnDef="typeTransaction">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de Transaction </th>
+              <td mat-cell *matCellDef="let row"> {{row.typeTransaction}} </td>
+            </ng-container>
+
+            <!-- Identifiant Column -->
+            <ng-container matColumnDef="expeditaire">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Expeditaire </th>
+              <td mat-cell *matCellDef="let row"> {{row.expeditaire}} </td>
+            </ng-container>
+
+            <!-- Identifiant Column -->
+            <ng-container matColumnDef="destinataire">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Destinataire </th>
+              <td mat-cell *matCellDef="let row"> {{row.destinataire}} </td>
+            </ng-container>
+
+            <!-- Identifiant Column -->
+            <ng-container matColumnDef="statut">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Statut </th>
+              <td mat-cell *matCellDef="let row"> {{row.statut }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsTrans"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsTrans;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="5">No data matching the filter</td>
+            </tr>
+          </table>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

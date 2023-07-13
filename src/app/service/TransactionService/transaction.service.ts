@@ -29,8 +29,12 @@ export class TransactionService {
     );
   }
 
+  saveTransaction(transaction : TransactionModel){
+    return this.http.post<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+'new', transaction)
+  }
+
   getCurrentControlTransaction(serviceId: number, point_id: number){
-    return this.http.get<ApiResponse>(`${this.API_URL}/control/ctByServiceAndScompte/${serviceId}/${point_id}`)
+    return this.http.get<ApiResponse>(`${this.API_URL}/control/ctByServiceAndPoint/${serviceId}/${point_id}`)
   }
 
   getMyPoints(myId: number) {

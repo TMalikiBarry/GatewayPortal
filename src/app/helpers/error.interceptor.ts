@@ -67,7 +67,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       }
       if ([400].indexOf(err.status) !== -1) {
         this._snackBar.openFromComponent(DialogAlertComponent, {
-          data: "Une erreur est survenue",
+          data: err.error.errorMessage,
           duration: 5000,
           verticalPosition: "top",
           horizontalPosition: "end",

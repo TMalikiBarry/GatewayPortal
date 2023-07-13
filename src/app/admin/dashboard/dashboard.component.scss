@@ -1,5 +1,6 @@
 .grid-container {
   margin: 20px;
+  font-family: Poppins, sans-serif;
 }
 
 .dashboard-card {
@@ -18,4 +19,31 @@
 
 .dashboard-card-content {
   text-align: center;
+}
+
+mat-card-title{
+  margin: 0;
+  color: #9A9696;
+}
+table {
+  width: 100%;
+}
+.small_card{
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.small_card div {
+  font-size: 16px;
+}
+.small_card div .div1{
+  margin: 20px 0;
+  font-size: 20px;
+}
+.block{
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
 }

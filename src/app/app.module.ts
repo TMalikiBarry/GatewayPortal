@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr);
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -59,7 +60,8 @@ import { PointsDialogComponent } from './dialog/points-dialog/points-dialog.comp
         MatSelectModule,
         MatTooltipModule,
         MatCheckboxModule,
-        MatTableExporterModule
+        MatTableExporterModule,
+        HighchartsChartModule
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

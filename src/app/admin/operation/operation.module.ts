@@ -7,6 +7,7 @@ import {SharedModule} from "../shared/shared.module";
 import {MatStepperModule} from "@angular/material/stepper";
 import {DialogTransactionComponent} from "../../dialog/dialog-transaction/dialog-transaction.component";
 import { PointsComponent } from './points/points.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const TransactionRouting: Routes = [
   {
@@ -31,11 +32,12 @@ const TransactionRouting: Routes = [
     DialogTransactionComponent,
     PointsComponent
   ],
-  imports: [
-    SharedModule,
-    MatStepperModule,
-    RouterModule.forChild(TransactionRouting),
-  ],
+    imports: [
+        SharedModule,
+        MatStepperModule,
+        RouterModule.forChild(TransactionRouting),
+        MatProgressSpinnerModule,
+    ],
   providers: []
 })
 export class OperationModule { }

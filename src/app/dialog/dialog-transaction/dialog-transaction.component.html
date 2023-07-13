@@ -22,7 +22,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>Choisissez le sous compte</mat-label>
+          <mat-label>Choisissez le Point</mat-label>
           <mat-select [(value)]="chosenPoint" required>
             <mat-option *ngFor="let item of listPoints$ | async" [value]="item">{{item.name}}</mat-option>
           </mat-select>
@@ -169,32 +169,43 @@
     </div>
   </mat-step>
   <mat-step>
+    <ng-template matStepLabel>Traitement</ng-template>
+    <div class="traitement">
+        <mat-spinner></mat-spinner>
+        <div>
+          <p>
+            Traitement en cour ...
+          </p>
+        </div>
+    </div>
+  </mat-step>
+  <mat-step>
     <ng-template matStepLabel>Confirmation</ng-template>
     <div class="transaction-ok mat-elevation-z3">
       <ng-container *ngIf="succesTransaction else failedTransaction">
-        <img src="assets/fromFigma/transaction_reussie.svg" width="70" alt="transaction réussie">
-        <h3>Transaction réussie</h3>
-        <p>Votre opération a été effectuée avec succès</p>
-      <div class="btn-actions">
-        <button mat-stroked-button style="border: 1px solid #673AB7;" [matDialogClose]="true" color="primary">Historique des transactions</button>
-        <button mat-raised-button color="primary">
-          <img src="assets/fromFigma/receipt1.svg" alt="reçu">
-          Reçu
-        </button>
-      </div>
+          <img src="assets/fromFigma/transaction_reussie.svg" width="70" alt="transaction réussie">
+          <h3>Transaction réussie</h3>
+          <p>Votre opération a été effectuée avec succès</p>
+          <div class="btn-actions">
+            <button mat-stroked-button style="border: 1px solid #673AB7;" [matDialogClose]="true" color="primary">Historique des transactions</button>
+<!--            <button mat-raised-button color="primary">-->
+<!--              <img src="assets/fromFigma/receipt1.svg" alt="reçu">-->
+<!--              Reçu-->
+<!--            </button>-->
+          </div>
       </ng-container>
     </div>
   </mat-step>
 </mat-stepper>
 
 <ng-template #failedTransaction>
-  <img src="assets/fromFigma/transaction_failed.svg" width="70" alt="transaction échouée">
-  <h3>Transaction échouée</h3>
-  <p>Votre opération n’a pas pu être effectuée veuillez réessayer</p>
-<!--  <p *ngIf="resPayment">Raison de l'échec: {{resPayment.response_message}} <span *ngIf="resPayment.response_content">-&#45;&#45; {{resPayment.response_content}}</span></p>-->
-  <p *ngIf="resMessage">Raison de l'échec: {{resMessage}}</p>
-  <button mat-stroked-button (click)="stepper.reset()" color="primary" class="blue-border">Faire une autre transaction</button>
-  <button mat-stroked-button [matDialogClose]="true" color="primary" style="border: 1px solid #673AB7;">
-    Terminer
-  </button>
+    <img src="assets/fromFigma/transaction_failed.svg" width="70" alt="transaction échouée">
+    <h3>Transaction échouée</h3>
+    <p>Votre opération n’a pas pu être effectuée veuillez réessayer</p>
+  <!--  <p *ngIf="resPayment">Raison de l'échec: {{resPayment.response_message}} <span *ngIf="resPayment.response_content">-&#45;&#45; {{resPayment.response_content}}</span></p>-->
+    <p *ngIf="resMessage">Raison de l'échec: {{resMessage}}</p>
+    <button mat-stroked-button (click)="stepper.reset()" color="primary" class="blue-border">Faire une autre transaction</button>
+    <button mat-stroked-button [matDialogClose]="true" color="primary" style="border: 1px solid #673AB7;">
+      Terminer
+    </button>
 </ng-template>

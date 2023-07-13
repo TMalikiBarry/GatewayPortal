@@ -18,7 +18,7 @@ import {UserModel} from "../../../model/user.model";
 })
 export class TransactionComponent implements OnInit {
 
-  displayedColumns: string[] = ['dateTransaction', 'scompte', 'service', 'montant', 'statut', 'typeTransaction', 'destinataire'];
+  displayedColumns: string[] = ['dateTransaction', 'point', 'service','expediteur', 'montant', 'typeTransaction', 'statut', 'destinataire'];
   dataSource !: MatTableDataSource<TransactionModel>;
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;

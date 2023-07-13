@@ -4,7 +4,7 @@
       <div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
       <form class="form-reset" name="resetForm" [formGroup]="resetForm">
         <div class="header">
-          <h1> {{ title }} </h1>
+          <h3> {{ title }} </h3>
         </div>
         <mat-form-field *ngIf="login.id && !emaillab"  class="full-width" appearance="fill">
           <mat-label>Ancien mot de passe</mat-label>

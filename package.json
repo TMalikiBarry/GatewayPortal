@@ -21,6 +21,8 @@
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
     "bootstrap": "^5.2.3",
+    "highcharts": "^11.1.0",
+    "highcharts-angular": "^3.1.2",
     "mat-table-exporter": "^10.2.4",
     "material-design-icons-iconfont": "^6.7.0",
     "rxjs": "~7.5.0",

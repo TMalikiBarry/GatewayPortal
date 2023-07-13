@@ -2,8 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatStepper} from "@angular/material/stepper";
-import {ParamListInterface} from "../../model/param-list.interface";
-import {AVAILABLE_SERVICES} from "../../../assets/List-Service-Dispo/Available_Services";
 import {TransactionService} from "../../service/TransactionService/transaction.service";
 import {
   StatutTransactionEnum,
@@ -18,6 +16,7 @@ import {UserModel} from "../../model/user.model";
 import {MatSelectChange} from "@angular/material/select";
 import {ControlTransactionInterface} from "../../model/control-transaction.interface";
 import {PointsInterface} from "../../model/points.interface";
+import {MatDialog} from "@angular/material/dialog";
 
 export interface TransactionType {
   value: TransactionKey;
@@ -32,6 +31,7 @@ export interface TransactionType {
 export class DialogTransactionComponent implements OnInit {
 
   resMessage!: string;
+  response: boolean = false;
   succesTransaction = false;
   amount: number = 100;
   currentControlTransaction?: ControlTransactionInterface
@@ -41,6 +41,7 @@ export class DialogTransactionComponent implements OnInit {
   chosenService!: ServiceModel | undefined;
   myServiceLabel!: string;
   typeTrasaction!: TransactionKey;
+  transaction !: TransactionModel;
   listLogos: string [] = ["XPress Cash.webp", "LogoService.svg", "Money Transfer.png",
     "Card Payment.png", "LogoService.svg", "Ecobank Pay.png"];
   listServices$!: Observable<ServiceModel[]>;
@@ -54,10 +55,10 @@ export class DialogTransactionComponent implements OnInit {
   });
 
   infoForm : FormGroup = this.fb.group({
-    senderName: ['Freeman Kay', Validators.required],
-    senderMobileNo: ['0202205113', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
-    beneficiaryName: ['Stephen Kojo', Validators.required],
-    beneficiaryMobileNo: ['0233445566', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
+    senderName: ['Babacar Adje', Validators.required],
+    senderMobileNo: ['777891232', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
+    beneficiaryName: ['Dieynaba Sow', Validators.required],
+    beneficiaryMobileNo: ['761097812', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
     senderId: [''],
     secretCode: [''],
   });
@@ -67,6 +68,7 @@ export class DialogTransactionComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private _snackBar: MatSnackBar,
+              public dialog: MatDialog,
               private tService: TransactionService) {
   }
 
@@ -127,7 +129,7 @@ export class DialogTransactionComponent implements OnInit {
 
   infoStep() {
     if (!this.chosenPoint){
-      this.snackMessage(`Veuillez choisir un sous compte`, 3000, 'delete');
+      this.snackMessage(`Veuillez choisir un point`, 3000, 'delete');
       return;
     }
     if (!this.myServiceLabel) {
@@ -164,34 +166,60 @@ export class DialogTransactionComponent implements OnInit {
   }
 
   executeTransaction() {
-    if (this.infoForm.invalid || !this.amount) {
-      this.snackMessage('Veuillez remplir les champs nécessaires', 3000, 'delete');
-      return;
-    }
-    this.snackMessage('Transaction en cours de traitement', 3500, 'none');
-    const {senderName, senderMobileNo, beneficiaryName, beneficiaryMobileNo} = this.infoForm.value;
-    let paramList: ParamListInterface = {
-      senderName: senderName ?? '',
-      senderMobileNo: senderMobileNo ?? '',
-      beneficiaryName: beneficiaryName ?? '',
-      beneficiaryMobileNo: beneficiaryMobileNo ?? '',
-      amount: this.amount,
-      secretCode: senderMobileNo ?? 'YOOO',
-      senderId: 'QWE345Y4',
-    }
-    this.tService.xPressCashTransaction(paramList).subscribe(
-      resPayment => {
-        // this.resPayment= res;
-        this.resMessage = resPayment.response_message;
-        console.table(resPayment);
-        this.tService.postTransaction(this.getTransaction(resPayment.response_code)).subscribe();
-        this.snackMessage(`La transaction été réalisée, le code: ${resPayment.response_code}, le message: ${resPayment.response_message}, le contenu: ${resPayment.response_content}`,
-          4000, 'add');
-        // this.succesTransaction = this.getTransaction().statut !== StatutTransactionEnum.SUSPICIOUS;
-        this.succesTransaction = resPayment.response_code === 200;
-        this.stepper.next();
-      }
-    );
+    // if (this.infoForm.invalid || !this.amount) {
+    //   this.snackMessage('Veuillez remplir les champs nécessaires', 3000, 'delete');
+    //   return;
+    // }
+    // this.snackMessage('Transaction en cours de traitement', 3500, 'none');
+    // const {senderName, senderMobileNo, beneficiaryName, beneficiaryMobileNo} = this.infoForm.value;
+    // let paramList: ParamListInterface = {
+    //   senderName: senderName ?? '',
+    //   senderMobileNo: senderMobileNo ?? '',
+    //   beneficiaryName: beneficiaryName ?? '',
+    //   beneficiaryMobileNo: beneficiaryMobileNo ?? '',
+    //   amount: this.amount,
+    //   secretCode: senderMobileNo ?? 'YOOO',
+    //   senderId: 'QWE345Y4',
+    // }
+    // this.tService.xPressCashTransaction(paramList).subscribe(
+    //   resPayment => {
+    //     // this.resPayment= res;
+    //     this.resMessage = resPayment.response_message;
+    //     console.table(resPayment);
+    //     this.tService.postTransaction(this.getTransaction(resPayment.response_code)).subscribe();
+    //     this.snackMessage(`La transaction été réalisée, le code: ${resPayment.response_code}, le message: ${resPayment.response_message}, le contenu: ${resPayment.response_content}`,
+    //       4000, 'add');
+    //     // this.succesTransaction = this.getTransaction().statut !== StatutTransactionEnum.SUSPICIOUS;
+    //     this.succesTransaction = resPayment.response_code === 200;
+    //     this.stepper.next();
+    //   }
+    // );
+
+    this.transaction = this.getTheTransaction()
+    this.stepper.next();
+    console.log(this.transaction)
+    this.tService.saveTransaction(this.transaction).subscribe({
+        next : value => {
+          this.stepper.next();
+          console.log("response "+JSON.stringify(value))
+          if(value.statusCode === 201 || value.statusCode === 200){
+            this.succesTransaction = true ;
+            this.snackMessage(`Transaction initier avec succes`, 5000, 'add');
+          }else if(value.statusCode === 400){
+            // a revoir
+            this.succesTransaction = false ;
+            this.resMessage = value.message;
+            this.snackMessage("Transaction echouee", 4000, 'delete');
+          }else {
+            this.succesTransaction = false ;
+            this.resMessage = value.message;
+            this.snackMessage("Transaction echouee", 4000, 'delete');
+          }
+        },
+        error : err => {
+          this.stepper.next();
+        }
+    })
 
   }
 
@@ -205,17 +233,31 @@ export class DialogTransactionComponent implements OnInit {
       });
   }
 
-  getTransaction(resCode?:number): TransactionModel {
+  // getTransaction(resCode?:number): TransactionModel {
+  //   return {
+  //     destinataire: this.infoForm.controls['beneficiaryName'].value!,
+  //     typeTransaction: TypeTransactionEnum[this.typeTrasaction],
+  //     expeditaire: this.infoForm.controls['senderName'].value!,
+  //     points: this.chosenPoint,
+  //     service: this.chosenService!,
+  //     montant: this.amount,
+  //     dateTransaction: new Date(),
+  //     commission: 0.1,
+  //     statut: this.getTransactionStatus(resCode)
+  //   }
+  // }
+
+  getTheTransaction() : TransactionModel{
     return {
-      destinataire: this.infoForm.controls['beneficiaryName'].value!,
-      typeTransaction: TypeTransactionEnum[this.typeTrasaction],
-      expeditaire: this.infoForm.controls['senderName'].value!,
-      points: this.chosenPoint,
-      service: this.chosenService!,
-      montant: this.amount,
-      dateTransaction: new Date(),
-      commission: 0.1,
-      statut: this.getTransactionStatus(resCode)
+      destinataire : this.infoForm.controls['beneficiaryName'].value!,
+      numdestinataire : this.infoForm.controls['beneficiaryMobileNo'].value!,
+      typeTransaction : TypeTransactionEnum[this.typeTrasaction],
+      expeditaire : this.infoForm.controls['senderName'].value!,
+      numexpeditaire :  this.infoForm.controls['senderMobileNo'].value!,
+      points : this.chosenPoint,
+      service : this.chosenService!,
+      montant : this.amount,
+      statut : this.getTransactionStatus(StatutTransactionEnum.INITIATED)
     }
   }
 

@@ -4,11 +4,16 @@ import {PointsInterface} from "./points.interface";
 export interface TransactionModel{
   id?: number;
   destinataire : string;
+  numdestinataire : string;
+  transactionid ?: string;
   expeditaire : string;
+  numexpeditaire : string;
   montant : number;
-  commission : number;
+  commission ?: number;
+  requestId ?: string;
   statut : StatutTransactionEnum;
-  dateTransaction : Date,
+  dateTransaction ?: Date,
+  dateModification ?: Date,
   typeTransaction : TypeTransactionEnum;
   service : ServiceModel;
   points : PointsInterface
