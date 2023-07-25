@@ -2,7 +2,7 @@ import {ServiceModel} from "./service.model";
 import {PointsInterface} from "./points.interface";
 
 export interface ControlTransactionInterface {
-  id?: number;
+  id: number;
   service: ServiceModel;
   point: PointsInterface;
   montantSeuil: number;

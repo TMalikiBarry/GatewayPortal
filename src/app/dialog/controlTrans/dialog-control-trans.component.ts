@@ -33,8 +33,8 @@ export class DialogControlTransComponent implements OnInit {
     montantSeuil: ['', [Validators.required, Validators.pattern("^[1-9]*[05]+$")]],
     montantHebdomadaire: ['', [Validators.pattern("^[1-9]*[05]+$")]],
     montantJournalier: ['', Validators.pattern("^[1-9]*[05]+$")],
-    heureDebut: '',
-    heureFin: '',
+    heureDebut: ['',Validators.required],
+    heureFin: ['', Validators.required],
   })
 
   constructor(private fb: FormBuilder,
