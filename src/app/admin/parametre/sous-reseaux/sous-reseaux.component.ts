@@ -30,6 +30,7 @@ type columnName = 'sousReseauName' | 'code' | 'reseau' |  'acces';
 })
 export class SousReseauxComponent implements OnInit {
 
+  load : boolean = false
   columnsToDisplay: columnName[] = [ 'code','sousReseauName'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'action', 'expand'];
   expandedElement ?: SousCompteModel;
@@ -72,6 +73,7 @@ export class SousReseauxComponent implements OnInit {
         this.dataSource = new MatTableDataSource<SousReseauInterface>(sousReseaux);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.load = true;
       }
     });
   }

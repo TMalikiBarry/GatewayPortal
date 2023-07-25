@@ -16,6 +16,8 @@
       <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer la transaction">
     </mat-form-field>
 
+    <mat-progress-bar *ngIf="!load" mode="query"></mat-progress-bar>
+
     <div class="mat-elevation-z8">
       <table #exporter="matTableExporter" [dataSource]="dataSource" mat-table matSort matTableExporter>
 

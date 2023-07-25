@@ -35,19 +35,19 @@
                        pattern="^(0|[1-9]\d{0,8})00$"
                        pattern="^[1-9]\d*[05]$"
         -->
-        <input #name=ngModel [(ngModel)]="amount" matInput minlength="4" pattern="^[1-9]\d*[05]$"
+        <input [formControl]="montant" [(ngModel)]="amount" matInput minlength="4" pattern="^[1-9]\d*[05]$"
         placeholder="Veuillez renseigner le montant: 1000" required type="number">
         <span matSuffix>&nbsp; FCFA</span>
         <mat-error>
-          <div *ngIf="name.invalid && (name.dirty || name.touched)">
-            <div *ngIf="name.errors?.['required']">
+          <div *ngIf="montant.invalid && (montant.dirty || montant.touched)">
+            <div *ngIf="montant.errors?.['required']">
               Le montant est obligatoire
             </div>
-            <!--<div *ngIf="name.errors?.['pattern']">
-              Veuillez respecter le format du montant
-            </div>-->
-            <div *ngIf="name.errors?.['minlength']">
-              Le montant doit dépasser 3 caractères
+            <div *ngIf="!montant.errors?.['required'] && montant.errors?.['invalidValue']">
+              Le montant doit etre compris entre 1 000 et 400 000
+            </div>
+            <div *ngIf="montant.errors?.['multiple']">
+              Le montant doit etre un multiple de 1 000
             </div>
           </div>
         </mat-error>
@@ -56,7 +56,7 @@
         charge les frais.
       </mat-checkbox>
       <button color="primary" mat-raised-button (click)="infoStep()"
-              [disabled]="name.invalid">
+              [disabled]="montant.invalid">
         Suivant
       </button>
     </div>

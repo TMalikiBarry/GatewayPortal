@@ -1,7 +1,7 @@
 <div class="containerTable">
   <div style="margin-top: 10px;">
 
-    <button (click)="add()" color="primary" id="btnAdd" mat-stroked-button>
+    <button (click)="add()" color="primary" id="btnAdd" mat-raised-button>
       <mat-icon>add_circle_outline</mat-icon>
       Ajouter Un Agent
     </button>
@@ -10,6 +10,8 @@
       <mat-label>Recherche</mat-label>
       <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer l'Utilisateur">
     </mat-form-field>
+
+    <mat-progress-bar *ngIf="!load" mode="query"></mat-progress-bar>
 
     <div class="mat-elevation-z8">
       <table [dataSource]="dataSource" mat-table matSort>

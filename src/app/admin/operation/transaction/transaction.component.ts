@@ -8,7 +8,7 @@ import {ApiResponse} from "../../../request/ApiResponse";
 import {TransactionService} from "../../../service/TransactionService/transaction.service";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogTransactionComponent} from "../../../dialog/dialog-transaction/dialog-transaction.component";
-import {TransactionModel} from "../../../model/transaction.model";
+import {StatutTransactionEnum, TransactionModel} from "../../../model/transaction.model";
 import {UserModel} from "../../../model/user.model";
 
 @Component({
@@ -18,8 +18,11 @@ import {UserModel} from "../../../model/user.model";
 })
 export class TransactionComponent implements OnInit {
 
+  load : boolean = false
+  map = new Map();
   displayedColumns: string[] = ['dateTransaction', 'point', 'service','expediteur', 'montant', 'typeTransaction', 'statut', 'destinataire'];
   dataSource !: MatTableDataSource<TransactionModel>;
+  allTransactions !: TransactionModel[];
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -50,9 +53,11 @@ export class TransactionComponent implements OnInit {
       .subscribe({
         next: (res: ApiResponse) => {
           console.log(res.data)
-          this.dataSource = new MatTableDataSource(res.data as TransactionModel[]);
+          this.allTransactions = res.data as TransactionModel[]
+          this.dataSource = new MatTableDataSource(this.getStatut(this.allTransactions));
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          this.load = true;
         }
       })
   }
@@ -66,6 +71,23 @@ export class TransactionComponent implements OnInit {
         this.getTransaction();
       }
     )
+  }
+
+  //TODO a revoir
+  getStatut(transactions : TransactionModel[]) : TransactionModel[]{
+    transactions.forEach(transaction => {
+      switch (transaction.statut.toString()){
+        case "SUCCESS":
+          transaction.statut = StatutTransactionEnum.SUCCESS
+          break;
+        case "INITIATED":
+          transaction.statut = StatutTransactionEnum.INITIATED
+          break;
+        default:
+          transaction.statut = StatutTransactionEnum.FAILED
+      }
+    })
+    return  transactions;
   }
 
   applyFilter(event: Event) {

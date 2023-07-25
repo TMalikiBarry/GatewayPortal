@@ -1,6 +1,6 @@
 <div class="containerTable">
   <div style="margin-top: 10px;">
-    <button class="btnAdd blue-border" (click)="add()" mat-stroked-button color="primary" >
+    <button class="btnAdd blue-border" (click)="add()" mat-raised-button color="primary" >
       <mat-icon>add_circle_outline</mat-icon>
       Ajouter un Sous-Réseau
     </button>
@@ -9,6 +9,8 @@
       <mat-label>Recherche</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Filtrer le reseau" #input>
     </mat-form-field>
+
+    <mat-progress-bar *ngIf="!load" mode="query"></mat-progress-bar>
 
     <div class="mat-elevation-z8">
       <table mat-table

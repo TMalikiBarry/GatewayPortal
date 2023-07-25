@@ -28,6 +28,7 @@ import {PointsInterface} from "../../../model/points.interface";
 export class SousComptesComponent implements OnInit {
 
 
+  load : boolean = false
   columnsToDisplay = ['sousCompteName', 'sreseau'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay,'action', 'expand'];
   expandedElement ?: SousCompteModel | null;
@@ -71,6 +72,7 @@ export class SousComptesComponent implements OnInit {
         this.dataSource = new MatTableDataSource<SousCompteModel>(scomptes);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.load = true;
       }
     })
   }

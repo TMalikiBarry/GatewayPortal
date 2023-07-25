@@ -50,5 +50,4 @@ export class TransactionService {
   getMyTransactions(idCommercant: number){
     return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"commercant/" + idCommercant);
   }
-
 }

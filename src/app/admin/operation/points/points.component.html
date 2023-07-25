@@ -8,6 +8,8 @@
   <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer l'Utilisateur">
 </mat-form-field>
 
+<mat-progress-bar *ngIf="!load" mode="query"></mat-progress-bar>
+
 <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
   <!-- NAME Column -->
   <ng-container matColumnDef="name">

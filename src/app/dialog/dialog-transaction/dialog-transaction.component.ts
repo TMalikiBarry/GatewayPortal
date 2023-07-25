@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatStepper} from "@angular/material/stepper";
 import {TransactionService} from "../../service/TransactionService/transaction.service";
@@ -17,6 +17,7 @@ import {MatSelectChange} from "@angular/material/select";
 import {ControlTransactionInterface} from "../../model/control-transaction.interface";
 import {PointsInterface} from "../../model/points.interface";
 import {MatDialog} from "@angular/material/dialog";
+import {CurrencyPipe} from "@angular/common";
 
 export interface TransactionType {
   value: TransactionKey;
@@ -33,7 +34,7 @@ export class DialogTransactionComponent implements OnInit {
   resMessage!: string;
   response: boolean = false;
   succesTransaction = false;
-  amount: number = 100;
+  amount!: number;
   currentControlTransaction?: ControlTransactionInterface
   listTransactionsByServiceAndScompte$!: Observable<TransactionModel[]>;
   listPoints$!: Observable<PointsInterface[]>;
@@ -54,21 +55,24 @@ export class DialogTransactionComponent implements OnInit {
     };
   });
 
+  montant = new FormControl('', [Validators.required,this.controlMontant]);
+
   infoForm : FormGroup = this.fb.group({
     senderName: ['Babacar Adje', Validators.required],
-    senderMobileNo: ['777891232', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
+    senderMobileNo: ['778591879', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
     beneficiaryName: ['Dieynaba Sow', Validators.required],
-    beneficiaryMobileNo: ['761097812', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
+    beneficiaryMobileNo: ['761231231', [Validators.required, Validators.pattern(/^\s*[0-9\s]*$/), Validators.min(7)]],
     senderId: [''],
     secretCode: [''],
   });
   @ViewChild('stepper') stepper!: MatStepper;
   expediteurGereFrais: boolean = false;
-  frais: number = 1750;
+  frais: number = 0;
 
   constructor(private fb: FormBuilder,
               private _snackBar: MatSnackBar,
               public dialog: MatDialog,
+              private currencyPipe: CurrencyPipe,
               private tService: TransactionService) {
   }
 
@@ -98,6 +102,7 @@ export class DialogTransactionComponent implements OnInit {
     }
   }
 
+  //TODO a revoir
   gestionFrais() {
 
   }
@@ -141,7 +146,7 @@ export class DialogTransactionComponent implements OnInit {
       return;
     }
     if (!this.amount) {
-      this.snackMessage(`Veuillez renseigner un montant, ex: 15000`, 3000, 'delete');
+      this.snackMessage(`Veuillez renseigner un montant, ex: 1000`, 3000, 'delete');
       return;
     }
     this.listTransactionsByServiceAndScompte$ = this.tService.getMyTransactions(3).pipe(
@@ -198,28 +203,28 @@ export class DialogTransactionComponent implements OnInit {
     this.transaction = this.getTheTransaction()
     this.stepper.next();
     console.log(this.transaction)
-    this.tService.saveTransaction(this.transaction).subscribe({
-        next : value => {
-          this.stepper.next();
-          console.log("response "+JSON.stringify(value))
-          if(value.statusCode === 201 || value.statusCode === 200){
-            this.succesTransaction = true ;
-            this.snackMessage(`Transaction initier avec succes`, 5000, 'add');
-          }else if(value.statusCode === 400){
-            // a revoir
-            this.succesTransaction = false ;
-            this.resMessage = value.message;
-            this.snackMessage("Transaction echouee", 4000, 'delete');
-          }else {
-            this.succesTransaction = false ;
-            this.resMessage = value.message;
-            this.snackMessage("Transaction echouee", 4000, 'delete');
-          }
-        },
-        error : err => {
-          this.stepper.next();
-        }
-    })
+    // this.tService.saveTransaction(this.transaction).subscribe({
+    //     next : value => {
+    //       this.stepper.next();
+    //       console.log("response "+JSON.stringify(value))
+    //       if(value.statusCode === 201 || value.statusCode === 200){
+    //         this.succesTransaction = true ;
+    //         this.snackMessage(`Transaction initier avec succes`, 5000, 'add');
+    //       }else if(value.statusCode === 400){
+    //         // a revoir
+    //         this.succesTransaction = false ;
+    //         this.resMessage = value.message;
+    //         this.snackMessage("Transaction echouee", 4000, 'delete');
+    //       }else {
+    //         this.succesTransaction = false ;
+    //         this.resMessage = value.message;
+    //         this.snackMessage("Transaction echouee", 4000, 'delete');
+    //       }
+    //     },
+    //     error : err => {
+    //       this.stepper.next();
+    //     }
+    // })
 
   }
 
@@ -256,7 +261,7 @@ export class DialogTransactionComponent implements OnInit {
       numexpeditaire :  this.infoForm.controls['senderMobileNo'].value!,
       points : this.chosenPoint,
       service : this.chosenService!,
-      montant : this.amount,
+      montant : this.montant.value as unknown as number,
       statut : StatutTransactionEnum.INITIATED
     }
   }
@@ -277,5 +282,32 @@ export class DialogTransactionComponent implements OnInit {
     console.log($event);
     console.log('TypeTrans', this.typeTrasaction);
     console.log('SousCompte', this.chosenPoint);
+  }
+
+  // TODO a revoir
+  formatMontant() {
+    let amount = this.currencyPipe.transform((this.infoForm?.controls['amount']?.value as string)?.replace(/\s/g, ""), 'XOF', '', '3.0-3', 'fr');
+    this.infoForm?.controls['amount'].setValue(amount);
+  }
+
+  controlMontant(control : FormControl) {
+    const value = control.value
+    if(value < 1000 || value > 400000){
+      console.log("Le montant renseigner doit etre compris entre 1 000 et 400 000 FCFA ")
+      return { invalidValue: true };
+    }else if(value % 1000 !== 0){
+      console.log("Le montant doit etre un multiple de 1000")
+      return { multiple: true };
+    }
+    return null
+  }
+
+  isMultipleOf1000(nombre : number){
+    return nombre % 1000 === 0
+  }
+
+  customValidator(control: FormControl) {
+    const value = control.value;
+    return value > 10 ? null : { invalidValue: true };
   }
 }

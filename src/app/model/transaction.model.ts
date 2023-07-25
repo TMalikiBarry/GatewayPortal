@@ -36,10 +36,10 @@ export type TransactionKey = 'C_BANCAIRE' |'ESPECE' |'VIREMENT' |'T_INTERNE' |'T
 
 
 export enum StatutTransactionEnum {
-  INITIATED,
-  SENT,
-  FINISHED,
-  SUSPICIOUS,
-  SUCCESS,
-  FAILED
+  INITIATED='INITIATED',
+  SENT = 'SENT',
+  FINISHED = 'FINISHED',
+  SUSPICIOUS = 'SUSPICIOUS',
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED'
 }

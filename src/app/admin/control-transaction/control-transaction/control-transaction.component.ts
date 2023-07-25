@@ -17,6 +17,7 @@ import {NotifyService} from "../../../service/utils/notify.service";
 export class ControlTransactionComponent implements OnInit {
 
   isCommercant!: boolean;
+  load : boolean = false
   dataSource!: MatTableDataSource<ControlTransactionInterface>;
   columnsToDisplay = ['points', 'service', 'montant-seuil',
     'montant-hebdomadaire', 'montant-journalier', 'heure-debut', 'heure-fin', 'action'];
@@ -50,6 +51,7 @@ export class ControlTransactionComponent implements OnInit {
         console.log(this.dataSource)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.load = true
       }
     )
   }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, CurrencyPipe} from '@angular/common';
 import { AdminLayoutComponent } from './admin-layout.component';
 import {RouterModule} from "@angular/router";
 import {AdminLayoutRoutes} from "./admin-layout.routing";
@@ -63,6 +63,9 @@ import {HighchartsChartModule} from "highcharts-angular";
         MatProgressBarModule,
         MatTableExporterModule,
         HighchartsChartModule
+    ],
+    providers: [
+      CurrencyPipe
     ]
 })
 export class AdminLayoutModule { }

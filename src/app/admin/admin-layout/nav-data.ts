@@ -5,13 +5,13 @@ export const navbarData = [
     label : 'Dashboard',
     roles : ["COMMERCANT","SUPERVISEUR"]
   },
-  {
-    routerLink: 'operation/transac',
-    icon : 'transactionIc.svg',
-    label: 'Transactions',
-    visible : true,
-    roles : ["COMMERCANT","SUPERVISEUR"]
-  },
+  // {
+  //   routerLink: 'operation/transac',
+  //   icon : 'transactionIc.svg',
+  //   label: 'Transactions',
+  //   visible : true,
+  //   roles : ["COMMERCANT","SUPERVISEUR"]
+  // },
   {
     routerLink: 'acces',
     icon: 'user.svg',

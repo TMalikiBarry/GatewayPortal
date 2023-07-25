@@ -15,6 +15,7 @@ import {PointsDialogComponent} from "../../../dialog/points-dialog/points-dialog
 })
 export class PointsComponent implements OnInit {
 
+  load : boolean = false
   dataSource!: MatTableDataSource<PointsInterface>;
   columnsToDisplay = ['name', 'long', 'lat', 'sous-compte', 'acces', 'action'];
   @ViewChild(MatPaginator) paginator !: MatPaginator;
@@ -44,6 +45,7 @@ export class PointsComponent implements OnInit {
         console.log(this.dataSource);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.load = true;
       }
     )
   }

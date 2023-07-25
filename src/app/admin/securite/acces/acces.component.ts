@@ -24,6 +24,7 @@ import {NotifyService} from "../../../service/utils/notify.service";
   ],
 })
 export class AccesComponent implements OnInit {
+  load : boolean = false
   dataSource !: MatTableDataSource<any>;
   columnsToDisplay = ['username','name', 'number','email','roles','action'];
 
@@ -48,6 +49,7 @@ export class AccesComponent implements OnInit {
           this.dataSource = new MatTableDataSource(res.data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          this.load = true;
         }
       })
   }
