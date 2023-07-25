@@ -24,21 +24,21 @@
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label> Montant Seuil </mat-label>
-    <input formControlName="montantSeuil" matInput placeholder="Montant Seuil ex: 107 500 000">
+    <input formControlName="montantSeuil" [(ngModel)]="montantSeuil" (blur)="formatMontantSeuil()" matInput placeholder="Montant Seuil ex: 107 500 000">
     <mat-error *ngIf="cTransacForm.controls['montantSeuil'].errors">
       {{getErrorMessage(cTransacForm.controls['montantSeuil'].errors)}}
     </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label> Montant Seuil Hebdomadaire </mat-label>
-    <input formControlName="montantHebdomadaire" matInput placeholder="Montant autorisé dans la semaine">
+    <input formControlName="montantHebdomadaire" [(ngModel)]="montantHebdomadaire" (blur)="formatMontantHebdomadaire()" matInput placeholder="Montant autorisé dans la semaine">
     <mat-error *ngIf="cTransacForm.controls['montantHebdomadaire'].errors">
       {{getErrorMessage(cTransacForm.controls['montantHebdomadaire'].errors)}}
     </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label> Montant Seuil Journalier </mat-label>
-    <input formControlName="montantJournalier" matInput placeholder="Montant autorisé par jour">
+    <input formControlName="montantJournalier" [(ngModel)]="montantJournalier" (blur)="formatMontantJournaliere()" matInput placeholder="Montant autorisé par jour">
     <mat-error *ngIf="cTransacForm.controls['montantJournalier'].errors">
       {{getErrorMessage(cTransacForm.controls['montantJournalier'].errors)}}
     </mat-error>

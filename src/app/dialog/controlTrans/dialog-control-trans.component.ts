@@ -10,6 +10,7 @@ import {UserModel} from "../../model/user.model";
 import {map} from "rxjs/operators";
 import {AVAILABLE_SERVICES} from "../../../assets/List-Service-Dispo/Available_Services";
 import {PointsInterface} from "../../model/points.interface";
+import {CurrencyPipe} from "@angular/common";
 
 @Component({
   selector: 'app-dialog-control-trans',
@@ -27,6 +28,10 @@ export class DialogControlTransComponent implements OnInit {
   listServices$!: Observable<ServiceModel[]>;
   chosenService!: ServiceModel;
 
+  montantSeuil !: number | string | null
+  montantJournalier !: string | null
+  montantHebdomadaire !: string | null
+
   cTransacForm = this.fb.group({
     service: ['', Validators.required],
     point: ['', Validators.required],
@@ -38,6 +43,7 @@ export class DialogControlTransComponent implements OnInit {
   })
 
   constructor(private fb: FormBuilder,
+              private currencyPipe: CurrencyPipe,
               private api: ControlTransactionService,
               @Inject(MAT_DIALOG_DATA) public editData: ControlTransactionInterface,
               private notify: NotifyService,
@@ -74,6 +80,22 @@ export class DialogControlTransComponent implements OnInit {
       this.cTransacForm.controls['heureDebut'].setValue(this.editData.heureDebut!.toString());
       this.cTransacForm.controls['heureFin'].setValue(this.editData.heureFin!);
     }
+  }
+
+  formatMontantSeuil() {
+    //this.montantSeuil = parseFloat(this.montant.toString().replace(',', '.')); // Remplacez la virgule par le point décimal si nécessaire
+    //this.montantSeuil = Math.round(this.montant * 100) / 100; // Arrondi à deux décimales
+    this.montantSeuil = this.currencyPipe.transform(this.montantSeuil,'XOF','symbol' );
+  }
+  formatMontantHebdomadaire() {
+    //this.montantHebdomadaire = parseFloat(this.montant.toString().replace(',', '.')); // Remplacez la virgule par le point décimal si nécessaire
+    //this.montantHebdomadaire = Math.round(this.montant * 100) / 100; // Arrondi à deux décimales
+    this.montantHebdomadaire = this.currencyPipe.transform(this.montantHebdomadaire,'XOF','symbol' );
+  }
+  formatMontantJournaliere() {
+    //this.montant = parseFloat(this.montant.toString().replace(',', '.')); // Remplacez la virgule par le point décimal si nécessaire
+    //this.montant = Math.round(this.montant * 100) / 100; // Arrondi à deux décimales
+    this.montantJournalier = this.currencyPipe.transform(this.montantJournalier,'XOF','symbol' );
   }
 
   addControl() {
