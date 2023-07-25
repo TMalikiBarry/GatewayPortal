@@ -28,16 +28,19 @@ export class DialogControlTransComponent implements OnInit {
   listServices$!: Observable<ServiceModel[]>;
   chosenService!: ServiceModel;
 
-  montantSeuil !: number | string | null
+  montantSeuil !: string | null
   montantJournalier !: string | null
   montantHebdomadaire !: string | null
 
   cTransacForm = this.fb.group({
     service: ['', Validators.required],
     point: ['', Validators.required],
-    montantSeuil: ['', [Validators.required, Validators.pattern("^[1-9]*[05]+$")]],
-    montantHebdomadaire: ['', [Validators.pattern("^[1-9]*[05]+$")]],
-    montantJournalier: ['', Validators.pattern("^[1-9]*[05]+$")],
+    // montantSeuil: ['', [Validators.required, Validators.pattern("^[1-9]*[05]+$")]],
+    // montantHebdomadaire: ['', [Validators.pattern("^[1-9]*[05]+$")]],
+    // montantJournalier: ['', Validators.pattern("^[1-9]*[05]+$")],
+    montantSeuil : ['', Validators.required],
+    montantHebdomadaire : [''],
+    montantJournalier : [''],
     heureDebut: ['',Validators.required],
     heureFin: ['', Validators.required],
   })
@@ -74,9 +77,12 @@ export class DialogControlTransComponent implements OnInit {
       // Ajouter "// @ts-ignore" pour résoudre le probleme pour le moment
       // @ts-ignore
       this.cTransacForm.controls['point'].setValue(this.editData.point.id!);
-      this.cTransacForm.controls['montantSeuil'].setValue(this.editData.montantSeuil.toString());
-      this.cTransacForm.controls['montantJournalier'].setValue(this.editData.montantJournalier!.toString());
-      this.cTransacForm.controls['montantHebdomadaire'].setValue(this.editData.montantHebdomadaire!.toString());
+      this.montantSeuil = this.currencyPipe.transform(this.editData.montantSeuil.toString(),'XOF','symbol')
+      this.montantJournalier = this.currencyPipe.transform(this.editData.montantJournalier!.toString(), 'XOF','symbol')
+      this.montantHebdomadaire = this.currencyPipe.transform(this.editData.montantHebdomadaire!.toString(), 'XOF','symbol')
+      // this.cTransacForm.controls['montantSeuil'].setValue(this.currencyPipe.transform(this.editData.montantSeuil.toString(),'XOF','symbol' ));
+      // this.cTransacForm.controls['montantJournalier'].setValue(this.currencyPipe.transform(this.editData.montantJournalier!.toString(),'XOF','symbol' ));
+      // this.cTransacForm.controls['montantHebdomadaire'].setValue(this.currencyPipe.transform(this.editData.montantHebdomadaire!.toString(), 'XOF','symbol'));
       this.cTransacForm.controls['heureDebut'].setValue(this.editData.heureDebut!.toString());
       this.cTransacForm.controls['heureFin'].setValue(this.editData.heureFin!);
     }
@@ -98,12 +104,22 @@ export class DialogControlTransComponent implements OnInit {
     this.montantJournalier = this.currencyPipe.transform(this.montantJournalier,'XOF','symbol' );
   }
 
+  parseMontant(montantFormatted: string | null): number {
+    if(montantFormatted){
+      const digitsOnly = montantFormatted.replace(/[^\d.,]/g, ''); // Retirer tous les caractères non numériques sauf les virgules et les points décimaux
+      return parseFloat(digitsOnly.replace(',', '.')); // Remplacez la virgule par le point décimal si nécessaire et convertissez en nombre
+    }
+    return 0;
+  }
+
   addControl() {
     if (this.cTransacForm.valid) {
       if (this.editData) {
+        console.log(this.cTransacForm.value)
         this.updateControl();
         return;
       }
+      console.log(this.cTransacForm.value)
       this.api.createNewControlTransaction(this.getControlFromForm()).subscribe(
         {
           next: ()=> {
@@ -181,16 +197,15 @@ export class DialogControlTransComponent implements OnInit {
 
   getControlFromForm() {
     const {
-      montantSeuil, montantJournalier,
-      montantHebdomadaire, heureDebut,
+      heureDebut,
       heureFin
     } = this.cTransacForm.value
     return <ControlTransactionInterface>{
       service: this.chosenService,
       point: this.chosenPoint,
-      montantSeuil: Number(montantSeuil),
-      montantJournalier: Number(montantJournalier),
-      montantHebdomadaire: Number(montantHebdomadaire),
+      montantSeuil: Number(this.parseMontant(this.montantSeuil)),
+      montantJournalier: Number(this.parseMontant(this.montantJournalier)),
+      montantHebdomadaire: Number(this.parseMontant(this.montantHebdomadaire)),
       heureDebut,
       heureFin
     }
