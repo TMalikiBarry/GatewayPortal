@@ -69,7 +69,7 @@ export class DialogUserComponent implements OnInit {
       email : ['',[Validators.required, Validators.minLength(8)]],
       username : ['',[Validators.required, Validators.minLength(3)]],
       password : [''],
-      roles : [[]],
+      roles : ['',[Validators.required]],
       idParent : ['']
     })
 
@@ -78,7 +78,7 @@ export class DialogUserComponent implements OnInit {
       this.actionBtn = "Mettre a jour"
       this.sousReseauForm.controls['id'].setValue(this.editData.id)
       this.sousReseauForm.controls['username'].setValue(this.editData.username)
-      this.sousReseauForm.controls['roles'].setValue(this.editData.roles[0].name)
+      this.sousReseauForm.controls['roles'].setValue(this.editData.roles.id, this.editData.roles.name)
       this.sousReseauForm.controls['email'].setValue(this.editData.email)
       this.sousReseauForm.controls['number'].setValue(this.editData.number)
       this.sousReseauForm.controls['name'].setValue(this.editData.name)
@@ -102,7 +102,8 @@ export class DialogUserComponent implements OnInit {
         //   });
         //   return;
         // }
-        this.User.roles = this.roles
+        this.User.roles = this.options.find(x => x.id === this.sousReseauForm.controls['roles'].value);
+        // this.User.roles = this.roles
         console.log(this.User)
         this.api.postUser(this.User)
           .subscribe({
@@ -146,7 +147,8 @@ export class DialogUserComponent implements OnInit {
       //   });
       //   return;
       // }
-      this.User.roles = this.roles
+      //this.User.roles = this.roles
+      this.User.roles = this.options.find(x => x.id === this.sousReseauForm.controls['roles'].value)
       console.log(this.User)
       this.api.putUser(this.User, this.editData.id)
         .subscribe({
@@ -185,4 +187,6 @@ export class DialogUserComponent implements OnInit {
       return ""
     }
   }
+
+  protected readonly Option = Option;
 }

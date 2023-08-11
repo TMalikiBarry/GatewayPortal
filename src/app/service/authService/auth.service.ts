@@ -41,7 +41,7 @@ export class AuthService {
           localStorage.setItem('currentUser', JSON.stringify(user));
           localStorage.setItem('STATE', 'true');
           localStorage.setItem('DOSS', 'true');
-          localStorage.setItem('ROLE', this.getTheRole(user.roles));
+          localStorage.setItem('ROLE', user.roles);
           localStorage.setItem('TOKEN', user.accessToken)
           this.isAuth = true;
           this.currentUserSubject.next(user);
@@ -147,9 +147,12 @@ export class AuthService {
           this.logout();
           return
         }
-        if(this.utilisateur && !this.utilisateur[0].rememberMe){
-          console.log("reset")
-          this.router.navigateByUrl('reset');
+        console.log(this.utilisateur)
+        if(this.utilisateur){
+          if(!this.utilisateur[0].rememberMe){
+            console.log("reset")
+            this.router.navigateByUrl('reset');
+          }
         }else{
           this.router.navigateByUrl('/admin/dashboard');
         }
@@ -159,12 +162,12 @@ export class AuthService {
     }
   }
 
-  public getTheRole(roles : [string]) : string{
-    if(roles.indexOf("COMMERCANT") !== -1){
-      return this.role = "COMMERCANT"
-    }else if(roles.indexOf("SUPERVISEUR") !== -1){
-      return this.role = "SUPERVISEUR"
-    }
-    return this.role = "";
-  }
+  // public getTheRole(roles : [string]) : string{
+  //   if(roles.indexOf("COMMERCANT") !== -1){
+  //     return this.role = "COMMERCANT"
+  //   }else if(roles.indexOf("SUPERVISEUR") !== -1){
+  //     return this.role = "SUPERVISEUR"
+  //   }
+  //   return this.role = "";
+  // }
 }

@@ -103,7 +103,7 @@
             <!-- Statut Column -->
             <ng-container matColumnDef="roles">
               <th *matHeaderCellDef mat-header-cell mat-sort-header> Profil</th>
-              <td *matCellDef="let row" mat-cell> {{ row.roles[0].name }} </td>
+              <td *matCellDef="let row" mat-cell> {{ row.roles.name }} </td>
             </ng-container>
 
             <tr *matHeaderRowDef="displayedColumnsAcces" mat-header-row></tr>

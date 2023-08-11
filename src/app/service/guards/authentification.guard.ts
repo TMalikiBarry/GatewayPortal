@@ -20,7 +20,7 @@ export class AuthentificationGuard implements CanActivate {
 
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
     if (this.authService.isLoggedIn()) {
-      const userRole = this.authService.getRole();
+      const userRole = this.getTheRole(localStorage.getItem('ROLE')?.toString());
       if (route.data['roles'] && route.data['roles'].indexOf(userRole) === -1) {
         this._snackBar.openFromComponent(DialogAlertComponent, {
           data: "Accès non autorisé",
@@ -49,6 +49,20 @@ export class AuthentificationGuard implements CanActivate {
     }
     this.router.navigate(['']);
     return false;
+  }
+
+  public getTheRole(roles ?: string ) : string {
+    switch (roles){
+      case "COMMERCANT":
+        roles = "COMMERCANT"
+        break;
+      case "SUPERVISEUR" :
+        roles = "SUPERVISEUR"
+        break;
+      default :
+        roles = "";
+    }
+    return roles
   }
 
 }

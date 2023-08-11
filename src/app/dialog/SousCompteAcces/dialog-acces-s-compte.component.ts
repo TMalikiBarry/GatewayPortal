@@ -112,7 +112,7 @@ export class DialogAccesSCompteComponent implements OnInit {
   checkAcces(acces ?: UserModel, scompte ?: SousCompteModel, Scomptes ?: SousCompteModel[]){
     if(acces && scompte && Scomptes){
       Scomptes.forEach(scompte => {
-        this.user = scompte.accesCollection.filter(x => x.id == acces.id).filter(x => x.roles?.some( role => role.code === 'OPERATEUR'))
+        this.user = scompte.accesCollection.filter(x => x.id == acces.id).filter(x => x.roles?.code === 'OPERATEUR')
         if(this.user)
           this.scompte = scompte;
       })

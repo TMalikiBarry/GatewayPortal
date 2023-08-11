@@ -7,7 +7,7 @@ export interface UserModel {
   number?: string;
   password : string;
   email : string;
-  roles ?: RoleModel[];
-  rememberMe : string;
+  roles ?: RoleModel;
+  rememberMe : boolean;
   idParent : number;
 }

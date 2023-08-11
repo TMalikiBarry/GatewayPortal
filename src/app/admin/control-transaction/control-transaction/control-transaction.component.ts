@@ -37,8 +37,7 @@ export class ControlTransactionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isCommercant = !(<UserModel>JSON.parse(localStorage.getItem('currentUser')!))
-      .roles!.find( role=> role.code === 'COMMERCANT');
+    this.isCommercant = localStorage.getItem('ROLE')?.toString() === "COMMERCANT";
     this.getMyControlTransactions();
   }
 

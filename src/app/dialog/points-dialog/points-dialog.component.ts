@@ -47,7 +47,7 @@ export class PointsDialogComponent implements OnInit {
     this.api.getMyAgents().pipe(
       map(res => {
         let users = <UserModel[]>res.data;
-        return users.filter(user => user.roles?.some(role => role.code === 'OPERATEUR'))
+        return users.filter(user => user.roles?.code === 'OPERATEUR')
       }),
     ).subscribe(
       ops => {
@@ -151,7 +151,7 @@ export class PointsDialogComponent implements OnInit {
   private getOpSCompte(sousComptesChoose : SousCompteModel) {
     this.allMySousComptes.forEach(scompte => {
       if(scompte.id === sousComptesChoose.id){
-        this.allMyOperators = sousComptesChoose.accesCollection.filter(x => x.roles?.some(role => role.code === 'OPERATEUR'));
+        this.allMyOperators = sousComptesChoose.accesCollection.filter(x => x.roles?.code === 'OPERATEUR');
       }
     })
   }

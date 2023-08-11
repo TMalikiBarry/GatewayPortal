@@ -51,7 +51,7 @@ export class DialogSousReseauxComponent implements OnInit {
     this.api.getAllMySuperviseurs().pipe(
       map(res=> {
         let users = res.data as UserModel[];
-        return users.filter(user => user.roles?.some( role => role.code === 'SUPERVISEUR'));
+        return users.filter(user => user.roles?.code === 'OPERATEUR');
       }),
       tap(console.dir),
     ).subscribe(

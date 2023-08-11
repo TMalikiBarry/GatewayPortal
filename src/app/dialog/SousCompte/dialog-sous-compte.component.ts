@@ -54,7 +54,7 @@ export class DialogSousCompteComponent implements OnInit {
     this.api.getMyAgents().pipe(
       map(res => {
         let users = <UserModel[]>res.data;
-        return users.filter(user => user.roles?.some(role => role.code === 'OPERATEUR'))
+        return users.filter(user => user.roles?.code === 'OPERATEUR')
       }),
     ).subscribe(
       ops => {
