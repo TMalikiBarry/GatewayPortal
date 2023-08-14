@@ -18,6 +18,30 @@ import {UserModel} from "../../../model/user.model";
 })
 export class TransactionComponent implements OnInit {
 
+
+  listS = [
+    "TOUS",
+    "INITIATED",
+    "SUCCESS",
+    //"INTERNAL_ERROR",
+    //"SERVICE_UNAVAILABLE",
+    //"REQUEST_REJECTED",
+    //"REQUEST_TOKEN_INVALID",
+    //"PHONE_NUMBER_NOT_FOUND",
+    //"REQUEST_VALIDATION_FAILED",
+    //"TRANSACTION_ACCOUNT_NOT_DEFINED",
+    //"INSUFFICIENT_BALANCE",
+    //"INVALID_TRANSACTION_HEADER",
+    //"REQUEST_PROCESSING_FAILED",
+    //"BENEFICIARY_ACCOUNT_VALIDATION_FAILED",
+    //"NON_UNIQUE_REQUEST_IDS",
+    //"TRANSACTION_VALIDATION_FAILED",
+    //"UNKNOWN_REQUEST_TYPE",
+    //"TRANSACTION_LIMITS_EXCEEDED",
+    "FAILED",
+    "FINISHED",
+    "DEFAULT"
+  ]
   load : boolean = false
   map = new Map();
   displayedColumns: string[] = ['dateTransaction', 'point', 'service','expediteur', 'montant', 'typeTransaction', 'statut', 'destinataire'];
@@ -88,6 +112,16 @@ export class TransactionComponent implements OnInit {
       }
     })
     return  transactions;
+  }
+
+  selectStatus(data : any){
+    let filtre
+    if(data.value === "TOUS" || data.value === ""){
+      filtre = ''
+    }else {
+      filtre = data.value
+    }
+    this.dataSource.filter = filtre.trim().toLowerCase();
   }
 
   applyFilter(event: Event) {

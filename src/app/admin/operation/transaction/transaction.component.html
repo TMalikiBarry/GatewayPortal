@@ -16,6 +16,13 @@
       <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer la transaction">
     </mat-form-field>
 
+    <mat-form-field appearance="fill" style="float: right; width: 300px; margin-right: 10px">
+      <mat-label> Statut Transaction </mat-label>
+      <mat-select placeholder="Statut Transaction" (selectionChange)="selectStatus($event)">
+        <mat-option *ngFor="let statut of listS" [value]="statut">{{ statut }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-progress-bar *ngIf="!load" mode="query"></mat-progress-bar>
 
     <div class="mat-elevation-z8">
