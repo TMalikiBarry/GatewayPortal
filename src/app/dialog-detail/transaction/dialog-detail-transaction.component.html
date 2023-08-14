@@ -1,0 +1,38 @@
+<h1 mat-dialog-title> Detail Transaction</h1>
+<div mat-dialog-content>
+  <section>
+    <div class="">
+      <h3>Date Transaction : {{row.dateTransaction | date : 'short'}}</h3>
+    </div>
+    <div class="" *ngIf="row.transactionid">
+      <h3>Transaction Id : {{row.transactionid}}</h3>
+    </div>
+    <div class="">
+      <h3>Service : {{ row.service.serviceName}}</h3>
+    </div>
+    <div class="">
+      <h3> Expediteur : {{ row.expeditaire}} </h3>
+    </div>
+    <div class="">
+       <h3> Numero Expediteur : {{row.numexpeditaire}} </h3>
+    </div>
+    <div class="">
+      <h3> Destinataire : {{ row.destinataire}} </h3>
+    </div>
+    <div class="">
+      <h3> Numero Destinataire : {{ row.numdestinataire}} </h3>
+    </div>
+    <div class="">
+      <h3> Montant Transaction : {{ row.montant}} </h3>
+    </div>
+    <div class="">
+      <h3> Type Transaction : {{ row.typeTransaction}} </h3>
+    </div>
+    <div class="">
+      <h3> Statut : {{ row.statut}} </h3>
+    </div>
+    <div class="">
+      <h3> Sous Compte : {{ row.scompte.sousCompteName}} </h3>
+    </div>
+  </section>
+</div>

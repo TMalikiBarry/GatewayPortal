@@ -6,6 +6,7 @@ export interface TransactionModel{
   destinataire : string;
   numdestinataire : string;
   transactionid ?: string;
+  partenairetransId ?: string
   expeditaire : string;
   numexpeditaire : string;
   montant : number;

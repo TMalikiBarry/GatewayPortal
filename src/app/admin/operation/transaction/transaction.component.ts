@@ -10,6 +10,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogTransactionComponent} from "../../../dialog/dialog-transaction/dialog-transaction.component";
 import {StatutTransactionEnum, TransactionModel} from "../../../model/transaction.model";
 import {UserModel} from "../../../model/user.model";
+import {DialogDetailTransactionComponent} from "../../../dialog-detail/transaction/dialog-detail-transaction.component";
 
 @Component({
   selector: 'app-transaction',
@@ -44,7 +45,7 @@ export class TransactionComponent implements OnInit {
   ]
   load : boolean = false
   map = new Map();
-  displayedColumns: string[] = ['dateTransaction', 'point', 'service','expediteur', 'montant', 'typeTransaction', 'statut', 'destinataire'];
+  displayedColumns: string[] = ['dateTransaction', 'point', 'service','expediteur', 'montant', 'typeTransaction', 'statut', 'destinataire','action'];
   dataSource !: MatTableDataSource<TransactionModel>;
   allTransactions !: TransactionModel[];
 
@@ -95,6 +96,14 @@ export class TransactionComponent implements OnInit {
         this.getTransaction();
       }
     )
+  }
+
+  detail(row : TransactionModel){
+    this.dialog.open(DialogDetailTransactionComponent,{
+      data : row
+    }).afterClosed().subscribe(value => {
+      console.log(value)
+    })
   }
 
   //TODO a revoir

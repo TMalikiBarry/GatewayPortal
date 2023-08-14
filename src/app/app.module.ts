@@ -31,6 +31,7 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import { ResetComponent } from './reset/reset.component';
 import { PointsDialogComponent } from './dialog/points-dialog/points-dialog.component';
+import { DialogDetailTransactionComponent } from './dialog-detail/transaction/dialog-detail-transaction.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { PointsDialogComponent } from './dialog/points-dialog/points-dialog.comp
     DialogAlertComponent,
     ResetComponent,
     PointsDialogComponent,
+    DialogDetailTransactionComponent,
   ],
     imports: [
         BrowserModule,
