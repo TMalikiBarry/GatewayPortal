@@ -5,7 +5,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ControlTransactionInterface} from "../../model/control-transaction.interface";
 import {NotifyService} from "../../service/utils/notify.service";
 import {ServiceModel} from "../../model/service.model";
-import {Observable, tap} from "rxjs";
+import {forkJoin, Observable, tap} from "rxjs";
 import {UserModel} from "../../model/user.model";
 import {map} from "rxjs/operators";
 import {AVAILABLE_SERVICES} from "../../../assets/List-Service-Dispo/Available_Services";
@@ -55,9 +55,19 @@ export class DialogControlTransComponent implements OnInit {
 
   ngOnInit(): void {
     let myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
-    this.api.getMyPoints(myId).subscribe(
-      res => {
-        this.listPoints = res.data as PointsInterface[];
+    const observablePoints = this.api.getMyPoints(myId)
+    const observableControls = this.api.getMyControlTransactions(myId)
+    forkJoin([observablePoints, observableControls]).subscribe(
+      ([result1, result2]) => {
+        if(this.editData){
+          this.listPoints = result1.data as PointsInterface[]
+        }else {
+          this.listPoints = this.checkPointIsControl(result1.data as PointsInterface[],result2.data as ControlTransactionInterface[])
+        }
+        console.log(this.listPoints)
+      },
+      error => {
+        console.error('Une erreur s\'est produite : ', error);
       }
     );
     this.listServices$ = this.api.getAllService().pipe(
@@ -209,6 +219,16 @@ export class DialogControlTransComponent implements OnInit {
       heureDebut,
       heureFin
     }
+  }
+
+  checkPointIsControl(points: PointsInterface[], controls: ControlTransactionInterface[]): PointsInterface[] {
+    // Vérifie si chaque élément de la première liste a un correspondant dans la deuxième liste
+    const nonExistentInList1 = controls.filter(item2 => !points.some(item1 => item1.id === item2.point.id));
+    const nonExistentInList2 = points.filter(item1 => !controls.some(item2 => item2.point.id === item1.id));
+
+    // Concaténer les deux listes pour obtenir tous les éléments uniques
+    let nonExistentItems = [...nonExistentInList1, ...nonExistentInList2] as PointsInterface[];;
+    return nonExistentItems
   }
 
   hasAvalue(value: number | string): boolean {
