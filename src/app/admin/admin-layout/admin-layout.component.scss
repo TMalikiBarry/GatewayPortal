@@ -35,8 +35,9 @@ mat-sidenav, mat-sidenav-content {
 ul{
   display: flex;
   -webkit-box-align: center;
-  justify-content: end;
+  justify-content: flex-end;
 }
+
 li{
   padding: 6px 10px;
   margin-right: 5px;
@@ -44,9 +45,17 @@ li{
   position: relative;
 }
 .divInfo{
-  cursor: pointer;
-  margin: 10px;
-  display: grid;
+  //cursor: pointer;
+  padding: 0 15px;
+  button{
+    margin: 0 15px;
+    font-family: Poppins, sans-serif;
+  }
+  span{
+    font-size: 16px;
+    margin-right: 1rem;
+  }
+
 }
 .divInfo button{
   //font-size: 12px;
