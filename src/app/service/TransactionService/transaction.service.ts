@@ -37,6 +37,10 @@ export class TransactionService {
     return this.http.get<ApiResponse>(`${this.API_URL}/control/ctByServiceAndPoint/${serviceId}/${point_id}`)
   }
 
+  getAllTransactionSuccess(){
+    return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"success/")
+  }
+
   getMyPoints(myId: number) {
     return this.http.get<ApiResponse>(this.API_URL+"/points/commercant/" + myId);
   }

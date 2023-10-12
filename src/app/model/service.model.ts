@@ -4,6 +4,7 @@ import {RegleModel} from "./regle.model";
 export interface ServiceModel {
   id : number
   serviceName : string;
+  code : string;
   bank ?: BanqueModel
   regles : RegleModel[]
 }
