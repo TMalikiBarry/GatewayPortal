@@ -76,11 +76,12 @@ ngOnInit(): void {
 }
 
   getAllTransactionSuccess(){
-    this.apiTransaction.getAllTransactionSuccess()
+    let myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
+    this.apiTransaction.getAllTransactionSuccess(myId)
       .subscribe(res => {
         this.AllTransactions = res.data as TransactionModel[]
+        console.log(this.AllTransactions)
         this.filtreTransaction(this.AllTransactions)
-
         this.cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
           map(({ matches }) => {
             if (matches) {
@@ -191,7 +192,6 @@ ngOnInit(): void {
     this.apiTransaction.getMyTransactions(myId)
       .subscribe({
         next: (res : ApiResponse) => {
-          console.log(res.data)
           this.transactionsCount = res.data.length
           // recuperer les 4 premier elements de la table
           let tab = res.data.splice(0,4);
@@ -214,7 +214,7 @@ ngOnInit(): void {
       enabled: false
     },
     title: {
-      text: "Statistiques des Transactions"
+      text: ""
     },
     xAxis: {
       categories: [

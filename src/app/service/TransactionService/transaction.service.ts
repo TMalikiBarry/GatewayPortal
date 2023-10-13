@@ -22,12 +22,12 @@ export class TransactionService {
     return this.http.post<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"new/", data)
   }
 
-  xPressCashTransaction(paramList: ParamListInterface){
-    return this.http.post<ApiResponse>(environment.API_URL_ECOBANK+'/cash', paramList).pipe(
-      tap(console.dir),
-      map(res => res.data as ResponsePaymentInterface),
-    );
-  }
+  // xPressCashTransaction(paramList: ParamListInterface){
+  //   return this.http.post<ApiResponse>(environment.API_URL_ECOBANK+'/cash', paramList).pipe(
+  //     tap(console.dir),
+  //     map(res => res.data as ResponsePaymentInterface),
+  //   );
+  // }
 
   saveTransaction(transaction : TransactionModel){
     return this.http.post<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+'new', transaction)
@@ -37,8 +37,8 @@ export class TransactionService {
     return this.http.get<ApiResponse>(`${this.API_URL}/control/ctByServiceAndPoint/${serviceId}/${point_id}`)
   }
 
-  getAllTransactionSuccess(){
-    return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"success/")
+  getAllTransactionSuccess(id : number){
+    return this.http.get<ApiResponse>(this.API_URL+this.ENDPOINT_TRANSACTION+"commercant/success/"+id)
   }
 
   getMyPoints(myId: number) {
