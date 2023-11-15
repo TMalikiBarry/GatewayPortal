@@ -1,0 +1,59 @@
+<h1  mat-dialog-title> {{ title }} </h1>
+<div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
+<div mat-dialog-content>
+  <form [formGroup]="ApproForm">
+
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>Date Approvisionnement </mat-label>-->
+<!--      <input matInput formControlName="dateTransaction" [matDatepicker]="picker" (click)="picker.open()">-->
+<!--      <mat-datepicker #picker></mat-datepicker>-->
+<!--      <mat-error *ngIf="ApproForm.controls['dateTransaction'].errors">-->
+<!--        {{getErrorMessage(ApproForm.controls['dateTransaction'].errors)}}-->
+<!--      </mat-error>-->
+<!--    </mat-form-field>-->
+
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label> Compte </mat-label>-->
+<!--      <mat-select formControlName="compte" placeholder="Choisir le compte">-->
+<!--        <mat-option *ngFor="let compte of Comptes" [value]="compte.id">{{compte.compteName}}</mat-option>-->
+<!--      </mat-select>-->
+<!--      <mat-error *ngIf="ApproForm.controls['compte'].errors">-->
+<!--        {{getErrorMessage(ApproForm.controls['compte'].errors)}}-->
+<!--      </mat-error>-->
+<!--    </mat-form-field>-->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Evidence</mat-label>
+      <input matInput formControlName="evidence" (click)="fileEvidence.click()"  readonly name="name" />
+      <button *ngIf="!fileNameMap.get('evidence')" matSuffix mat-icon-button  (click)="fileEvidence.click()">
+        <mat-icon color="primary">image</mat-icon>
+      </button>
+      <button *ngIf="fileNameMap.get('evidence')" matSuffix mat-icon-button (click)="deleteFile(fileNameMap.get('evidence'), 'evidence')">
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+      <input
+        type="file"
+        #fileEvidence
+        class="uploadFile"
+        (change)="onFileSelected($event,typeFile.evidence)"
+        name="uploadFile"
+
+        accept="application/pdf"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label> Montant Approvisionnement </mat-label>
+      <input formControlName="montant" matInput placeholder="Montant approvisionnement">
+      <mat-error *ngIf="ApproForm.controls['montant'].errors">
+        {{getErrorMessage(ApproForm.controls['montant'].errors)}}
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div mat_dialog-action [align]="'end'">
+  <button style="margin-left:8px;" mat-stroked-button color="primary" (click)="addAppro()"> {{actionBtn}} </button>
+  <button mat-stroked-button color="warn" mat-dialog-close> Fermer </button>
+</div>

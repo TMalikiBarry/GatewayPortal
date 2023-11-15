@@ -46,5 +46,12 @@ export const navbarData = [
     label: 'Controle Transaction',
     visible : true,
     roles : ["COMMERCANT","SUPERVISEUR"]
+  },
+  {
+    routerLink: 'operation/approvisionnement',
+    icon: 'controle.svg',
+    label: 'Approvisionnement',
+    visible: true,
+    roles: ["COMMERCANT"]
   }
 ];

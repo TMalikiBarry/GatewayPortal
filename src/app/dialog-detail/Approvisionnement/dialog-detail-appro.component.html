@@ -1,0 +1,64 @@
+<h1 mat-dialog-title> Detail Approvisionnement </h1>
+<div mat-dialog-content>
+  <section>
+    <div class="block">
+      <div class="block1">
+        <h4> Date Demande : </h4>
+      </div>
+      <div class="block2">
+        <h4> {{ row.dateDemande | date : 'dd/MM/yyyy HH:mm:ss' }} </h4>
+      </div>
+    </div>
+    <div class="block" *ngIf="row.transactionid ">
+      <div class="block1">
+        <h4> Transaction Id : </h4>
+      </div>
+      <div class="block2">
+        <h4> {{ row.transactionid}} </h4>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block1">
+        <h4> Montant Approvisionnement : </h4>
+      </div>
+      <div class="block2">
+        <h4> {{ row.montant | currency:'XOF':'symbol' }} </h4>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block1">
+        <h4> Statut Demande : </h4>
+      </div>
+      <div class="block2">
+        <h4> {{ row.statutDemande}} </h4>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block1">
+        <h4> Evidence : </h4>
+      </div>
+      <div class="block2">
+        <div (click)="onDownLoad()">
+          <button mat-icon-button
+                  color="primary"
+                  matTooltip="Telecharger le document"
+                  matTooltipPosition="right">
+            <mat-icon>file_download</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="content-actions" mat-dialog-content>
+      <pdf-viewer external-link-target="blank"
+                  [original-size]="false"
+                  [show-all]="true"
+                  [src]="protectedURL()"
+                  [zoom]=".8">
+      </pdf-viewer>
+    </div>
+
+  </section>
+</div>
+<div mat_dialog-action  [align]="'end'">
+  <button mat-stroked-button color="warn" mat-dialog-close> Fermer </button>
+</div>

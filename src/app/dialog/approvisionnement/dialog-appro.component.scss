@@ -1,0 +1,127 @@
+mat-form-field{
+  width: 100%;
+}
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+button{
+  float: right;
+}
+
+////
+
+mat-form-field{
+  width: 100%;
+}
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+.btn-submit button{
+  float: right;
+}
+.mat-mdc-radio-button ~ .mat-mdc-radio-button {
+  margin-left: 16px;
+}
+mat-radio-button {
+  margin: 0 12px;
+}
+.btn-upl{
+  display: inline-flex;
+  width: 100%;
+  margin: 12px 0 0 0;
+  div{
+    margin: 12px auto;
+  }
+  mat-label{
+    margin: auto 0;
+  }
+  .file-input{
+    display: none;
+  }
+}
+
+.progress-bar {
+  padding: 0;
+}
+
+.progress {
+  width: 50px;
+}
+
+#fileInput {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+h3 {
+  font-weight: 450;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+//.mat-form-field {
+//  margin: 40px 0;
+//  width: 500px !important;
+//}
+.mat-toolbar-single-row {
+  height: auto !important;
+  background: transparent;
+}
+//.mat-toolbar-single-row button {
+//  width: 200px;
+//}
+.mat-form-field {
+  width: 100%;
+}
+.uploadFile {
+  top: 0;
+  left: 60px;
+  width: auto;
+  z-index: 9;
+  opacity: 0;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+}
+
+//.mat-stroked-button {
+//  background-color: rgba(253, 185, 185, 0.3);
+//  outline: red solid 1px;
+//}
+
+.radio-button{
+  padding: 12px 12px 12px 0;
+}
+
+mat-toolbar{
+  img{
+    width: 32px;
+    height: 32px;
+  }
+  button{
+    margin: 0 12px 0 0;
+  }
+  input{
+    font-size: 16px;
+    font-family: Poppins, sans-serif;
+  }
+}

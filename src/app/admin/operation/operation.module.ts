@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
 import {ROLE} from "../admin-layout/admin-layout.routing";
 import {TransactionComponent} from "./transaction/transaction.component";
@@ -6,8 +6,9 @@ import {AuthentificationGuard} from "../../service/guards/authentification.guard
 import {SharedModule} from "../shared/shared.module";
 import {MatStepperModule} from "@angular/material/stepper";
 import {DialogTransactionComponent} from "../../dialog/dialog-transaction/dialog-transaction.component";
-import { PointsComponent } from './points/points.component';
+import {PointsComponent} from './points/points.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {ApprovisionnementComponent} from './approvisionnement/approvisionnement.component';
 
 const TransactionRouting: Routes = [
   {
@@ -24,13 +25,21 @@ const TransactionRouting: Routes = [
     canActivate: [AuthentificationGuard],
     data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
   },
+  {
+    path: 'approvisionnement',
+    pathMatch: "full",
+    component : ApprovisionnementComponent,
+    canActivate : [AuthentificationGuard],
+    data : {roles: [ROLE.COMMERCANT]}
+  }
 ]
 
 @NgModule({
   declarations: [
     TransactionComponent,
     DialogTransactionComponent,
-    PointsComponent
+    PointsComponent,
+    ApprovisionnementComponent
   ],
     imports: [
         SharedModule,

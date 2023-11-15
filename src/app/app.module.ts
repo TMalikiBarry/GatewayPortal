@@ -32,6 +32,9 @@ import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import { ResetComponent } from './reset/reset.component';
 import { PointsDialogComponent } from './dialog/points-dialog/points-dialog.component';
 import { DialogDetailTransactionComponent } from './dialog-detail/transaction/dialog-detail-transaction.component';
+import { DialogApproComponent } from './dialog/approvisionnement/dialog-appro.component';
+import { DialogDetailApproComponent } from './dialog-detail/Approvisionnement/dialog-detail-appro.component';
+import { PdfViewerModule} from "ng2-pdf-viewer";
 
 @NgModule({
   declarations: [
@@ -41,30 +44,33 @@ import { DialogDetailTransactionComponent } from './dialog-detail/transaction/di
     ResetComponent,
     PointsDialogComponent,
     DialogDetailTransactionComponent,
+    DialogApproComponent,
+    DialogDetailApproComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatCardModule,
-        MatDialogModule,
-        MatMenuModule,
-        MatStepperModule,
-        MatIconModule,
-        HttpClientModule,
-        MatSnackBarModule,
-        MatInputModule,
-        MatButtonModule,
-        MatAutocompleteModule,
-        MatSelectModule,
-        MatTooltipModule,
-        MatCheckboxModule,
-        MatTableExporterModule,
-        HighchartsChartModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatStepperModule,
+    MatIconModule,
+    HttpClientModule,
+    MatSnackBarModule,
+    MatInputModule,
+    MatButtonModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatCheckboxModule,
+    MatTableExporterModule,
+    HighchartsChartModule,
+    PdfViewerModule
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
