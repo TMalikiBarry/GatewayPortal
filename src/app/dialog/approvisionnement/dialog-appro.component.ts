@@ -12,6 +12,7 @@ import {CompteService} from "../../service/CompteService/compte.service";
 import {AuthService} from "../../service/authService/auth.service";
 import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
 import {EStatutDemande} from "../../model/EStatutDemande";
+import {map} from "rxjs/operators";
 
 export type FileType = 'evidence';
 
@@ -44,12 +45,14 @@ export class DialogApproComponent implements OnInit {
               private dialogRef : MatDialogRef<DialogApproComponent>) { }
 
   ngOnInit(): void {
-    this.apiCompte.getMyCompte()
-      .subscribe({
-        next : value => {
-          this.Compte = value.data as unknown as CompteModel
-        }
-      })
+
+    this.apiCompte.getMyCompte(this.auth.getId()).pipe(
+      map(res => res.data as CompteModel[]),
+    ).subscribe(comptes => {
+      this.Compte = comptes.find(compte => compte.natureCompte === 'PRINCIPAL') || comptes[0];
+      console.log(this.Compte)
+    })
+
     this.ApproForm = this.formBuilder.group({
       id : [''],
       montant : ['',[Validators.required]],

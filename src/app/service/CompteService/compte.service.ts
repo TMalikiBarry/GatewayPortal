@@ -8,11 +8,11 @@ import {ApiResponse} from "../../request/ApiResponse";
   providedIn: 'root'
 })
 export class CompteService {
-  myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
+  //myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
 
   //private myEnv: string = environment.API_URL + '/compte';
   constructor(private http: HttpClient) { }
-  getMyCompte() {
-    return this.http.get<ApiResponse>(`${environment.API_URL}/compte/${this.myId}`);
+  getMyCompte(id : number) {
+    return this.http.get<ApiResponse>(`${environment.API_URL}/compte/commercant/${id}`);
   }
 }

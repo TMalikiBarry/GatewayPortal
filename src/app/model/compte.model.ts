@@ -7,6 +7,7 @@ export interface CompteModel {
   typeCompte: TypeCompte;
   categorie: Categorie;
   acces: UserModel;
+  natureCompte : NatureCompte;
 }
 
 export enum TypeCompte {
@@ -16,6 +17,12 @@ export enum TypeCompte {
   INDIVIDUEL = "INDIVIDUEL",
   JOINT = "JOINT",
   INDIVIS = "INDIVIS"
+}
+
+export enum NatureCompte{
+  MIXTE="MIXTE",
+  PRINCIPAL = "PRINCIPAL",
+  COMMISSION = "COMMISSION"
 }
 
 export enum Categorie {
