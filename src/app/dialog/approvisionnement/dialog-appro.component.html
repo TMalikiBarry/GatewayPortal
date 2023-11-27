@@ -44,7 +44,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label> Montant Approvisionnement </mat-label>
-      <input formControlName="montant" matInput placeholder="Montant approvisionnement">
+      <input formControlName="montant" (selectionchange)="formatMontant()" matInput placeholder="Montant approvisionnement">
       <mat-error *ngIf="ApproForm.controls['montant'].errors">
         {{getErrorMessage(ApproForm.controls['montant'].errors)}}
       </mat-error>

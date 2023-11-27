@@ -13,6 +13,7 @@ import {AuthService} from "../../service/authService/auth.service";
 import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
 import {EStatutDemande} from "../../model/EStatutDemande";
 import {map} from "rxjs/operators";
+import {CurrencyPipe} from "@angular/common";
 
 export type FileType = 'evidence';
 
@@ -35,6 +36,7 @@ export class DialogApproComponent implements OnInit {
   errorMessage: any;
 
   constructor(private formBuilder : FormBuilder ,
+              private currencyPipe: CurrencyPipe,
               private api: ApprovisionnementService ,
               private apiCompte : CompteService,
               private auth : AuthService,
@@ -165,6 +167,14 @@ export class DialogApproComponent implements OnInit {
     }
   }
 
+  formatMontant() {
+    console.log("format")
+    let montant = this.ApproForm.controls['montant'].value;
+    this.currencyPipe.transform(montant,'XOF','symbol' );
+    //this.montant = parseFloat(this.montant.toString().replace(',', '.')); // Remplacez la virgule par le point décimal si nécessaire
+    //this.montant = Math.round(this.montant * 100) / 100; // Arrondi à deux décimales
+    this.ApproForm.controls['montant'].setValue(montant);
+  }
   getEnumVariable(type: TypeFiles) {
     return <FileType>Object.keys(TypeFiles).find(key => TypeFiles[key as FileType] === type)
   }
