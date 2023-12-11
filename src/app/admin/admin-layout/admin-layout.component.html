@@ -39,6 +39,7 @@
   <span class="example-spacer"></span>
 
   <div class="divInfo">
+    <span *ngIf="authService.getRole() === 'COMMERCANT'"> SOLDE <b><i>{{ solde | currency:'XOF':'symbol':'1.0-3': 'fr'}}</i></b></span>
     <span> {{ user!.username}}</span>
     <button mat-button [matMenuTriggerFor]="menu">
       <img src="assets/icon/user.png" style="width: 24px; height: 24px" alt="avatar">

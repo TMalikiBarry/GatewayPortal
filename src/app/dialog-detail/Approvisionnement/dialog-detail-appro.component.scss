@@ -1,0 +1,53 @@
+.block{
+  display: flex;
+}
+
+.block1{
+  width: 50%;
+  color: #808080;
+  margin: 5px;
+}
+block2{
+  display: flex;
+  color: #2c2c2c;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+
+  .icon-bg {
+    width: 2.2rem;
+    height: 2.2rem;
+    background-color: #F2F2F2;
+    color: black;
+    border-radius: 50%;
+    text-align: center;
+
+    mat-icon {
+      margin-top: 10%;
+    }
+  }
+}
+
+.content-actions {
+
+  p>strong {
+    font-weight: bold;
+  }
+
+  pdf-viewer {
+    //margin: 1rem 0 0 -3rem;
+    //width: 75vw;
+    height: 80vh;
+    display: block;
+  }
+}
+
+.btn{
+  margin: 5px;
+  text-align: center;
+  button{
+    margin-left: 10px;
+  }
+}

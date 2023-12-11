@@ -6,5 +6,6 @@ export enum TypeFiles {
   connaissance = "FICHE_CONNAISSANCE",
   CGU = "CGU",
   statut = "STATUT",
-  residence = "CONTRAT_LOCATION"
+  residence = "CONTRAT_LOCATION",
+  evidence = "EVIDENCE"
 }

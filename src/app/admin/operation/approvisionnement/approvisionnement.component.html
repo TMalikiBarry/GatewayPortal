@@ -1,0 +1,64 @@
+<div class="containerTable">
+  <div style="margin-top: 10px;">
+
+    <button (click)="add()" color="primary" id="btnAdd" mat-raised-button>
+      <mat-icon>add_circle_outline</mat-icon>
+      Demande Approvisionnement
+    </button>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Recherche</mat-label>
+      <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer l'Utilisateur">
+    </mat-form-field>
+
+    <mat-progress-bar *ngIf="!load" mode="query"></mat-progress-bar>
+
+    <div class="mat-elevation-z8">
+      <table [dataSource]="dataSource" mat-table matSort>
+        <!-- Profil Column -->
+        <ng-container matColumnDef="dateTransaction">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Date Demande</th>
+          <td *matCellDef="let row" mat-cell> {{row.dateDemande}} </td>
+        </ng-container>
+
+        <!-- Identifiant Column -->
+        <ng-container matColumnDef="montant">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Montant</th>
+          <td *matCellDef="let row" mat-cell> {{ row.montant | currency:'XOF':'symbol'}} </td>
+        </ng-container>
+
+        <!-- Numéro Column -->
+        <ng-container matColumnDef="statut">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Statut </th>
+          <td *matCellDef="let row" mat-cell> {{row.statutDemande}} </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Actions</th>
+          <td *matCellDef="let row" mat-cell>
+            <button mat-icon-button #tooltip="matTooltip"
+                    color="primary"
+                    matTooltip="detail"
+                    matTooltipPosition="left"
+                    (click)="detail(row)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="columnsToDisplay" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: columnsToDisplay;" mat-row></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr *matNoDataRow class="mat-row">
+          <td class="mat-cell" colspan="5" *ngIf="input.value">Aucune recherche correspondant à "{{input.value}}"</td>
+          <td class="mat-cell" colspan="5" *ngIf="!input.value">Vous n'avez aucun approvisionnement</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[8, 25,75, 100]" aria-label="Select page of users"
+                     showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>
