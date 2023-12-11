@@ -6,6 +6,9 @@ import {navbarData} from "./nav-data";
 import {MonProfilComponent} from "../../dialog/mon-profil/mon-profil.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ResetComponent} from "../../reset/reset.component";
+import {CompteService} from "../../service/CompteService/compte.service";
+import {map} from "rxjs/operators";
+import {CompteModel} from "../../model/compte.model";
 
 @Component({
   selector: 'app-admin-layout',
@@ -24,9 +27,12 @@ export class AdminLayoutComponent implements OnInit {
   navList: NavList[] = [];
   user !: LoginModel;
   roles !: string[];
+  Compte !: CompteModel;
+  solde !: number | undefined;
 
   constructor(public authService : AuthService,
               private router : Router,
+              private apiCompte : CompteService,
               public ngZone: NgZone,
               private dialog : MatDialog) {
     navbarData.forEach(menubar => {
@@ -48,6 +54,7 @@ export class AdminLayoutComponent implements OnInit {
     if(this.authService.isLoggedIn()){
       this.user = this.authService.currentUserValue;
     }
+    this.getMyCompte()
   }
 
 
@@ -86,6 +93,15 @@ export class AdminLayoutComponent implements OnInit {
       })
   }
 
+  private getMyCompte() {
+    this.apiCompte.getMyCompte(this.authService.getId()).pipe(
+      map(res => res.data as CompteModel[]),
+    ).subscribe(comptes => {
+      this.Compte = comptes.find(compte => compte.natureCompte === 'PRINCIPAL') || comptes[0];
+      this.solde = this.Compte.soldeDispo
+      console.log(this.Compte)
+    })
+  }
 }
 export class NavList {
   routerLink ?: string;

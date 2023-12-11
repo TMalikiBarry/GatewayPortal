@@ -50,7 +50,7 @@ export const navbarData = [
   {
     routerLink: 'operation/approvisionnement',
     icon: 'controle.svg',
-    label: 'Approvisionnement',
+    label: 'Demande Approvisionnement',
     visible: true,
     roles: ["COMMERCANT"]
   }

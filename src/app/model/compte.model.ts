@@ -8,6 +8,8 @@ export interface CompteModel {
   categorie: Categorie;
   acces: UserModel;
   natureCompte : NatureCompte;
+  solde ?: number;
+  soldeDispo ?: number;
 }
 
 export enum TypeCompte {

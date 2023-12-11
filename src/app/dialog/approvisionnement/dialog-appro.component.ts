@@ -23,7 +23,7 @@ export type FileType = 'evidence';
   styleUrls: ['./dialog-appro.component.scss']
 })
 export class DialogApproComponent implements OnInit {
-  title : string = "Approvisionnement"
+  title : string = "Demande Approvisionnement"
   Appro !: DemandeApproModel;
   Compte !: CompteModel;
   ApproForm !: FormGroup;
@@ -67,7 +67,7 @@ export class DialogApproComponent implements OnInit {
         this.Appro = this.ApproForm.value
         this.Appro.compte = this.Compte
         this.Appro.dateDemande = new Date();
-        this.Appro.statutDemande = EStatutDemande.PENDING
+        this.Appro.statutDemande = EStatutDemande.INITIER
         if (this.Appro.evidence) {
           this.Appro.evidence = {
             statut: EStatutDossier.PENDING,
