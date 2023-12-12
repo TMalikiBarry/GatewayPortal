@@ -1,14 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {UserModel} from "../../model/user.model";
-import {CompteModel} from "../../model/compte.model";
+import {CompteModel, NatureCompte} from "../../model/compte.model";
 import {SousReseauInterface} from "../../model/sous-reseau.interface";
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {NotifyService} from "../../service/utils/notify.service";
 import {SousCompteService} from "../../service/SousCompte/sous-compte.service";
 import {SousCompteModel} from "../../model/sousCompte.model";
-import {tap} from "rxjs";
 import {MatSelectChange} from "@angular/material/select";
 import {map} from "rxjs/operators";
 
@@ -21,11 +20,10 @@ export class DialogSousCompteComponent implements OnInit {
 
   dataSourceAgents !: MatTableDataSource<UserModel>;
 
-  myCompte !: CompteModel;
+  AllCompte !: CompteModel[];
+  ComptePrin !: CompteModel | undefined;
   listSousReseaux !: SousReseauInterface[];
   chosenSousReseau !: SousReseauInterface;
-/*  listPoints !: PointsInterface[];
-  currentListPoints !: PointsInterface[];*/
   listAgents !: UserModel[];
   currentListAgents: UserModel[] = [];
 
@@ -68,11 +66,12 @@ export class DialogSousCompteComponent implements OnInit {
       }
     });
 
-    this.api.getMyCompte().pipe(
-      tap(console.log),
-    ).subscribe(
-      res => this.myCompte = res.data as CompteModel,
-    );
+    this.api.getMyCompte().subscribe(
+      res =>{
+        this.AllCompte = res.data as CompteModel[]
+        this.ComptePrin = this.AllCompte.find(compt => compt.natureCompte === NatureCompte.PRINCIPAL);
+      }
+    )
 
     if (this.editData) {
       this.title = "Modifier un Sous-Compte";
@@ -91,6 +90,7 @@ export class DialogSousCompteComponent implements OnInit {
   addSousCompte() {
     if (this.sousCompteForm.valid){
       if (!this.editData) {
+        console.log(this.getSousCompte())
         this.api.addSCompte(this.getSousCompte()).subscribe(
           () => {
             this.dialogRef.close('OK');
@@ -107,7 +107,9 @@ export class DialogSousCompteComponent implements OnInit {
 
   updateSousCompte() {
     this.editData.sousCompteName = this.sousCompteForm.controls['sousCompteName'].value!;
-    this.editData.compte = this.myCompte;
+    if (this.ComptePrin) {
+      this.editData.compte = this.ComptePrin;
+    }
     this.editData.sreseau = this.chosenSousReseau;
     this.editData.accesCollection = this.currentListAgents;
     // this.editData.points = this.currentListPoints;
@@ -134,7 +136,7 @@ export class DialogSousCompteComponent implements OnInit {
   getSousCompte(): SousCompteModel {
     return <SousCompteModel> {
       sousCompteName: this.sousCompteForm.controls['sousCompteName'].value,
-      compte: this.myCompte,
+      compte: this.ComptePrin,
       sreseau: this.chosenSousReseau,
       accesCollection: this.currentListAgents,
       // points: this.currentListPoints
@@ -190,10 +192,6 @@ export class DialogSousCompteComponent implements OnInit {
   setAgentTableRows(agents: UserModel[]) {
     this.dataSourceAgents = new MatTableDataSource<UserModel>(agents);
   }
-
-  /*setPointTablerows(points: PointsInterface[]) {
-    this.dataSourcePoints = new MatTableDataSource<PointsInterface>(points);
-  }*/
 
   onChooseSousReseau(event: MatSelectChange) {
     console.log(event, typeof event, typeof event.value);
