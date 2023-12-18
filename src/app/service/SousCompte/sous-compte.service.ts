@@ -5,6 +5,7 @@ import {environment} from "../../../environments/environment.prod";
 import {ApiResponse} from "../../request/ApiResponse";
 import {UserModel} from "../../model/user.model";
 import {AccesScompte} from "../../model/AccesScompte";
+import {AuthService} from "../authService/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,11 @@ export class SousCompteService {
   myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
 
   private myEnv: string = environment.API_URL + '/scompte';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth : AuthService) {
+    if(auth.getRole() === 'SUPERVISEUR'){
+      this.myId = (<UserModel>JSON.parse(localStorage.getItem('utilisateur')!)).idParent;
+    }
+  }
 
   addSCompte(newScompte: SousCompteModel) {
     return this.http.post<ApiResponse>(`${this.myEnv}/new`,newScompte);
@@ -46,8 +51,8 @@ export class SousCompteService {
   getOneById(id: number) {
     return this.http.get<ApiResponse>(`${this.myEnv}/${id}`);
   }
-  getMySousComptes(){
-    return this.http.get<ApiResponse>(`${this.myEnv}/commercant/${this.myId}`);
+  getMySousComptes(id : number){
+    return this.http.get<ApiResponse>(`${this.myEnv}/commercant/${id}`);
   }
 
   affectAgent(AccesScompte : AccesScompte){

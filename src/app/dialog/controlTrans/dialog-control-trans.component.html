@@ -15,7 +15,7 @@
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Point à contrôler</mat-label>
-    <mat-select formControlName="point" placeholder="Choisir le Sous-compte à contrôler" (selectionChange)="onChooseSousCompte()">
+    <mat-select formControlName="point" placeholder="Choisir le Point à contrôler" (selectionChange)="onChooseSousCompte()">
       <mat-option *ngFor="let point of listPoints" [value]="point.id">{{point.name}}</mat-option>
     </mat-select>
     <mat-error *ngIf="cTransacForm.controls['point'].errors">

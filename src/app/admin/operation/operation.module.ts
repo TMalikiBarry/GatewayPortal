@@ -16,7 +16,7 @@ const TransactionRouting: Routes = [
     pathMatch: 'full',
     component : TransactionComponent,
     canActivate: [AuthentificationGuard],
-    data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
+    data: {roles: [ROLE.COMMERCANT]}
   },
   {
     path : 'points',

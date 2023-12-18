@@ -8,6 +8,9 @@ import {MatSort} from "@angular/material/sort";
 import {UserModel} from "../../../model/user.model";
 import {DialogControlTransComponent} from "../../../dialog/controlTrans/dialog-control-trans.component";
 import {NotifyService} from "../../../service/utils/notify.service";
+import {AuthService} from "../../../service/authService/auth.service";
+import {SousCompteService} from "../../../service/SousCompte/sous-compte.service";
+import {SousCompteModel} from "../../../model/sousCompte.model";
 
 @Component({
   selector: 'app-control-transaction',
@@ -18,6 +21,7 @@ export class ControlTransactionComponent implements OnInit {
 
   isCommercant!: boolean;
   load : boolean = false
+  table !: ControlTransactionInterface[]
   dataSource!: MatTableDataSource<ControlTransactionInterface>;
   columnsToDisplay = ['points', 'service', 'montant-seuil',
     'montant-hebdomadaire', 'montant-journalier', 'heure-debut', 'heure-fin', 'action'];
@@ -25,6 +29,8 @@ export class ControlTransactionComponent implements OnInit {
   @ViewChild(MatSort) sort !: MatSort;
   constructor(private api: ControlTransactionService,
               private dialog: MatDialog,
+              private apiScompte : SousCompteService,
+              private auth : AuthService,
               private notify: NotifyService) { }
 
   applyFilter(event: Event) {
@@ -43,14 +49,30 @@ export class ControlTransactionComponent implements OnInit {
 
   getMyControlTransactions(){
     let myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
+    if(this.auth.getRole() === 'SUPERVISEUR'){
+      myId = (<UserModel>JSON.parse(localStorage.getItem('utilisateur')!)).idParent
+    }
     this.api.getMyControlTransactions(myId).subscribe(
       res => {
-        console.log(res)
-        this.dataSource = new MatTableDataSource<ControlTransactionInterface>(res.data as ControlTransactionInterface[]);
-        console.log(this.dataSource)
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.load = true
+        this.table = res.data as ControlTransactionInterface[]
+        if(this.auth.getRole() === 'SUPERVISEUR') {
+          this.apiScompte.getMySousComptes(myId).subscribe(
+            resSC => {
+              let scomptes = resSC.data as SousCompteModel[]
+              let scomptSup = scomptes.find(scompte => scompte.accesCollection.find(acces => acces.id === this.auth.getId()))
+              this.table = this.table.filter(control => control.point.scompte.id === scomptSup?.id)
+              this.dataSource = new MatTableDataSource<ControlTransactionInterface>(this.table);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+              this.load = true
+            }
+          )
+        }else {
+          this.dataSource = new MatTableDataSource<ControlTransactionInterface>(this.table);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.load = true
+        }
       }
     )
   }

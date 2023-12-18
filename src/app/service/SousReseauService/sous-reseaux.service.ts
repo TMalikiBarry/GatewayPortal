@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {ApiResponse} from "../../request/ApiResponse";
 import {UserModel} from "../../model/user.model";
 import {SousReseauInterface} from "../../model/sous-reseau.interface";
+import {AuthService} from "../authService/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,10 @@ export class SousReseauxService {
 
   public myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient, private auth : AuthService) {
+    if(auth.getRole() === 'SUPERVISEUR')
+      this.myId = (<UserModel>JSON.parse(localStorage.getItem('utilisateur')!)).idParent
+  }
 
   postSousReseau(data: SousReseauInterface){
     return this.http.post<ApiResponse>(`${this.currentEnv}/new`, data);

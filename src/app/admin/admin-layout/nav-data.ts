@@ -24,14 +24,14 @@ export const navbarData = [
     icon : 'zone.svg',
     label: 'Sous Reseau',
     visible : true,
-    roles : ["COMMERCANT","SUPERVISEUR"]
+    roles : ["COMMERCANT"]
   },
   {
     routerLink: 'param/sous-comptes',
     icon : 'compte.svg',
     label: 'Sous Compte',
     visible: true,
-    roles: ["COMMERCANT", "SUPERVISEUR"]
+    roles: ["COMMERCANT"]
   },
   {
     routerLink: 'operation/points',

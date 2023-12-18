@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, map, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, map, Observable, of} from "rxjs";
 import {UserService} from "../UserService/user.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
@@ -10,6 +10,8 @@ import {ResetRequest} from "../../request/ResetRequest";
 import {UserModel} from "../../model/user.model";
 import {DossierService} from "../DossierService/dossier.service";
 import {DossierModel} from "../../model/dossier.model";
+import {CompteService} from "../CompteService/compte.service";
+import {CompteModel} from "../../model/compte.model";
 @Injectable({
   providedIn: 'root'
 })
@@ -19,11 +21,12 @@ export class AuthService {
   roleAs !: string | null
   role !: string;
   dossiers !: DossierModel[]
-  utilisateur !: UserModel[];
+  Compte !: CompteModel;
+  utilisateur !: UserModel;
   private currentUserSubject!: BehaviorSubject<LoginModel>;
   public currentUser!: Observable<LoginModel>;
 
-  constructor(private http : HttpClient, private loginService : UserService, private router : Router, private apiDossier : DossierService) {
+  constructor(private http : HttpClient, private loginService : UserService, private router : Router, private apiDossier : DossierService, private apiCompte : CompteService,) {
     this.currentUserSubject = new BehaviorSubject<LoginModel>(JSON.parse(<string>localStorage.getItem("currentUser")));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -64,13 +67,43 @@ export class AuthService {
         })
         this.loginService.getUser(user.id).subscribe({
           next : value => {
-            this.utilisateur = value.data as UserModel[]
+            console.log("utilisateur "+JSON.stringify(value.data))
+            this.utilisateur = value.data as unknown as UserModel
+            localStorage.setItem('utilisateur', JSON.stringify(this.utilisateur))
           }
         })
         return user;
       }));
   }
 
+  public getCompteCommercant(){
+    this.currentUserValue.roles
+    if(this.currentUserValue.roles === 'SUPERVISEUR'){
+      this.loginService.getUser(this.currentUserValue.id).subscribe({
+        next : value => {
+          let superviseur = value.data as unknown as UserModel
+          this.loginService.getUser(superviseur.idParent).subscribe({
+            next : value1 => {
+              let commercant = value1.data as unknown as UserModel
+              this.apiCompte.getMyCompte(commercant.id).subscribe({
+                next : value2 => {
+                  console.log(value2.data)
+                  return value2.data as unknown as CompteModel
+                }
+              })
+            }
+          })
+        }
+      })
+    }else{
+      this.apiCompte.getMyCompte(this.currentUserValue.id).subscribe({
+        next : value => {
+          console.log(value.data)
+          return value.data as unknown as CompteModel
+        }
+      })
+    }
+  }
   public AuthentificateUser( login : LoginModel): Observable<boolean>{
     this.currentUserSubject.next(login);
     this.isAuth = true;
@@ -108,7 +141,7 @@ export class AuthService {
   }
 
   public getId() {
-    return this.currentUserValue.id;
+    return this.currentUserValue.id
   }
 
   public logout() : Observable<boolean>{
@@ -149,7 +182,7 @@ export class AuthService {
         }
         console.log(this.utilisateur)
         if(this.utilisateur){
-          if(!this.utilisateur[0].rememberMe){
+          if(!this.utilisateur.rememberMe){
             console.log("reset")
             this.router.navigateByUrl('reset');
           }

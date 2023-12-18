@@ -55,7 +55,7 @@ export class DialogAccesSCompteComponent implements OnInit {
         }
       })
 
-    this.apiScompte.getMySousComptes()
+    this.apiScompte.getMySousComptes(this.authService.getId())
       .subscribe({
         next : (res) => {
           this.SCompte = res.data as SousCompteModel[]

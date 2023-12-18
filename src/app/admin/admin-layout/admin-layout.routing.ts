@@ -6,7 +6,6 @@ export enum ROLE {
   COMMERCANT = "COMMERCANT",
   SUPERVISEUR = "SUPERVISEUR",
   OPERATEUR = "OPERATEUR",
-  PARTNER = 'PARTNER'
 }
 
 export const AdminLayoutRoutes: Routes = [

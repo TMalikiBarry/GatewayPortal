@@ -12,6 +12,7 @@ import {NotifyService} from "../../../service/utils/notify.service";
 import {forkJoin} from "rxjs";
 import {ApiResponse} from "../../../request/ApiResponse";
 import {PointsInterface} from "../../../model/points.interface";
+import {AuthService} from "../../../service/authService/auth.service";
 
 @Component({
   selector: 'app-sous-comptes',
@@ -38,6 +39,7 @@ export class SousComptesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
   constructor(public api: SousCompteService,
+              private auth : AuthService,
               public dialog : MatDialog,
               private notify: NotifyService) { }
 
@@ -55,7 +57,7 @@ export class SousComptesComponent implements OnInit {
       }
     })*/
     forkJoin({
-      scomptes: this.api.getMySousComptes(),
+      scomptes: this.api.getMySousComptes(this.auth.getId()),
       points: this.api.getMyPoints(),
     }).subscribe({
       next: (res: { points: ApiResponse, scomptes: ApiResponse }) => {
@@ -65,9 +67,9 @@ export class SousComptesComponent implements OnInit {
         const points: PointsInterface[] = <PointsInterface[]>res.points.data ;
         const scomptes: SousCompteModel[] = res.scomptes.data as SousCompteModel[];
 
-        scomptes.forEach(scompte => {
-          scompte.points = this.getSousComptesBySReseauId(points, scompte.id!);
-        });
+        // scomptes.forEach(scompte => {
+        //   scompte.points = this.getSousComptesBySReseauId(points, scompte.id!);
+        // });
 
         this.dataSource = new MatTableDataSource<SousCompteModel>(scomptes);
         this.dataSource.paginator = this.paginator;
