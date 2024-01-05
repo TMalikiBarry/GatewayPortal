@@ -45,22 +45,11 @@ export class MonProfilComponent implements OnInit {
     ).subscribe();
 
     this.monProfilForm.controls['number'].valueChanges.subscribe((value) => {
-        console.log('Je change', value);
         const formattedNumber = value!.replace(/\s+/g, '')
           .replace(/^(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4');
         if (value !== formattedNumber) {
           this.monProfilForm.controls['number'].patchValue(formattedNumber, {emitEvent: false});
         }
-        /*if ( !this.isFormatted && value && !this.phonePattern.test(value)) {
-          // Ajoute des espaces au numéro de téléphone
-          const formattedNumber = value.replace(/^(7[0-9])\s*(\d{3})\s*(\d{2})\s*(\d{2})$/,
-            '$1 $2 $3 $4');
-          this.isFormatted = true;
-          // Met à jour la valeur avec le numéro de téléphone formaté
-          this.monProfilForm.controls['number'].setValue(formattedNumber);
-        } else {
-          this.isFormatted = false;
-        }*/
       }
     )
   }

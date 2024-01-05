@@ -4,35 +4,36 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {AuthService} from "../../../service/authService/auth.service";
 import {MatDialog} from "@angular/material/dialog";
+import {DialogUserComponent} from "../../../dialog/User/dialog-user.component";
+import {ApprovisionnementService} from "../../../service/ApprovisionnementService/approvisionnement.service";
+import {DialogApproComponent} from "../../../dialog/demande/dialog-appro.component";
 import {DemandeApproModel} from "../../../model/demandeAppro.model";
 import {DialogDetailApproComponent} from "../../../dialog-detail/Approvisionnement/dialog-detail-appro.component";
-import {DialogApproComponent} from "../../../dialog/demande/dialog-appro.component";
-import {ApproScompteService} from "../../../service/approScompteService/appro-scompte.service";
 
 @Component({
   selector: 'app-approvisionnement',
-  templateUrl: './approvisionnement.component.html',
-  styleUrls: ['./approvisionnement.component.scss']
+  templateUrl: './demande.component.html',
+  styleUrls: ['./demande.component.scss']
 })
-export class ApprovisionnementComponent implements OnInit {
+export class DemandeComponent implements OnInit {
   load : boolean = false
   dataSource !: MatTableDataSource<any>;
-  columnsToDisplay = ['dateAppro','scompte','montant','statut','action'] ;
+  columnsToDisplay = ['dateTransaction','montant','statut','action'] ;
 
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
 
-  constructor(private api : ApproScompteService,
+  constructor(private api : ApprovisionnementService,
               public authService : AuthService,
               public dialog : MatDialog) { }
 
   ngOnInit(): void {
-    this.getAllApproScompte()
+    this.getAllAppro()
   }
 
-  getAllApproScompte(){
-    this.api.getAllApproScompte()
+  getAllAppro(){
+    this.api.getAppro(this.authService.getId())
       .subscribe({
         next: (res) => {
           console.log(res)
@@ -66,10 +67,10 @@ export class ApprovisionnementComponent implements OnInit {
 
   add(){
     this.dialog.open(DialogApproComponent,{
-      data : false
+      data : true
     }).afterClosed().subscribe(value => {
       if(value==='save'){
-        this.getAllApproScompte();
+        this.getAllAppro();
       }
     })
   }

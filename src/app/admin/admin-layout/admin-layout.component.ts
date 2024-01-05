@@ -25,7 +25,7 @@ export class AdminLayoutComponent implements OnInit {
   mode : any ='side';
   open = true;
   opened ?: boolean;
-  title = 'Bank Gateway';
+  title = 'Espace Commercant';
   navList: NavList[] = [];
   user !: LoginModel;
   utilisateur !: UserModel;

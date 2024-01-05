@@ -14,6 +14,11 @@ import {DialogAlertComponent} from "../SnackBar/dialog-alert.component";
 import {EStatutDemande} from "../../model/EStatutDemande";
 import {map} from "rxjs/operators";
 import {CurrencyPipe} from "@angular/common";
+import {SousCompteService} from "../../service/SousCompte/sous-compte.service";
+import {UserModel} from "../../model/user.model";
+import {SousCompteModel} from "../../model/sousCompte.model";
+import {ApproScompteModel} from "../../model/approScompte.model";
+import {ApproScompteService} from "../../service/approScompteService/appro-scompte.service";
 
 export type FileType = 'evidence';
 
@@ -25,20 +30,27 @@ export type FileType = 'evidence';
 export class DialogApproComponent implements OnInit {
   title : string = "Demande Approvisionnement"
   Appro !: DemandeApproModel;
+  ApproScompte !: ApproScompteModel;
   Compte !: CompteModel;
   ApproForm !: FormGroup;
+  ApproScompteForm !: FormGroup;
   fileNameMap = new Map();
   typeFile = TypeFiles;
   evidence_R : string | ArrayBuffer | null = 'assets/Blanc.png'
   actionBtn : string = "Sauvegarder"
   fileName !: string;
+  Scompte !: SousCompteModel[]
+  demande : boolean = false
 
   errorMessage: any;
 
   constructor(private formBuilder : FormBuilder ,
+              @Inject(MAT_DIALOG_DATA) public data: any,
               private currencyPipe: CurrencyPipe,
               private api: ApprovisionnementService ,
+              private apiApproScompte : ApproScompteService,
               private apiCompte : CompteService,
+              private apiScompte : SousCompteService,
               private auth : AuthService,
               @Inject(MAT_DIALOG_DATA) public editData : any,
               private dialogAlert : MatDialog,
@@ -47,6 +59,16 @@ export class DialogApproComponent implements OnInit {
               private dialogRef : MatDialogRef<DialogApproComponent>) { }
 
   ngOnInit(): void {
+    if(this.data){
+      this.demande = this.data
+      this.title = "Approvisionnement Sous Compte"
+    }
+    let id = (<UserModel>JSON.parse(localStorage.getItem('utilisateur')!)).id
+    this.apiScompte.getMySousComptes(id).subscribe(
+      res => {
+        this.Scompte = res.data as SousCompteModel[]
+      }
+    )
 
     this.apiCompte.getMyCompte(this.auth.getId()).pipe(
       map(res => res.data as CompteModel[]),
@@ -61,9 +83,16 @@ export class DialogApproComponent implements OnInit {
       evidence : ['',Validators.required]
     })
 
+    this.ApproScompteForm = this.formBuilder.group({
+      id : [''],
+      montant : ['',[Validators.required]],
+      scompte : ['',[Validators.required]]
+    })
+
+
   }
   addAppro(){
-      if(this.ApproForm.valid){
+      if(this.ApproForm.valid && this.demande){
         this.Appro = this.ApproForm.value
         this.Appro.compte = this.Compte
         this.Appro.dateDemande = new Date();
@@ -104,6 +133,36 @@ export class DialogApproComponent implements OnInit {
             }
           })
       }
+
+    if(this.ApproScompteForm.valid && !this.demande){
+      this.ApproScompte = this.ApproScompteForm.value
+      this.ApproScompte.scompte = this.Scompte.find(scompte => scompte.id === this.ApproScompteForm.controls['scompte'].value)
+      this.ApproScompte.statutDemande = EStatutDemande.APPROUVER
+      console.log(this.ApproScompte)
+      this.apiApproScompte.postApproScompte(this.ApproScompte)
+        .subscribe({
+          next:(res)=>{
+            this._snackBar.openFromComponent(DialogAlertComponent, {
+              data: "Approvisionnement effectuer avec Success",
+              duration: 2000,
+              verticalPosition: "bottom",
+              horizontalPosition: "end",
+              panelClass: ["custom-style-add"]
+            })
+            this.ApproForm.reset();
+            this.dialogRef.close('save');
+          },
+          error:(err)=>{
+            this._snackBar.openFromComponent(DialogAlertComponent, {
+              data: "Veillez verifier le formulaire",
+              duration: 2000,
+              verticalPosition: "top",
+              horizontalPosition: "end",
+              panelClass: ["custom-style-delete"]
+            })
+          }
+        })
+    }
   }
   // updateSCompte(){
   //   if(this.PaysForm.valid){

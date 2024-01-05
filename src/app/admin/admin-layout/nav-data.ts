@@ -48,9 +48,16 @@ export const navbarData = [
     roles : ["COMMERCANT","SUPERVISEUR"]
   },
   {
-    routerLink: 'operation/approvisionnement',
+    routerLink: 'operation/demande',
     icon: 'controle.svg',
     label: 'Demande Approvisionnement',
+    visible: true,
+    roles: ["COMMERCANT"]
+  },
+  {
+    routerLink: 'operation/approvisionnement',
+    icon: 'compte.svg',
+    label: 'Approvisionnement sous-compte',
     visible: true,
     roles: ["COMMERCANT"]
   }

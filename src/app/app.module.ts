@@ -32,7 +32,7 @@ import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import { ResetComponent } from './reset/reset.component';
 import { PointsDialogComponent } from './dialog/points-dialog/points-dialog.component';
 import { DialogDetailTransactionComponent } from './dialog-detail/transaction/dialog-detail-transaction.component';
-import { DialogApproComponent } from './dialog/approvisionnement/dialog-appro.component';
+import { DialogApproComponent } from './dialog/demande/dialog-appro.component';
 import { DialogDetailApproComponent } from './dialog-detail/Approvisionnement/dialog-detail-appro.component';
 import { PdfViewerModule} from "ng2-pdf-viewer";
 
