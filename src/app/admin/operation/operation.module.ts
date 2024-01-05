@@ -8,7 +8,8 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {DialogTransactionComponent} from "../../dialog/dialog-transaction/dialog-transaction.component";
 import {PointsComponent} from './points/points.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {ApprovisionnementComponent} from './approvisionnement/approvisionnement.component';
+import {DemandeComponent} from './demande/demande.component';
+import { ApprovisionnementComponent } from './approvisionnement/approvisionnement.component';
 
 const TransactionRouting: Routes = [
   {
@@ -16,7 +17,7 @@ const TransactionRouting: Routes = [
     pathMatch: 'full',
     component : TransactionComponent,
     canActivate: [AuthentificationGuard],
-    data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
+    data: {roles: [ROLE.COMMERCANT]}
   },
   {
     path : 'points',
@@ -26,11 +27,18 @@ const TransactionRouting: Routes = [
     data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
   },
   {
-    path: 'approvisionnement',
+    path: 'demande',
     pathMatch: "full",
-    component : ApprovisionnementComponent,
+    component : DemandeComponent,
     canActivate : [AuthentificationGuard],
     data : {roles: [ROLE.COMMERCANT]}
+  },
+  {
+    path: 'approvisionnement',
+    pathMatch: 'full',
+    component : ApprovisionnementComponent,
+    canActivate : [AuthentificationGuard],
+    data : {roles : [ROLE.COMMERCANT]}
   }
 ]
 
@@ -39,6 +47,7 @@ const TransactionRouting: Routes = [
     TransactionComponent,
     DialogTransactionComponent,
     PointsComponent,
+    DemandeComponent,
     ApprovisionnementComponent
   ],
     imports: [

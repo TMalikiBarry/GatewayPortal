@@ -9,6 +9,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../../service/UserService/user.service";
 import {AuthService} from "../../../service/authService/auth.service";
 import {NotifyService} from "../../../service/utils/notify.service";
+import {SousCompteModel} from "../../../model/sousCompte.model";
+import {SousCompteService} from "../../../service/SousCompte/sous-compte.service";
 
 
 @Component({
@@ -33,6 +35,7 @@ export class AccesComponent implements OnInit {
   @ViewChild(MatSort) sort !: MatSort;
 
   constructor(private api : UserService,
+              private apiScompte : SousCompteService,
               public authService : AuthService,
               public dialog : MatDialog,
               private notify: NotifyService) { }
@@ -45,11 +48,38 @@ export class AccesComponent implements OnInit {
     this.api.getAllUser(this.authService.getId())
       .subscribe({
         next: (res) => {
-          console.log(res)
-          this.dataSource = new MatTableDataSource(res.data);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.load = true;
+          let role = this.authService.getRole();
+          if(role === "SUPERVISEUR"){
+            // recuperer le supervisieur
+              this.api.getUser(this.authService.currentUserValue.id).subscribe({
+                next :value => {
+                  let superviseur = value.data as unknown as UserModel
+                  //recuperer les sous compte du commercant
+                  this.apiScompte.getMySousComptes(superviseur.idParent).subscribe({
+                    next : res => {
+                      let scompteCom  = res.data as SousCompteModel[]
+                      let scomptSup = scompteCom.find(scompte => scompte.accesCollection.find(acces => acces.id === this.authService.getId()))
+                      let table
+                      let acces = scomptSup?.accesCollection
+
+                      if(acces){
+                        table = acces.filter(acces => (acces.roles && acces.roles.code !== 'SUPERVISEUR'));
+                      }
+
+                      this.dataSource = new MatTableDataSource(table);
+                      this.dataSource.paginator = this.paginator;
+                      this.dataSource.sort = this.sort;
+                      this.load = true;
+                    }
+                  })
+                }
+              })
+          }else{
+            this.dataSource = new MatTableDataSource(res.data);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            this.load = true;
+          }
         }
       })
   }

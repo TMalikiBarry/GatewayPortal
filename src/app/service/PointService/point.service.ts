@@ -4,6 +4,7 @@ import {UserModel} from "../../model/user.model";
 import {environment} from "../../../environments/environment.prod";
 import {ApiResponse} from "../../request/ApiResponse";
 import {PointsInterface} from "../../model/points.interface";
+import {AuthService} from "../authService/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,10 @@ export class PointService {
   myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
 
   private myEnv: string = environment.API_URL + '/points';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth : AuthService) {
+    if(auth.getRole() === 'SUPERVISEUR')
+      this.myId = (<UserModel>JSON.parse(localStorage.getItem('utilisateur')!)).idParent
+  }
 
   addPoint(newPoint: PointsInterface) {
     return this.http.post<ApiResponse>(`${this.myEnv}/new`,newPoint);
@@ -24,6 +28,10 @@ export class PointService {
 
   getMyPoints() {
     return this.http.get<ApiResponse>(`${this.myEnv}/commercant/${this.myId}`)
+  }
+
+  getPointsByIdScompte(id : number){
+    return this.http.get<ApiResponse>(`${this.myEnv}/scompte/${id}`)
   }
 
   getMyAgents() {

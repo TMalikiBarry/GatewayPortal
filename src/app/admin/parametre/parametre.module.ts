@@ -15,14 +15,14 @@ const ParametreRouting: Routes = [
     pathMatch: 'full',
     component : SousReseauxComponent,
     canActivate: [AuthentificationGuard],
-    data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
+    data: {roles: [ROLE.COMMERCANT]}
   },
   {
     path : 'sous-comptes',
     pathMatch: 'full',
     component : SousComptesComponent,
     canActivate: [AuthentificationGuard],
-    data: {roles: [ROLE.COMMERCANT,ROLE.SUPERVISEUR]}
+    data: {roles: [ROLE.COMMERCANT]}
   }
 ]
 

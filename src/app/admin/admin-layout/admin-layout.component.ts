@@ -8,7 +8,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {ResetComponent} from "../../reset/reset.component";
 import {CompteService} from "../../service/CompteService/compte.service";
 import {map} from "rxjs/operators";
-import {CompteModel} from "../../model/compte.model";
+import {CompteModel, NatureCompte} from "../../model/compte.model";
+import {UserModel} from "../../model/user.model";
+import {UserService} from "../../service/UserService/user.service";
 
 @Component({
   selector: 'app-admin-layout',
@@ -23,15 +25,17 @@ export class AdminLayoutComponent implements OnInit {
   mode : any ='side';
   open = true;
   opened ?: boolean;
-  title = 'Bank Gateway';
+  title = 'Espace Commercant';
   navList: NavList[] = [];
   user !: LoginModel;
+  utilisateur !: UserModel;
   roles !: string[];
   Compte !: CompteModel;
   solde !: number | undefined;
 
   constructor(public authService : AuthService,
               private router : Router,
+              private apiuser : UserService,
               private apiCompte : CompteService,
               public ngZone: NgZone,
               private dialog : MatDialog) {
@@ -53,8 +57,24 @@ export class AdminLayoutComponent implements OnInit {
   ngOnInit(): void {
     if(this.authService.isLoggedIn()){
       this.user = this.authService.currentUserValue;
+      this.apiuser.getUser(this.user.id).subscribe({
+        next : value => {
+          this.utilisateur = value.data as unknown as UserModel
+          let id
+          if(this.utilisateur.roles && this.utilisateur.roles.code === 'COMMERCANT'){
+            id = this.utilisateur.id
+          }else {
+            id = this.utilisateur.idParent
+          }
+          this.apiCompte.getMyCompte(id).pipe(
+            map(res => res.data as CompteModel[]),
+          ).subscribe(comptes => {
+            this.Compte = comptes.find(compte => compte.natureCompte === NatureCompte.PRINCIPAL) || comptes[0];
+            console.log(this.Compte)
+          })
+        }
+      })
     }
-    this.getMyCompte()
   }
 
 
@@ -91,16 +111,6 @@ export class AdminLayoutComponent implements OnInit {
           this.router.navigateByUrl("/login")
         }
       })
-  }
-
-  private getMyCompte() {
-    this.apiCompte.getMyCompte(this.authService.getId()).pipe(
-      map(res => res.data as CompteModel[]),
-    ).subscribe(comptes => {
-      this.Compte = comptes.find(compte => compte.natureCompte === 'PRINCIPAL') || comptes[0];
-      this.solde = this.Compte.soldeDispo
-      console.log(this.Compte)
-    })
   }
 }
 export class NavList {

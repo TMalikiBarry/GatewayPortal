@@ -11,6 +11,9 @@ import {map} from "rxjs/operators";
 import {AVAILABLE_SERVICES} from "../../../assets/List-Service-Dispo/Available_Services";
 import {PointsInterface} from "../../model/points.interface";
 import {CurrencyPipe} from "@angular/common";
+import {AuthService} from "../../service/authService/auth.service";
+import {SousCompteService} from "../../service/SousCompte/sous-compte.service";
+import {SousCompteModel} from "../../model/sousCompte.model";
 
 @Component({
   selector: 'app-dialog-control-trans',
@@ -31,6 +34,8 @@ export class DialogControlTransComponent implements OnInit {
   montantSeuil !: string | null
   montantJournalier !: string | null
   montantHebdomadaire !: string | null
+  sousCompteCom !: SousCompteModel[]
+  sousCompteSup !: SousCompteModel | undefined
 
   cTransacForm = this.fb.group({
     service: ['', Validators.required],
@@ -48,6 +53,8 @@ export class DialogControlTransComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private currencyPipe: CurrencyPipe,
               private api: ControlTransactionService,
+              private auth : AuthService,
+              private apiScompte : SousCompteService,
               @Inject(MAT_DIALOG_DATA) public editData: ControlTransactionInterface,
               private notify: NotifyService,
               private dialogRef: MatDialogRef<DialogControlTransComponent>) {
@@ -55,6 +62,18 @@ export class DialogControlTransComponent implements OnInit {
 
   ngOnInit(): void {
     let myId: number = (<UserModel>JSON.parse(localStorage.getItem('currentUser')!)).id;
+    if(this.auth.getRole() === 'SUPERVISEUR'){
+      myId = (<UserModel>JSON.parse(localStorage.getItem('utilisateur')!)).idParent;
+    }
+
+    this.apiScompte.getMySousComptes(myId).subscribe(
+      res => {
+        this.sousCompteCom = res.data as SousCompteModel[]
+        console.log(this.sousCompteCom)
+        this.sousCompteSup = this.sousCompteCom.find(scompte => scompte.accesCollection.find(acces => acces.id === this.auth.getId()))
+      }
+    )
+
     const observablePoints = this.api.getMyPoints(myId)
     const observableControls = this.api.getMyControlTransactions(myId)
     forkJoin([observablePoints, observableControls]).subscribe(
@@ -62,7 +81,7 @@ export class DialogControlTransComponent implements OnInit {
         if(this.editData){
           this.listPoints = result1.data as PointsInterface[]
         }else {
-          this.listPoints = this.checkPointIsControl(result1.data as PointsInterface[],result2.data as ControlTransactionInterface[])
+          this.listPoints = this.checkPointIsControlAndActeur(result1.data as PointsInterface[],result2.data as ControlTransactionInterface[])
         }
         console.log(this.listPoints)
       },
@@ -221,13 +240,17 @@ export class DialogControlTransComponent implements OnInit {
     }
   }
 
-  checkPointIsControl(points: PointsInterface[], controls: ControlTransactionInterface[]): PointsInterface[] {
+  checkPointIsControlAndActeur(points: PointsInterface[], controls: ControlTransactionInterface[]): PointsInterface[] {
     // Vérifie si chaque élément de la première liste a un correspondant dans la deuxième liste
     const nonExistentInList1 = controls.filter(item2 => !points.some(item1 => item1.id === item2.point.id));
     const nonExistentInList2 = points.filter(item1 => !controls.some(item2 => item2.point.id === item1.id));
 
     // Concaténer les deux listes pour obtenir tous les éléments uniques
-    let nonExistentItems = [...nonExistentInList1, ...nonExistentInList2] as PointsInterface[];;
+    let nonExistentItems = [...nonExistentInList1, ...nonExistentInList2] as PointsInterface[];
+
+    // verifier si le point fait partie du sous compte du superviseur
+    if(this.auth.getRole() === 'SUPERVISEUR')
+      nonExistentItems = nonExistentItems.filter(points => points.scompte.id === this.sousCompteSup?.id )
     return nonExistentItems
   }
 

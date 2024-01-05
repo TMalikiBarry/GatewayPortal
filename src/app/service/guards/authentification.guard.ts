@@ -22,6 +22,8 @@ export class AuthentificationGuard implements CanActivate {
     if (this.authService.isLoggedIn()) {
       const userRole = this.getTheRole(localStorage.getItem('ROLE')?.toString());
       if (route.data['roles'] && route.data['roles'].indexOf(userRole) === -1) {
+        console.log(route.data['roles'])
+        console.log(route.data['roles'].indexOf(userRole))
         this._snackBar.openFromComponent(DialogAlertComponent, {
           data: "Accès non autorisé",
           duration: 5000,

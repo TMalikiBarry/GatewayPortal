@@ -60,7 +60,6 @@
     <th *matHeaderCellDef mat-header-cell mat-sort-header> Actions</th>
     <td *matCellDef="let row" mat-cell>
       <button #tooltip="matTooltip" (click)="updateControl(row)"
-              *ngIf="isCommercant"
               color="primary"
               mat-icon-button
               matTooltip="Modifier" matTooltipPosition="left">
@@ -68,7 +67,6 @@
       </button>
       <button
         #tooltip="matTooltip" (click)="deleteControl(row)"
-        *ngIf="isCommercant"
         color="warn"
         mat-icon-button
         matTooltip="Supprimer" matTooltipPosition="after">

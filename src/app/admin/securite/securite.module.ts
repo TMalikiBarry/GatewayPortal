@@ -13,7 +13,7 @@ const SecuriteRouting: Routes = [
     pathMatch: 'full',
     component : AccesComponent,
     canActivate: [AuthentificationGuard],
-    data: {roles: [ROLE.COMMERCANT]}
+    data: {roles: [ROLE.COMMERCANT, ROLE.SUPERVISEUR]}
   },
 ]
 

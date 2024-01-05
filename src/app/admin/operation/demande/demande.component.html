@@ -3,12 +3,12 @@
 
     <button (click)="add()" color="primary" id="btnAdd" mat-raised-button>
       <mat-icon>add_circle_outline</mat-icon>
-      Approvisionnement
+      Demande Approvisionnement
     </button>
 
     <mat-form-field appearance="fill">
       <mat-label>Recherche</mat-label>
-      <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer le sous compte">
+      <input #input (keyup)="applyFilter($event)" matInput placeholder="Filtrer ">
     </mat-form-field>
 
     <mat-progress-bar *ngIf="!load" mode="query"></mat-progress-bar>
@@ -16,15 +16,9 @@
     <div class="mat-elevation-z8">
       <table [dataSource]="dataSource" mat-table matSort>
         <!-- Profil Column -->
-        <ng-container matColumnDef="dateAppro">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header> Date Approvisionnement</th>
-          <td *matCellDef="let row" mat-cell> {{row.dateAppro}} </td>
-        </ng-container>
-
-        <!-- Identifiant Column -->
-        <ng-container matColumnDef="scompte">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header> Montant</th>
-          <td *matCellDef="let row" mat-cell> {{ row.scompte.sousCompteName}} </td>
+        <ng-container matColumnDef="dateTransaction">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Date Demande</th>
+          <td *matCellDef="let row" mat-cell> {{row.dateDemande}} </td>
         </ng-container>
 
         <!-- Identifiant Column -->

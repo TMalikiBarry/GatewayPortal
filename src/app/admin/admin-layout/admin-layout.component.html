@@ -35,7 +35,7 @@
     <mat-icon *ngIf="!opened">menu</mat-icon>
     <mat-icon *ngIf="opened">clear</mat-icon>
   </button>
-  <span>Espace Commercant</span>
+  <span>{{ title }}</span>
   <span class="example-spacer"></span>
 
   <div class="divInfo">
@@ -68,17 +68,17 @@
           <span>{{nav.label}}</span>
         </a>
       </mat-nav-list>
-      <mat-expansion-panel *ngIf="nav.items" [class.mat-elevation-z0]="true">
-        <mat-expansion-panel-header>
-          <img src="assets/icon/{{nav.icon}}" alt="{{nav.icon}}"><span>{{nav.label}}</span>
-        </mat-expansion-panel-header>
-        <mat-nav-list  *ngFor="let subMenu of nav.items">
-          <a mat-list-item [routerLink]="subMenu.routerLink" routerLinkActive="active">
-            <img src="assets/icon/{{subMenu.icon}}" alt="{{nav.icon}}">
-            <span>{{subMenu.label}}</span>
-          </a>
-        </mat-nav-list>
-      </mat-expansion-panel>
+<!--      <mat-expansion-panel *ngIf="nav.items" [class.mat-elevation-z0]="true">-->
+<!--        <mat-expansion-panel-header>-->
+<!--          <img src="assets/icon/{{nav.icon}}" alt="{{nav.icon}}"><span>{{nav.label}}</span>-->
+<!--        </mat-expansion-panel-header>-->
+<!--        <mat-nav-list  *ngFor="let subMenu of nav.items">-->
+<!--          <a mat-list-item [routerLink]="subMenu.routerLink" routerLinkActive="active">-->
+<!--            <img src="assets/icon/{{subMenu.icon}}" alt="{{nav.icon}}">-->
+<!--            <span>{{subMenu.label}}</span>-->
+<!--          </a>-->
+<!--        </mat-nav-list>-->
+<!--      </mat-expansion-panel>-->
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content class="app-sidenav-content">

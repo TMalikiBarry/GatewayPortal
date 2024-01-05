@@ -1,0 +1,69 @@
+<h1  mat-dialog-title> {{ title }} </h1>
+<div class="" *ngIf="errorMessage">{{ errorMessage }}</div>
+<div mat-dialog-content>
+  <form [formGroup]="ApproForm" *ngIf="demande">
+    <mat-form-field appearance="outline"*ngIf="demande">
+      <mat-label>Evidence</mat-label>
+      <input matInput formControlName="evidence" (click)="fileEvidence.click()"  readonly name="name" />
+      <button *ngIf="!fileNameMap.get('evidence')" matSuffix mat-icon-button  (click)="fileEvidence.click()">
+        <mat-icon color="primary">image</mat-icon>
+      </button>
+      <button *ngIf="fileNameMap.get('evidence')" matSuffix mat-icon-button (click)="deleteFile(fileNameMap.get('evidence'), 'evidence')">
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+      <input
+        type="file"
+        #fileEvidence
+        class="uploadFile"
+        (change)="onFileSelected($event,typeFile.evidence)"
+        name="uploadFile"
+
+        accept="application/pdf"
+      />
+    </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="!demande">
+        <mat-label> Sous Compte </mat-label>
+        <mat-select formControlName="scompte" placeholder="Choisir le sous-compte">
+          <mat-option *ngFor="let scompte of Scompte" [value]="scompte.id">{{scompte.sousCompteName}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="ApproForm.controls['scompte'].errors">
+          {{getErrorMessage(ApproForm.controls['scompte'].errors)}}
+        </mat-error>
+      </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label> Montant Approvisionnement </mat-label>
+      <input formControlName="montant" (selectionchange)="formatMontant()" matInput placeholder="Montant approvisionnement">
+      <mat-error *ngIf="ApproForm.controls['montant'].errors">
+        {{getErrorMessage(ApproForm.controls['montant'].errors)}}
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+  <form [formGroup]="ApproScompteForm" *ngIf="!demande">
+      <mat-form-field appearance="outline">
+        <mat-label> Sous Compte </mat-label>
+        <mat-select formControlName="scompte" placeholder="Choisir le sous-compte">
+          <mat-option *ngFor="let scompte of Scompte" [value]="scompte.id">{{scompte.sousCompteName}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="ApproScompteForm.controls['scompte'].errors">
+          {{getErrorMessage(ApproScompteForm.controls['scompte'].errors)}}
+        </mat-error>
+      </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label> Montant Approvisionnement </mat-label>
+      <input formControlName="montant" (selectionchange)="formatMontant()" matInput placeholder="Montant approvisionnement">
+      <mat-error *ngIf="ApproScompteForm.controls['montant'].errors">
+        {{getErrorMessage(ApproScompteForm.controls['montant'].errors)}}
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div mat_dialog-action [align]="'end'">
+  <button style="margin-left:8px;" mat-stroked-button color="primary" (click)="addAppro()"> {{actionBtn}} </button>
+  <button mat-stroked-button color="warn" mat-dialog-close> Fermer </button>
+</div>

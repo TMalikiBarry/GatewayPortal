@@ -50,7 +50,6 @@
           <th *matHeaderCellDef mat-header-cell mat-sort-header> Actions</th>
           <td *matCellDef="let row" mat-cell>
             <button #tooltip="matTooltip" (click)="update(row)"
-                    *ngIf="authService.hasRole('COMMERCANT')"
                     color="primary"
                     mat-icon-button
                     matTooltip="Modifier" matTooltipPosition="left">
@@ -58,7 +57,6 @@
             </button>
             <button
               #tooltip="matTooltip" (click)="delete(row)"
-              *ngIf="authService.hasRole('COMMERCANT')"
               color="warn"
               mat-icon-button
               matTooltip="Supprimer" matTooltipPosition="after">

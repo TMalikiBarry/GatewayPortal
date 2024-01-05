@@ -14,6 +14,7 @@ import {saveAs} from "file-saver";
 export class DialogDetailApproComponent implements OnInit {
 
   data !: DossierModel
+  title : string = "Detail Approvisionnement"
   httpURL = 'http://52.210.42.160:8085';
   httpsURL = 'https://dev-touch-ssii-api.gutouch.net';
   constructor(@Inject(MAT_DIALOG_DATA) public row: any,
@@ -24,7 +25,10 @@ export class DialogDetailApproComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.data = this.row.evidence;
+    if(this.row.evidence){
+      this.data = this.row.evidence;
+      this.title = "Detail Demande Approvisionnement"
+    }
   }
   protectedURL(): string {
     return this.data.uploadingFile.replace(this.httpURL, this.httpsURL);
