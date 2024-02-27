@@ -8,6 +8,11 @@ import {DemandeApproModel} from "../../../model/demandeAppro.model";
 import {DialogDetailApproComponent} from "../../../dialog-detail/Approvisionnement/dialog-detail-appro.component";
 import {DialogApproComponent} from "../../../dialog/demande/dialog-appro.component";
 import {ApproScompteService} from "../../../service/approScompteService/appro-scompte.service";
+import {CompteModel} from "../../../model/compte.model";
+import {CompteService} from "../../../service/CompteService/compte.service";
+import {map} from "rxjs/operators";
+import {tap} from "rxjs";
+import {ReseauModel} from "../../../model/reseau.model";
 
 @Component({
   selector: 'app-approvisionnement',
@@ -25,23 +30,32 @@ export class ApprovisionnementComponent implements OnInit {
 
   constructor(private api : ApproScompteService,
               public authService : AuthService,
+              private apiCompte : CompteService,
               public dialog : MatDialog) { }
 
   ngOnInit(): void {
-    this.getAllApproScompte()
+    this.getAllApproScompteByCompteId()
   }
 
-  getAllApproScompte(){
-    this.api.getAllApproScompte()
-      .subscribe({
-        next: (res) => {
-          console.log(res)
-          this.dataSource = new MatTableDataSource(res.data);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.load = true;
-        }
-      })
+  getAllApproScompteByCompteId(){
+    this.apiCompte.getMyCompte(this.authService.getId()).pipe(
+      tap(console.dir),
+      map(res => res.data as CompteModel[])
+    ).subscribe({
+      next : compte => {
+        console.log(compte[0])
+        this.api.getAllApproScompteByCompteId(compte[0].id)
+          .subscribe({
+            next: (res) => {
+              console.log(res)
+              this.dataSource = new MatTableDataSource(res.data);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+              this.load = true;
+            }
+          })
+      }
+    });
   }
 
   detail(row : DemandeApproModel){
@@ -69,7 +83,7 @@ export class ApprovisionnementComponent implements OnInit {
       data : false
     }).afterClosed().subscribe(value => {
       if(value==='save'){
-        this.getAllApproScompte();
+        this.getAllApproScompteByCompteId();
       }
     })
   }
