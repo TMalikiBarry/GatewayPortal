@@ -123,13 +123,7 @@ export class DialogApproComponent implements OnInit {
               this.dialogRef.close('save');
             },
             error:(err)=>{
-              this._snackBar.openFromComponent(DialogAlertComponent, {
-                data: "Veillez verifier le formulaire",
-                duration: 2000,
-                verticalPosition: "top",
-                horizontalPosition: "end",
-                panelClass: ["custom-style-delete"]
-              })
+              console.log(err)
             }
           })
       }
@@ -153,13 +147,7 @@ export class DialogApproComponent implements OnInit {
             this.dialogRef.close('save');
           },
           error:(err)=>{
-            this._snackBar.openFromComponent(DialogAlertComponent, {
-              data: "Veillez verifier le formulaire",
-              duration: 2000,
-              verticalPosition: "top",
-              horizontalPosition: "end",
-              panelClass: ["custom-style-delete"]
-            })
+            console.log(err)
           }
         })
     }

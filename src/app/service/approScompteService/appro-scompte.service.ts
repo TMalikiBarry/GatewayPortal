@@ -21,6 +21,10 @@ export class ApproScompteService {
     return this.http.get<ApiResponse>(this.API_URL+this.END_POINT+"all")
   }
 
+  getAllApproScompteByCompteId(id : any){
+    return this.http.get<ApiResponse>(this.API_URL+this.END_POINT+"compte/"+id)
+  }
+
   getApproScompte(id : number){
     return this.http.get<ApiResponse>(this.API_URL+this.END_POINT+id)
   }

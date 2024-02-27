@@ -16,7 +16,7 @@ export class UserService {
 
   postUser(data :  any){
     console.log(data)
-    return this.http.post<ApiResponse>(this.API_URL+"/user/save/", data)
+    return this.http.post<ApiResponse>(this.API_URL+"/user/save", data)
   }
 
   getUser(id : number){

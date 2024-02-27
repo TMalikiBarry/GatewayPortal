@@ -71,6 +71,7 @@ export class AdminLayoutComponent implements OnInit {
           ).subscribe(comptes => {
             this.Compte = comptes.find(compte => compte.natureCompte === NatureCompte.PRINCIPAL) || comptes[0];
             console.log(this.Compte)
+            this.solde = this.Compte.soldeDispo
           })
         }
       })
