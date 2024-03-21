@@ -109,6 +109,18 @@ export class ResetComponent implements OnInit {
         if (this.api.currentUserValue) {
           id = this.api.currentUserValue.id;
         }
+        if(this.token){
+          if(this.resetForm.value.password === this.resetForm.value.oldPassword || this.resetForm.value.password === "00000000"){
+            this._snackBar.openFromComponent(DialogAlertComponent, {
+              data: "Veillez choisir un mot de passe different de l'ancien",
+              duration: 3000,
+              verticalPosition: "top",
+              horizontalPosition: "end",
+              panelClass: ["custom-style-delete"]
+            })
+            return
+          }
+        }
         this.api.reset(id, this.urltoken, this.resetForm.value.password, this.resetForm.value.oldPassword, this.resetForm.value.confirm)
           .subscribe({
             next: (user) => {
